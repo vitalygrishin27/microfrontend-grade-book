@@ -1,0 +1,46 @@
+html {
+    background-color: beige;
+}
+.App {
+    background-color: beige;
+}
+.Auth-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.Auth-form {
+    width: 420px;
+    box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    border-radius: 8px;
+    background-color: grey;
+    background-image: url("back1.JPG");
+}
+
+.Auth-form-content {
+    padding-left: 12%;
+    padding-right: 12%;
+    text-shadow: 1px 1px 2px red, 0 0 1em blue, 0 0 0.2em yellow;
+}
+
+.Auth-form-title {
+    text-align: center;
+    margin-bottom: 1em;
+    font-size: 24px;
+    color: rgb(34, 34, 34);
+    font-weight: 800;
+    text-shadow: #FC0 1px 0 10px;
+
+}
+
+label {
+    font-size: 16px;
+    font-weight: 600;
+    color: rgb(34, 34, 34);
+    text-shadow: #FC0 1px 0 10px;
+}

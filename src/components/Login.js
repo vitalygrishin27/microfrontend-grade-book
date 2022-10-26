@@ -1,95 +1,84 @@
-import React, {useState} from "react";
-import {ToastContainer} from "react-toastify";
+import React, {useEffect, useState} from "react";
+import {toast, ToastContainer} from "react-toastify";
+import {useTranslation} from "react-i18next";
+import {getCookie} from "../helper/apiClient";
+import {useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {loginInAsync, setToastShowing} from "../redux/reducers/login/login.thunks";
 
 const Login = () => {
-    let [authMode, setAuthMode] = useState("signin")
+    const [login, setLogin] = useState("");
+    const [password, setPassword] = useState("");
+    const {isLoading, error, isToastShowing} = useSelector(state => state.login)
+    const dispatch = useDispatch();
+    const {t} = useTranslation();
+    const navigate = useNavigate();
 
-    const changeAuthMode = () => {
-        setAuthMode(authMode === "signin" ? "signup" : "signin")
-    }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+     /*   let data = new FormData();
+        data.append('login', login);
+        data.append('password', password);*/
+        const user = {
+            login: login,
+            password: password,
+        }
+        dispatch(loginInAsync(user));
+    };
 
-    if (authMode === "signin") {
-        return (
-            <div className="Auth-form-container App">
-                <form className="Auth-form">
-                    <div className="Auth-form-content">
-                        <h3 className="Auth-form-title">Sign In</h3>
-                        {/*          <div className="text-center">
+    useEffect(() => {
+        if (isToastShowing) {
+            if (error) {
+                console.log("!!!!!"+ isToastShowing)
+                toast.error(error)
+                console.log("222222")
+                dispatch(setToastShowing(false));
+            } else if (!isLoading) {
+                toast.success("Login in is successful!")
+                dispatch(setToastShowing(false));
+                navigate("/");
+            }
+        }// eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isLoading])
+
+    return (
+        <div className="Auth-form-container App">
+            <form className="Auth-form" onSubmit={handleSubmit}>
+                <div className="Auth-form-content">
+                    <h3 className="Auth-form-title">{t("Sign In")}</h3>
+                    {/*          <div className="text-center">
                             Not registered yet?{" "}
                             <span className="link-primary" onClick={changeAuthMode} style={{cursor: "pointer"}}>
                 Sign Up
               </span>
                         </div>*/}
-                        <div className="form-group mt-3">
-                            <label>Email address</label>
-                            <input
-                                type="email"
-                                className="form-control mt-1"
-                                placeholder="Enter email"
-                            />
-                        </div>
-                        <div className="form-group mt-3">
-                            <label>Password</label>
-                            <input
-                                type="password"
-                                className="form-control mt-1"
-                                placeholder="Enter password"
-                            />
-                        </div>
-                        <div className="d-grid gap-2 mt-3">
-                            <button type="submit" className="btn btn-primary">
-                                Submit
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        )
-    }
-
-    return (
-        <div className="Auth-form-container App">
-            <form className="Auth-form">
-                <div className="Auth-form-content">
-                    <h3 className="Auth-form-title">Sign Up</h3>
-                    <div className="text-center">
-                        Already registered?{" "}
-                        <span className="link-primary" onClick={changeAuthMode} style={{cursor: "pointer"}}>
-              Sign In
-            </span>
-                    </div>
                     <div className="form-group mt-3">
-                        <label>Full Name</label>
-                        <input
-                            type="email"
+                        <label>{t("Email address")}</label>
+                        <input required
+                            type="text"
                             className="form-control mt-1"
-                            placeholder="e.g Jane Doe"
+                            placeholder={t("Enter email")}
+                            onChange={e => setLogin(e.target.value)}
                         />
                     </div>
                     <div className="form-group mt-3">
-                        <label>Email address</label>
-                        <input
-                            type="email"
-                            className="form-control mt-1"
-                            placeholder="Email Address"
-                        />
-                    </div>
-                    <div className="form-group mt-3">
-                        <label>Password</label>
-                        <input
+                        <label>{t("Password")}</label>
+                        <input required
                             type="password"
                             className="form-control mt-1"
-                            placeholder="Password"
+                            placeholder={t("Enter password")}
+                            onChange={e => setPassword(e.target.value)}
                         />
                     </div>
                     <div className="d-grid gap-2 mt-3">
                         <button type="submit" className="btn btn-primary">
-                            Submit
+                            {t("Submit")}
                         </button>
                     </div>
                 </div>
             </form>
         </div>
     )
+
 }
 export default Login;

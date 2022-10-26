@@ -3,13 +3,17 @@ import {ToastContainer} from "react-toastify";
 import "./App.css";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Login from "./components/Login";
+import Navbar from "./components/Navbar";
+
 const App = () => {
     return (
-        <BrowserRouter>
+        <div className="App">
+            <ToastContainer position="bottom-left"/>
+            <Navbar/>
             <Routes>
-                <Route path={"/"} element={<Login/>}/>
+                <Route path="/*" element={<Login/>}/>
             </Routes>
-        </BrowserRouter>
+        </div>
     );
 }
 

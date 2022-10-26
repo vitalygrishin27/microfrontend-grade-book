@@ -1,10 +1,12 @@
 {
   "Loading": "Загрузка",
   "Sign In": "Войти",
+  "Login out": "Выйти",
   "Email address": "Електронный адрес",
   "Enter email": "Введите email",
   "Password": "Пароль",
   "Enter password": "Введите пароль",
   "Submit": "ВОЙТИ",
-  "Main": "Главная"
+  "Main": "Главная",
+  "Users": "Пользователи"
 }

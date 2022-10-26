@@ -1,10 +1,12 @@
 {
   "Loading": "Loading",
   "Sign In": "SIGN IN",
+  "Login out": "Login out",
   "Email address": "Email address",
   "Enter email": "Enter email",
   "Password": "Password",
   "Enter password": "Enter password",
   "Submit": "Submit",
-  "Main": "Main"
+  "Main": "Main",
+  "Users": "Users"
 }

@@ -1,10 +1,12 @@
 {
   "Loading": "Завантаження",
   "Sign In": "Увійти",
+  "Login out": "Вийти",
   "Email address": "Електронна адреса",
   "Enter email": "Email",
   "Password": "Пароль",
   "Enter password": "Password",
   "Submit": "УВІЙТИ",
-  "Main": "Головна"
+  "Main": "Головна",
+  "Users": "Користувачі"
 }

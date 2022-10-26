@@ -9,6 +9,7 @@ const loginReducer = (state = initialState, {type, payload}) => {
                 isLoading: true,
                 error: null,
                 isToastShowing: false,
+                username: null
             };
         case actionTypes.LOGIN_IN_SUCCESS:
             return {

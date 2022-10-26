@@ -1,13 +1,22 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {loginOut} from "../redux/reducers/login/login.thunks";
 
 const Navbar = () => {
+    const navigate = useNavigate();
     const {t, i18n} = useTranslation()
     const dispatch = useDispatch()
+    const {isLoginIn, token} = useSelector(state => state.login);
     const changeLanguage = (language) => {
         i18n.changeLanguage(language);
+    }
+
+    const handleLogOut = () => {
+        dispatch(loginOut());
+        document.cookie = "grade_book_token=" + escape("") + "; expires=Thu, 01 Jan 1970 00:00:01 GMT"
+        navigate("/")
     }
 
     return (
@@ -16,7 +25,7 @@ const Navbar = () => {
                 <Link to="/" className="navbar-brand mx-5">{t("Main")}</Link>
 
                 <div className="mx-3" style={{"textAlign": "right", "display":"inline-block"}}>
-                    <Link to={"/members"} className={"btn btn-success text-light"}>{t("Members")}</Link>
+                    {isLoginIn &&  <Link to={"/members"} className={"btn btn-success text-light"}>{t("Users")}</Link>}
                     <div className="mx-3" style={{"display":"inline-block"}}>
                         <select className="form-select" id={"language"} onChange={(e) => changeLanguage(e.target.value)} defaultValue={"UA"}>
                             <option value={"ua"}>UA</option>
@@ -24,6 +33,8 @@ const Navbar = () => {
                             <option value={"ru"}>RU</option>
                         </select>
                     </div>
+                    {isLoginIn && <button className={"btn btn-danger text-light"}
+                                          onClick={() => handleLogOut()}><div>({token.username}) {t("Login out")}</div></button>}
                 </div>
             </nav>
         </div>

@@ -4,7 +4,7 @@ import {useTranslation} from "react-i18next";
 import {getCookie} from "../helper/apiClient";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {loginInAsync, setToastShowing} from "../redux/reducers/login/login.thunks";
+import {loginInAsync, loginInAsyncByToken, setToastShowing} from "../redux/reducers/login/login.thunks";
 
 const Login = () => {
     const [login, setLogin] = useState("");
@@ -16,9 +16,9 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-     /*   let data = new FormData();
-        data.append('login', login);
-        data.append('password', password);*/
+        /*   let data = new FormData();
+           data.append('login', login);
+           data.append('password', password);*/
         const user = {
             login: login,
             password: password,
@@ -27,9 +27,14 @@ const Login = () => {
     };
 
     useEffect(() => {
+        dispatch(loginInAsyncByToken());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    useEffect(() => {
         if (isToastShowing) {
             if (error) {
-                console.log("!!!!!"+ isToastShowing)
+                console.log("!!!!!" + isToastShowing)
                 toast.error(error)
                 console.log("222222")
                 dispatch(setToastShowing(false));
@@ -55,19 +60,19 @@ const Login = () => {
                     <div className="form-group mt-3">
                         <label>{t("Email address")}</label>
                         <input required
-                            type="text"
-                            className="form-control mt-1"
-                            placeholder={t("Enter email")}
-                            onChange={e => setLogin(e.target.value)}
+                               type="text"
+                               className="form-control mt-1"
+                               placeholder={t("Enter email")}
+                               onChange={e => setLogin(e.target.value)}
                         />
                     </div>
                     <div className="form-group mt-3">
                         <label>{t("Password")}</label>
                         <input required
-                            type="password"
-                            className="form-control mt-1"
-                            placeholder={t("Enter password")}
-                            onChange={e => setPassword(e.target.value)}
+                               type="password"
+                               className="form-control mt-1"
+                               placeholder={t("Enter password")}
+                               onChange={e => setPassword(e.target.value)}
                         />
                     </div>
                     <div className="d-grid gap-2 mt-3">

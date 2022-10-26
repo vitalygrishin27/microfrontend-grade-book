@@ -1,6 +1,8 @@
 {
+  "Hello": "Hello, ",
   "Loading": "Loading",
   "Sign In": "SIGN IN",
+  "Login in is successful!": "Login in is successful!",
   "Login out": "Login out",
   "Email address": "Email address",
   "Enter email": "Enter email",
@@ -8,5 +10,13 @@
   "Enter password": "Enter password",
   "Submit": "Submit",
   "Main": "Main",
-  "Users": "Users"
+  "Users": "Users",
+  "Subjects": "Subjects",
+
+  "Title": "Title",
+
+  "Network Error": "Network Error",
+  "GBE-ACCESS-001": "Your access level not allow to request this data",
+  "GBE-USER-001": "Username not found",
+  "GBE-USER-002": "Invalid password"
 }

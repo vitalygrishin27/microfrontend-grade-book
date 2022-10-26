@@ -1,15 +1,16 @@
 import React, {useEffect, useState} from "react";
-import {toast, ToastContainer} from "react-toastify";
+import {toast} from "react-toastify";
 import {useTranslation} from "react-i18next";
-import {getCookie} from "../helper/apiClient";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {loginInAsync, loginInAsyncByToken, setToastShowing} from "../redux/reducers/login/login.thunks";
+import {loginInAsync, loginInAsyncByToken} from "../redux/reducers/login/login.thunks";
+import {setToastShowing} from "../redux/reducers/common/common.thunks";
 
 const Login = () => {
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
-    const {isLoading, error, isToastShowing} = useSelector(state => state.login)
+    const {isLoginIn, isLoading, error, token} = useSelector(state => state.login)
+    const {isToastShowing} = useSelector(state => state.common)
     const dispatch = useDispatch();
     const {t} = useTranslation();
     const navigate = useNavigate();
@@ -34,12 +35,10 @@ const Login = () => {
     useEffect(() => {
         if (isToastShowing) {
             if (error) {
-                console.log("!!!!!" + isToastShowing)
-                toast.error(error)
-                console.log("222222")
+                toast.error(t(error))
                 dispatch(setToastShowing(false));
             } else if (!isLoading) {
-                toast.success("Login in is successful!")
+                toast.success(t("Login in is successful!"))
                 dispatch(setToastShowing(false));
                 navigate("/");
             }
@@ -49,7 +48,7 @@ const Login = () => {
     return (
         <div className="Auth-form-container App">
             <form className="Auth-form" onSubmit={handleSubmit}>
-                <div className="Auth-form-content">
+                {!isLoginIn?<div className="Auth-form-content">
                     <h3 className="Auth-form-title">{t("Sign In")}</h3>
                     {/*          <div className="text-center">
                             Not registered yet?{" "}
@@ -80,7 +79,7 @@ const Login = () => {
                             {t("Submit")}
                         </button>
                     </div>
-                </div>
+                </div>:<div><h3 className="Auth-form-title">{t("Hello")}{token.firstName}</h3></div>}
             </form>
         </div>
     )

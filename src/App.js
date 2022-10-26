@@ -4,6 +4,7 @@ import "./App.css";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Login from "./components/Login";
 import Navbar from "./components/Navbar";
+import Subject from "./components/Subject";
 
 const App = () => {
     return (
@@ -11,7 +12,8 @@ const App = () => {
             <ToastContainer position="bottom-left"/>
             <Navbar/>
             <Routes>
-                <Route path="/*" element={<Login/>}/>
+                <Route path="/" element={<Login/>}/>
+                <Route path="/subjects" element={<Subject/>}/>
             </Routes>
         </div>
     );

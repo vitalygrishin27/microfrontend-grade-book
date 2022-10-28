@@ -9,11 +9,9 @@ export const loginInAsync = (user) => (dispatch) => {
     LoginService.loginIn(user, getCookie("grade_book_token"))
         .then(response => {
             dispatch(actions.loginInSuccess(response.data));
-            console.log(response)
             document.cookie = "grade_book_token=" + encodeURIComponent(response.data.token) + "; expires=" + response.data.validTo + "; path=/"
         })
         .catch(error => {
-            console.log(error.response.data);
             dispatch(actions.loginInError(error.response.data ? error.response.data.errorCode : error.message))
         })
 };
@@ -23,11 +21,10 @@ export const loginInAsyncByToken = () => (dispatch) => {
     LoginService.loginInByToken(getCookie("grade_book_token"))
         .then(response => {
             dispatch(actions.loginInSuccess(response.data));
-            console.log(response)
             document.cookie = "grade_book_token=" + encodeURIComponent(response.data.token) + "; expires=" + response.data.validTo + "; path=/"
         })
         .catch(error => {
-            console.log(error.response.data);
+            dispatch(actions.loginOut())
             dispatch(actions.loginInError(error.response.data ? error.response.data.errorCode : error.message))
         })
 };

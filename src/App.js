@@ -1,7 +1,7 @@
 import React from "react";
 import {ToastContainer} from "react-toastify";
 import "./App.css";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import Login from "./components/Login";
 import Navbar from "./components/Navbar";
 import Subject from "./components/Subject";

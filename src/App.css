@@ -1,9 +1,11 @@
 html {
     background-color: beige;
 }
+
 .App {
     background-color: beige;
 }
+
 .Auth-form-container {
     display: flex;
     justify-content: center;
@@ -43,4 +45,31 @@ label {
     font-weight: 600;
     color: rgb(34, 34, 34);
     text-shadow: #FC0 1px 0 10px;
+}
+
+.btn {
+    margin-right: 5px
+}
+
+.actionButton {
+    margin-right: 5px
+}
+
+.awesomeButton {
+    width: 40px;
+    height: 40px;
+    margin-right: 5px
+}
+
+@font-face {
+    font-family: 'MyFont';
+    src: local('MyFont'), url(./fonts/Arion_Bold_Italic.ttf) format('truetype');
+    /* other formats include: 'woff2', 'truetype, 'opentype',
+                              'embedded-opentype', and 'svg' */
+}
+
+.pageTitle {
+    font-size: 45px;
+    text-align: center;
+    font-family: MyFont, serif
 }

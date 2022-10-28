@@ -14,9 +14,18 @@
   "Subjects": "Subjects",
 
   "Title": "Title",
+  "Save": "Save",
+  "Create": "Create",
+  "Cancel": "Cancel",
+
+  "Are you sure?": "Are you sure?",
+  "YES": "Yes",
+  "NO": "No",
 
   "Network Error": "Network Error",
   "GBE-ACCESS-001": "Your access level not allow to request this data",
   "GBE-USER-001": "Username not found",
-  "GBE-USER-002": "Invalid password"
+  "GBE-USER-002": "Invalid password",
+  "GBE-SUBJECT-001": "Subject already exists",
+  "GBE-SUBJECT-002": "Subject not found"
 }

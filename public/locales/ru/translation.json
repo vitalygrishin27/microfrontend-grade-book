@@ -4,7 +4,7 @@
   "Sign In": "Войти",
   "Login in is successful!": "Успешный вход!",
   "Login out": "Выйти",
-  "Email address": "Електронный адрес",
+  "Email address": "Электронный адрес",
   "Enter email": "Введите email",
   "Password": "Пароль",
   "Enter password": "Введите пароль",
@@ -19,8 +19,8 @@
   "Cancel": "Отмена",
 
   "Are you sure?": "Уверены?",
-  "YES": "Да",
-  "NO": "Нет",
+  "Yes": "Да",
+  "No": "Нет",
 
   "Network Error": "Ошибка сети",
   "GBE-ACCESS-001": "Ваш доступ ограничен",

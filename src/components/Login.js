@@ -75,7 +75,7 @@ const Login = () => {
                         />
                     </div>
                     <div className="d-grid gap-2 mt-3">
-                        <button type="submit" className="btn btn-primary">
+                        <button disabled={isLoading} type="submit" className="btn btn-primary">
                             {t("Submit")}
                         </button>
                     </div>

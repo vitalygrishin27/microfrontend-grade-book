@@ -1,5 +1,6 @@
 const initState = {
-    isToastShowing: false
+    isToastShowing: false,
+    serviceVersion: "loading"
 };
 
 export default initState

@@ -8,6 +8,21 @@ const commonReducer = (state = initialState, {type, payload}) => {
                 ...state,
                 isToastShowing: payload,
             };
+        case actionTypes.GET_VERSION_START:
+            return {
+                ...state,
+                serviceVersion: "loading",
+            };
+        case actionTypes.GET_VERSION_SUCCESS:
+            return {
+                ...state,
+                serviceVersion: payload,
+            };
+        case actionTypes.GET_VERSION_ERROR:
+            return {
+                ...state,
+                serviceVersion: "unknown",
+            };
         default:
             return state;
     }

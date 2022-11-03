@@ -5,8 +5,26 @@ const setToastShowing = (flag) => ({
     payload: flag
 })
 
+const getVersionStart = () => ({
+    type: actionTypes.GET_VERSION_START
+})
+
+const getVersionSuccess = (version) => ({
+    type: actionTypes.GET_VERSION_SUCCESS,
+    payload: version
+})
+
+const getVersionError = (error) => ({
+    type: actionTypes.GET_VERSION_ERROR,
+    payload: error
+
+})
+
 const actions = {
-    setToastShowing
+    setToastShowing,
+    getVersionStart,
+    getVersionSuccess,
+    getVersionError
 }
 
 export default actions;

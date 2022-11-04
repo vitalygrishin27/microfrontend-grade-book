@@ -3,13 +3,15 @@ import userReducer from "./user/user.reducer";
 import loginReducer from "./login/login.reducer";
 import subjectReducer from "./subject/subject.reducer";
 import commonReducer from "./common/common.reducer";
+import clazzReducer from "./clazz/clazz.reducer";
 
 const rootReducer = () =>
     combineReducers({
         common: commonReducer,
         login: loginReducer,
         users: userReducer,
-        subjects: subjectReducer
+        subjects: subjectReducer,
+        classes: clazzReducer
     });
 
 export default rootReducer;

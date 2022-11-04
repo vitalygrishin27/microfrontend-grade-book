@@ -24,18 +24,24 @@ const Navbar = () => {
             <nav className="navbar navbar-light bg-opacity-100">
                 <Link to="/" className="navbar-brand mx-5">{t("Main")}</Link>
 
-                <div className="mx-3" style={{"textAlign": "right", "display":"inline-block"}}>
-                     {/*{isLoginIn &&  <Link to={"/members"} className={"btn btn-success text-light"}>{t("Users")}</Link>}&nbsp;*/}
-                    {isLoginIn &&  <Link to={"/subjects"} className={"btn btn-success text-light"}>{t("Subjects")}</Link>}
-                    <div className="mx-3" style={{"display":"inline-block"}}>
-                        <select className="form-select" id={"language"} onChange={(e) => changeLanguage(e.target.value)} defaultValue={"UA"}>
+                <div className="mx-3" style={{"textAlign": "right", "display": "inline-block"}}>
+                    {/*{isLoginIn &&  <Link to={"/members"} className={"btn btn-success text-light"}>{t("Users")}</Link>}&nbsp;*/}
+                    {isLoginIn && <Link to={"/classes"} className={"btn btn-success text-light"}>{t("Classes")}</Link>}
+                    {isLoginIn &&
+                        <Link to={"/subjects"} className={"btn btn-success text-light"}>{t("Subjects")}</Link>}
+
+                    <div className="mx-3" style={{"display": "inline-block"}}>
+                        <select className="form-select" id={"language"} onChange={(e) => changeLanguage(e.target.value)}
+                                defaultValue={"UA"}>
                             <option value={"ua"}>UA</option>
                             <option value={"en"}>EN</option>
                             <option value={"ru"}>RU</option>
                         </select>
                     </div>
                     {isLoginIn && <button className={"btn btn-danger text-light"}
-                                          onClick={() => handleLogOut()}><div>({token.firstName}) {t("Login out")}</div></button>}
+                                          onClick={() => handleLogOut()}>
+                        <div>({token.firstName}) {t("Login out")}</div>
+                    </button>}
                 </div>
             </nav>
         </div>

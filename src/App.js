@@ -5,6 +5,7 @@ import {Route, Routes} from "react-router-dom";
 import Login from "./components/Login";
 import Navbar from "./components/Navbar";
 import Subject from "./components/Subject";
+import Clazz from "./components/Clazz";
 
 const App = () => {
     return (
@@ -13,6 +14,7 @@ const App = () => {
             <Navbar/>
             <Routes>
                 <Route path="/" element={<Login/>}/>
+                <Route path="/classes" element={<Clazz/>}/>
                 <Route path="/subjects" element={<Subject/>}/>
             </Routes>
         </div>

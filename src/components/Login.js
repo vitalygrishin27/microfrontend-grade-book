@@ -82,7 +82,7 @@ const Login = () => {
                                 {t("Submit")}
                             </button>
                         </div>
-                        <div >
+                        <div>
                             <div style={{"textAlign": "right"}}>{t("UI version")}&nbsp;{packageJson.version}</div>
                             <div style={{"textAlign": "right"}}>{t("Service version")}&nbsp;{serviceVersion}</div>
                         </div>

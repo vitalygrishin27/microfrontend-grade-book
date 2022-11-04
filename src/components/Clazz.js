@@ -3,11 +3,11 @@ import {useTranslation} from "react-i18next";
 import {useSelector, useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {
-    createSubjectAsync,
-    deleteSubjectAsync,
-    loadSubjectListAsync,
-    updateSubjectAsync
-} from "../redux/reducers/subject/subject.thunks";
+    createClazzAsync,
+    deleteClazzAsync,
+    loadClazzListAsync,
+    updateClazzAsync
+} from "../redux/reducers/clazz/clazz.thunks";
 import {loginInAsyncByToken} from "../redux/reducers/login/login.thunks";
 import {toast} from "react-toastify";
 import {setToastShowing} from "../redux/reducers/common/common.thunks";
@@ -28,13 +28,13 @@ const Subject = () => {
     const {isLoginIn} = useSelector(state => state.login);
     const {isToastShowing} = useSelector(state => state.common);
     const {
-        isSubjectListLoading,
-        subjects,
+        isClazzListLoading,
+        classes,
         error,
-        isSubjectCreating,
-        isSubjectDeleting,
-        isSubjectEditing
-    } = useSelector(state => state.subjects);
+        isClazzCreating,
+        isClazzDeleting,
+        isClazzEditing
+    } = useSelector(state => state.classes);
     const [isAddingNew, changeAddingNew] = useState(false);
     const [name, setName] = useState("");
     const [nameEditing, setNameEditing] = useState("");
@@ -44,8 +44,8 @@ const Subject = () => {
 
     useEffect(() => {
         dispatch(loginInAsyncByToken());
-        if (!subjects) {
-            dispatch(loadSubjectListAsync())
+        if (!classes) {
+            dispatch(loadClazzListAsync())
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -56,7 +56,7 @@ const Subject = () => {
                 toast.error(t(error))
                 dispatch(setToastShowing(false));
                 if (error === "GBE-ACCESS-001") navigate("/");
-            } else if (!isSubjectListLoading) {
+            } else if (!isClazzListLoading) {
                 setName("");
                 changeAddingNew(false);
                 setEntityEditing(null);
@@ -66,7 +66,7 @@ const Subject = () => {
                 // navigate("/");
             }
         }// eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isSubjectListLoading, isSubjectCreating, isSubjectDeleting, isSubjectEditing])
+    }, [isClazzListLoading, isClazzCreating, isClazzDeleting, isClazzEditing])
 
     const handleKeypress = e => {
         //it triggers by pressing the enter key
@@ -87,12 +87,12 @@ const Subject = () => {
     const createNew = () => {
         let data = new FormData();
         data.append('name', name);
-        dispatch(createSubjectAsync(data));
+        dispatch(createClazzAsync(data));
     }
 
-    const handleEditButton = (subject) => {
-        setEntityEditing(subject);
-        setNameEditing(subject.name);
+    const handleEditButton = (clazz) => {
+        setEntityEditing(clazz);
+        setNameEditing(clazz.name);
     }
 
     const handleCancelButton = () => {
@@ -104,12 +104,12 @@ const Subject = () => {
         let data = new FormData();
         data.append('OID', oid);
         data.append('name', name);
-        dispatch(updateSubjectAsync(data));
+        dispatch(updateClazzAsync(data));
     }
 
-    const handleDeleteButton = (subject) => {
+    const handleDeleteButton = (clazz) => {
         setModalOpen(true);
-        setEntityForDelete(subject)
+        setEntityForDelete(clazz)
     }
 
     return (
@@ -119,11 +119,11 @@ const Subject = () => {
                                setModalOpen={setModalOpen}
                                entityForDelete={entityForDelete}
                                setEntityForDelete={setEntityForDelete}
-                               functionToExecute={deleteSubjectAsync}/>}
+                               functionToExecute={deleteClazzAsync}/>}
             <div className={"row"}>
                 <div className={"col-md-10 mx-auto mt-3"}>
                     <h1 className={"pageTitle col-md-10 mx-auto mb-3"}
-                    >{t("Subjects")}</h1>
+                    >{t("Classes")}</h1>
                     <table className={"table table-hover"}>
                         <thead className={"text-white bg-info text-left"}>
                         <tr>
@@ -148,8 +148,9 @@ const Subject = () => {
                                            autoFocus={isAddingNew}
                                            type="text"
                                            value={name}
+                                           onChange={e=>setName(e.target.value)}
                                            onKeyPress={handleKeypress}
-                                           onChange={e => setName(e.target.value)}/>
+                                           />
                                 </td>
                                 <td>
                                     <button type="button" onClick={() => createNew()}
@@ -158,10 +159,10 @@ const Subject = () => {
                                             className="actionButton btn btn-small btn-danger mb-1">{t("Cancel")}</button>
                                 </td>
                             </tr>}
-                        {subjects && subjects.map((subject, id) => (
+                        {classes && classes.map((clazz, id) => (
                             <tr key={id}>
                                 <td style={{verticalAlign: "middle"}}>{id + 1}</td>
-                                {!isNull(entityEditing) && entityEditing.oid === subject.oid ?
+                                {!isNull(entityEditing) && entityEditing.oid === clazz.oid ?
                                     (<td style={{verticalAlign: "middle"}}>
 
                                         <input style={{width: "100%"}} required
@@ -173,21 +174,21 @@ const Subject = () => {
                                     </td>) :
                                     (
                                         <td style={{verticalAlign: "middle"}}>
-                                            {subject.name}</td>)
+                                            {clazz.name}</td>)
                                 }
                                 <td style={{textAlign: "right"}}>
-                                    {!isNull(entityEditing) && entityEditing.oid === subject.oid ? (
+                                    {!isNull(entityEditing) && entityEditing.oid === clazz.oid ? (
                                         <div style={{display: "inline"}}>
                                             <button type="button" id="editButton"
-                                                    onClick={() => handleSaveChangesButton(subject.oid, nameEditing)}
+                                                    onClick={() => handleSaveChangesButton(clazz.oid, nameEditing)}
                                                     className="btn btn-small btn-success mb-1">{t("Save")}</button>
-                                            <button type="button" onClick={() => handleCancelButton(subject)}
+                                            <button type="button" onClick={() => handleCancelButton(clazz)}
                                                     className="btn btn-small btn-danger mb-1">{t("Cancel")}</button>
                                         </div>) : (
                                         <div style={{display: "inline"}}>
-                                            <button type="button" onClick={() => handleEditButton(subject)}
+                                            <button type="button" onClick={() => handleEditButton(clazz)}
                                                     className="awesomeButton btn btn-small btn-warning mb-1">{edit}</button>
-                                            <button type="button" onClick={() => handleDeleteButton(subject)}
+                                            <button type="button" onClick={() => handleDeleteButton(clazz)}
                                                     className="awesomeButton btn btn-small btn-danger mb-1">{remove}</button>
                                         </div>)
                                     }

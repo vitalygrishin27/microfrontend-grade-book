@@ -29,5 +29,5 @@
   "GBE-USER-002": "Invalid password",
   "GBE-ENTITY-001": "Entity already exists",
   "GBE-ENTITY-002": "Entity not found",
-  "GBE-ENTITY-003": "Name cannot be empty"
+  "GBE-ENTITY-003": "Field cannot be empty"
 }

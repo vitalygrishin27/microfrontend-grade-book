@@ -25,7 +25,6 @@ const Subject = () => {
     const dispatch = useDispatch();
     const {t} = useTranslation();
     const navigate = useNavigate();
-    const {isLoginIn} = useSelector(state => state.login);
     const {isToastShowing} = useSelector(state => state.common);
     const {
         isSubjectListLoading,
@@ -92,6 +91,7 @@ const Subject = () => {
 
     const handleEditButton = (subject) => {
         setEntityEditing(subject);
+        changeAddingNew(false);
         setNameEditing(subject.name);
     }
 
@@ -133,7 +133,7 @@ const Subject = () => {
                             </th>
                             <th width={"20%"}>
                                 {!isAddingNew && <div style={{textAlign: "right"}}>
-                                    <button type="button" onClick={() => changeAddingNew(true)}
+                                    <button type="button" onClick={() => {changeAddingNew(true); setEntityEditing(null)}}
                                             className="awesomeButton btn btn-small btn-success mb-1">{plus}</button>
                                 </div>}
                             </th>

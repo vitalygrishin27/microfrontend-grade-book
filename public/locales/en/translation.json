@@ -19,9 +19,31 @@
   "Create": "Create",
   "Cancel": "Cancel",
 
+  "All": "All",
+  "Admins": "Admins",
+  "Teachers": "Teachers",
+  "Pupils": "Pupils",
+
+  "First name": "First name",
+  "Second name": "Second name",
+  "Last name": "Last name",
+  "Login": "Login",
+  "Access level": "Access level",
+  "Class": "Class",
+  "User": "User",
+
   "Are you sure?": "Are you sure?",
   "Yes": "Yes",
   "No": "No",
+
+  "select access level": "select access level",
+  "select class": "select class",
+  "select class if form-master": "select class if form-master",
+  "ADMIN": "Administrator",
+  "LOGIN": "User as Login",
+  "BASIC": "User as Basic",
+  "TEACHER": "Teacher",
+  "PUPIL": "Pupil",
 
   "Network Error": "Network Error",
   "GBE-ACCESS-001": "Your access level not allow to request this data",

@@ -34,9 +34,9 @@ const subjectEditingStart = () => ({
     type: actionTypes.SUBJECT_EDITING_START
 })
 
-const subjectEditingSuccess = (newSubject) => ({
+const subjectEditingSuccess = (updatedSubject) => ({
     type: actionTypes.SUBJECT_EDITING_SUCCESS,
-    payload: newSubject
+    payload: updatedSubject
 })
 
 const subjectEditingError = (error) => ({

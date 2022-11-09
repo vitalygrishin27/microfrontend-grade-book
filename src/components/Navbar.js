@@ -27,6 +27,7 @@ const Navbar = () => {
                 <div className="mx-3" style={{"textAlign": "right", "display": "inline-block"}}>
                     {/*{isLoginIn &&  <Link to={"/members"} className={"btn btn-success text-light"}>{t("Users")}</Link>}&nbsp;*/}
                     {isLoginIn && <Link to={"/classes"} className={"btn btn-success text-light"}>{t("Classes")}</Link>}
+                    {isLoginIn && <Link to={"/users"} className={"btn btn-success text-light"}>{t("Users")}</Link>}
                     {isLoginIn &&
                         <Link to={"/subjects"} className={"btn btn-success text-light"}>{t("Subjects")}</Link>}
 

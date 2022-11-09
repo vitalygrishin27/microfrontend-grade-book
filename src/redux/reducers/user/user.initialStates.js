@@ -1,11 +1,13 @@
 
 const initState = {
-    isLoading: false,
-    isSaving: false,
-    criteria: null,
+    isUserListLoading: false,
+    isAccessLevelsLoading: false,
+    isUserCreating: false,
+    isUserDeleting: false,
+    isUserEditing: false,
+    users: null,
+    accessLevels: null,
     error: null,
-    isDeleting: false,
-    isToastShowing: false
 };
 
 export default initState

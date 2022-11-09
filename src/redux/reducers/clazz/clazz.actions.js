@@ -34,9 +34,9 @@ const clazzEditingStart = () => ({
     type: actionTypes.CLAZZ_EDITING_START
 })
 
-const clazzEditingSuccess = (newClazz) => ({
+const clazzEditingSuccess = (updatedClazz) => ({
     type: actionTypes.CLAZZ_EDITING_SUCCESS,
-    payload: newClazz
+    payload: updatedClazz
 })
 
 const clazzEditingError = (error) => ({

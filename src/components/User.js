@@ -14,6 +14,7 @@ import {faEdit, faPlus, faRemove} from '@fortawesome/free-solid-svg-icons';
 import ConfirmDelete from "./ConfirmDelete";
 import {AccessLevelFilter, UserType} from "../types/types";
 import UserForm from "./UserForm";
+import {Spinner} from "react-bootstrap";
 
 const edit = <FontAwesomeIcon icon={faEdit}/>
 const remove = <FontAwesomeIcon icon={faRemove}/>
@@ -152,6 +153,14 @@ const User = () => {
                         </tr>
                         </thead>
                         <tbody style={{textAlign: "left"}}>
+                        {isUserListLoading && <tr><td colSpan={8}><div style={{"textAlign": "center"}}><Spinner
+                            as="span"
+                            animation="border"
+                            size="lg"
+                            role="status"
+                            aria-hidden="true"
+                            variant="dark"/>
+                        </div></td></tr>}
                         {users && users.map((user: UserType, id) => (
                             <tr key={id}>
                                 <td style={{verticalAlign: "middle"}}>{id + 1}</td>

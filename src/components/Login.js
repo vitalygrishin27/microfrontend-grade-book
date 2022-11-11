@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {loginInAsync, loginInAsyncByToken} from "../redux/reducers/login/login.thunks";
 import {serviceVersionAsync, setToastShowing} from "../redux/reducers/common/common.thunks";
 import packageJson from '../../package.json';
+import {Spinner} from "react-bootstrap";
 
 const Login = () => {
     const [login, setLogin] = useState("");
@@ -79,7 +80,14 @@ const Login = () => {
                         </div>
                         <div className="d-grid gap-2 mt-3">
                             <button disabled={isLoading} type="submit" className="btn btn-primary">
-                                {t("Submit")}
+                                {isLoading && <Spinner
+                                    as="span"
+                                    animation="grow"
+                                    size="sm"
+                                    role="status"
+                                    aria-hidden="true"
+                                /> }
+                                {isLoading?t("Loading"):t("Submit")}
                             </button>
                         </div>
                         <div>

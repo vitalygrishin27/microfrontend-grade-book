@@ -15,6 +15,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faEdit, faPlus, faRemove} from '@fortawesome/free-solid-svg-icons';
 import ConfirmDelete from "./ConfirmDelete";
 import {isNull} from "lodash";
+import {Spinner} from "react-bootstrap";
 
 const edit = <FontAwesomeIcon icon={faEdit}/>
 const remove = <FontAwesomeIcon icon={faRemove}/>
@@ -140,6 +141,14 @@ const Subject = () => {
                         </tr>
                         </thead>
                         <tbody style={{textAlign: "left"}}>
+                        {isSubjectListLoading && <tr><td colSpan={3}><div style={{"textAlign": "center"}}><Spinner
+                            as="span"
+                            animation="border"
+                            size="lg"
+                            role="status"
+                            aria-hidden="true"
+                            variant="dark"/>
+                        </div></td></tr>}
                         {isAddingNew &&
                             <tr>
                                 <td/>

@@ -15,6 +15,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faEdit, faPlus, faRemove} from '@fortawesome/free-solid-svg-icons';
 import ConfirmDelete from "./ConfirmDelete";
 import {isNull} from "lodash";
+import {Spinner} from "react-bootstrap";
 
 const edit = <FontAwesomeIcon icon={faEdit}/>
 const remove = <FontAwesomeIcon icon={faRemove}/>
@@ -159,6 +160,14 @@ const Subject = () => {
                                             className="actionButton btn btn-small btn-danger mb-1">{t("Cancel")}</button>
                                 </td>
                             </tr>}
+                        {isClazzListLoading && <tr><td colSpan={3}><div style={{"textAlign": "center"}}><Spinner
+                            as="span"
+                            animation="border"
+                            size="lg"
+                            role="status"
+                            aria-hidden="true"
+                            variant="dark"/>
+                        </div></td></tr>}
                         {classes && classes.map((clazz, id) => (
                             <tr key={id}>
                                 <td style={{verticalAlign: "middle"}}>{id + 1}</td>

@@ -16,6 +16,7 @@ import {faEdit, faPlus, faRemove} from '@fortawesome/free-solid-svg-icons';
 import ConfirmDelete from "./ConfirmDelete";
 import {isNull} from "lodash";
 import {Spinner} from "react-bootstrap";
+import Switch from "react-switch";
 
 const edit = <FontAwesomeIcon icon={faEdit}/>
 const remove = <FontAwesomeIcon icon={faRemove}/>
@@ -41,14 +42,16 @@ const Subject = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [entityForDelete, setEntityForDelete] = useState(null);
     const [entityEditing, setEntityEditing] = useState(null);
+    const [needToSort, setNeedToSort] = useState(true);
 
     useEffect(() => {
         dispatch(loginInAsyncByToken());
-        if (!subjects) {
-            dispatch(loadSubjectListAsync())
-        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    useEffect(() => {
+        dispatch(loadSubjectListAsync(needToSort));
+    }, [needToSort]);
 
     useEffect(() => {
         if (isToastShowing) {
@@ -125,6 +128,16 @@ const Subject = () => {
                 <div className={"col-md-10 mx-auto mt-3"}>
                     <h1 className={"pageTitle col-md-10 mx-auto mb-3"}
                     >{t("Subjects")}</h1>
+                    <table className={"table-hover"}>
+                        <thead className={"text-dark text-left"}>
+                        <tr>
+                            <th>{t("Sorting: ")}</th>
+                            <th>
+                                <Switch onChange={setNeedToSort} checked={needToSort}/>
+                            </th>
+                        </tr>
+                        </thead>
+                    </table>
                     <table className={"table table-hover"}>
                         <thead className={"text-white bg-info text-left"}>
                         <tr>

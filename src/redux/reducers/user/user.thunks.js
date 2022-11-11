@@ -4,7 +4,7 @@ import UserService from "../../../service/user.service";
 import commonActions from "../common/common.actions";
 import {AccessLevelFilter} from "../../../types/types";
 
-export const loadUserListAsync = (accessLevelFilter: AccessLevelFilter) => (dispatch) => {
+export const loadUserListAsync = (accessLevelFilter: AccessLevelFilter, needToSort: Boolean) => (dispatch) => {
     dispatch(actions.userListLoadingStart())
     let functionToExecute;
     switch (accessLevelFilter) {
@@ -24,7 +24,7 @@ export const loadUserListAsync = (accessLevelFilter: AccessLevelFilter) => (disp
             functionToExecute = UserService.loadUserList;
     }
 
-    functionToExecute(getCookie("grade_book_token"))
+    functionToExecute(getCookie("grade_book_token"), needToSort)
         .then(response => {
             dispatch(actions.userListLoadingSuccess(response.data));
             console.log(response.data)

@@ -15,6 +15,7 @@ import ConfirmDelete from "./ConfirmDelete";
 import {AccessLevelFilter, UserType} from "../types/types";
 import UserForm from "./UserForm";
 import {Spinner} from "react-bootstrap";
+import Switch from "react-switch";
 
 const edit = <FontAwesomeIcon icon={faEdit}/>
 const remove = <FontAwesomeIcon icon={faRemove}/>
@@ -39,12 +40,13 @@ const User = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [modalUserFormOpen, setModalUserFormOpen] = useState(false);
     const [entityForDelete, setEntityForDelete] = useState(null);
+    const [needToSort, setNeedToSort] = useState(true);
 
 
     useEffect(() => {
         dispatch(loginInAsyncByToken());
         if (!users) {
-            dispatch(loadUserListAsync())
+            dispatch(loadUserListAsync(needToSort))
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -97,23 +99,28 @@ const User = () => {
                         <tr>
                             <th>{t("Filters: ")}</th>
                             <th scope={"col"} style={{"verticalAlign": "middle"}}>
-                                <button type="button" onClick={() => dispatch(loadUserListAsync(AccessLevelFilter.ALL))}
+                                <button type="button"
+                                        onClick={() => dispatch(loadUserListAsync(AccessLevelFilter.ALL, needToSort))}
                                         className="btn btn-small btn-success mb-1">{t("All")}</button>
                             </th>
                             <th scope={"col"} style={{"verticalAlign": "middle"}}>
                                 <button type="button"
-                                        onClick={() => dispatch(loadUserListAsync(AccessLevelFilter.ADMIN))}
+                                        onClick={() => dispatch(loadUserListAsync(AccessLevelFilter.ADMIN, needToSort))}
                                         className="btn btn-small btn-success mb-1">{t("Admins")}</button>
                             </th>
                             <th scope={"col"} style={{"verticalAlign": "middle"}}>
                                 <button type="button"
-                                        onClick={() => dispatch(loadUserListAsync(AccessLevelFilter.TEACHER))}
+                                        onClick={() => dispatch(loadUserListAsync(AccessLevelFilter.TEACHER, needToSort))}
                                         className="btn btn-small btn-success mb-1">{t("Teachers")}</button>
                             </th>
                             <th scope={"col"} style={{"verticalAlign": "middle"}}>
                                 <button type="button"
-                                        onClick={() => dispatch(loadUserListAsync(AccessLevelFilter.PUPIL))}
+                                        onClick={() => dispatch(loadUserListAsync(AccessLevelFilter.PUPIL, needToSort))}
                                         className="btn btn-small btn-success mb-1">{t("Pupils")}</button>
+                            </th>
+                            <th>{t("Sorting: ")}</th>
+                            <th>
+                                <Switch onChange={setNeedToSort} checked={needToSort}/>
                             </th>
                         </tr>
                         </thead>

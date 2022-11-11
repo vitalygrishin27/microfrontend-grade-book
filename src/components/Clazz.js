@@ -16,6 +16,7 @@ import {faEdit, faPlus, faRemove} from '@fortawesome/free-solid-svg-icons';
 import ConfirmDelete from "./ConfirmDelete";
 import {isNull} from "lodash";
 import {Spinner} from "react-bootstrap";
+import Switch from "react-switch";
 
 const edit = <FontAwesomeIcon icon={faEdit}/>
 const remove = <FontAwesomeIcon icon={faRemove}/>
@@ -41,12 +42,10 @@ const Subject = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [entityForDelete, setEntityForDelete] = useState(null);
     const [entityEditing, setEntityEditing] = useState(null);
+    const [needToSort, setNeedToSort] = useState(true);
 
     useEffect(() => {
         dispatch(loginInAsyncByToken());
-        if (!classes) {
-            dispatch(loadClazzListAsync())
-        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -61,12 +60,16 @@ const Subject = () => {
                 changeAddingNew(false);
                 setEntityEditing(null);
                 setNameEditing("");
-                // toast.success(t("Login in is successful!"))
                 dispatch(setToastShowing(false));
-                // navigate("/");
             }
-        }// eslint-disable-next-line react-hooks/exhaustive-deps
+        }
     }, [isClazzListLoading, isClazzCreating, isClazzDeleting, isClazzEditing])
+
+
+    useEffect(() => {
+        console.log(needToSort);
+        dispatch(loadClazzListAsync(needToSort))
+    }, [needToSort])
 
     const handleKeypress = e => {
         //it triggers by pressing the enter key
@@ -125,6 +128,16 @@ const Subject = () => {
                 <div className={"col-md-10 mx-auto mt-3"}>
                     <h1 className={"pageTitle col-md-10 mx-auto mb-3"}
                     >{t("Classes")}</h1>
+                    <table className={"table-hover"}>
+                        <thead className={"text-dark text-left"}>
+                        <tr>
+                            <th>{t("Sorting: ")}</th>
+                            <th>
+                                <Switch onChange={setNeedToSort} checked={needToSort}/>
+                            </th>
+                        </tr>
+                        </thead>
+                    </table>
                     <table className={"table table-hover"}>
                         <thead className={"text-white bg-info text-left"}>
                         <tr>
@@ -134,7 +147,10 @@ const Subject = () => {
                             </th>
                             <th width={"20%"}>
                                 {!isAddingNew && <div style={{textAlign: "right"}}>
-                                    <button type="button" onClick={() => {changeAddingNew(true); setEntityEditing(null)}}
+                                    <button type="button" onClick={() => {
+                                        changeAddingNew(true);
+                                        setEntityEditing(null)
+                                    }}
                                             className="awesomeButton btn btn-small btn-success mb-1">{plus}</button>
                                 </div>}
                             </th>
@@ -149,9 +165,9 @@ const Subject = () => {
                                            autoFocus={isAddingNew}
                                            type="text"
                                            value={name}
-                                           onChange={e=>setName(e.target.value)}
+                                           onChange={e => setName(e.target.value)}
                                            onKeyPress={handleKeypress}
-                                           />
+                                    />
                                 </td>
                                 <td>
                                     <button type="button" onClick={() => createNew()}
@@ -160,14 +176,18 @@ const Subject = () => {
                                             className="actionButton btn btn-small btn-danger mb-1">{t("Cancel")}</button>
                                 </td>
                             </tr>}
-                        {isClazzListLoading && <tr><td colSpan={3}><div style={{"textAlign": "center"}}><Spinner
-                            as="span"
-                            animation="border"
-                            size="lg"
-                            role="status"
-                            aria-hidden="true"
-                            variant="dark"/>
-                        </div></td></tr>}
+                        {isClazzListLoading && <tr>
+                            <td colSpan={3}>
+                                <div style={{"textAlign": "center"}}><Spinner
+                                    as="span"
+                                    animation="border"
+                                    size="lg"
+                                    role="status"
+                                    aria-hidden="true"
+                                    variant="dark"/>
+                                </div>
+                            </td>
+                        </tr>}
                         {classes && classes.map((clazz, id) => (
                             <tr key={id}>
                                 <td style={{verticalAlign: "middle"}}>{id + 1}</td>

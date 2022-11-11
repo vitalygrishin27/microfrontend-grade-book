@@ -54,7 +54,7 @@ const UserForm = ({modalUserFormOpen, setModalUserFormOpen, entity, setEntity, i
             dispatch(loadAccessLevelsAsync())
         }
         if (!accessLevels) {
-            dispatch(loadClazzListAsync())
+            dispatch(loadClazzListAsync(true))
             console.log(accessLevel)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

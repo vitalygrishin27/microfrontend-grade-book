@@ -4,6 +4,10 @@ export const AccessLevelFilter = {
     TEACHER: 'TEACHER',
     PUPIL: 'PUPIL',
 }
+export class Clazz {
+    oid: number;
+    name: string;
+}
 export class UserType {
     oid: number;
     firstName: string;
@@ -13,4 +17,6 @@ export class UserType {
     password: string;
     accessLevel: string;
     clazzId: number;
+    clazzName: string;
+    clazz: Clazz;
 }

@@ -21,6 +21,9 @@ const UserForm = ({modalUserFormOpen, setModalUserFormOpen, entity, setEntity, i
     } = useSelector(state => state.classes);
     const handleSubmit = (e) => {
         e.preventDefault();
+        const clazz = {
+            oid: clazzId
+        }
         const data = {
             oid: isNull(entity) ? null : entity.oid,
             lastName: lastName,
@@ -29,7 +32,7 @@ const UserForm = ({modalUserFormOpen, setModalUserFormOpen, entity, setEntity, i
             login: login,
             password: password,
             accessLevel: accessLevel,
-            clazzId: clazzId
+            clazz: clazz
         }
 
         console.log(data);
@@ -64,7 +67,7 @@ const UserForm = ({modalUserFormOpen, setModalUserFormOpen, entity, setEntity, i
     const [login, setLogin] = useState(entity ? entity.login : "");
     const [password, setPassword] = useState(entity ? entity.password : "");
     const [accessLevel, setAccessLevel] = useState(entity ? entity.accessLevel : "");
-    const [clazzId, setClazzId] = useState(entity ? entity.clazzId : "");
+    const [clazzId, setClazzId] = useState(entity && entity.clazz ? entity.clazz.oid : "");
 
     return (
         <div>

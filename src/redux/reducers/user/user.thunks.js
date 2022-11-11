@@ -6,7 +6,6 @@ import {AccessLevelFilter} from "../../../types/types";
 
 export const loadUserListAsync = (accessLevelFilter: AccessLevelFilter) => (dispatch) => {
     dispatch(actions.userListLoadingStart())
-    console.log(accessLevelFilter);
     let functionToExecute;
     switch (accessLevelFilter) {
         case AccessLevelFilter.ALL:

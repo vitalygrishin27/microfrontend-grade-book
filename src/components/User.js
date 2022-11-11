@@ -153,14 +153,18 @@ const User = () => {
                         </tr>
                         </thead>
                         <tbody style={{textAlign: "left"}}>
-                        {isUserListLoading && <tr><td colSpan={8}><div style={{"textAlign": "center"}}><Spinner
-                            as="span"
-                            animation="border"
-                            size="lg"
-                            role="status"
-                            aria-hidden="true"
-                            variant="dark"/>
-                        </div></td></tr>}
+                        {isUserListLoading && <tr>
+                            <td colSpan={8}>
+                                <div style={{"textAlign": "center"}}><Spinner
+                                    as="span"
+                                    animation="border"
+                                    size="lg"
+                                    role="status"
+                                    aria-hidden="true"
+                                    variant="dark"/>
+                                </div>
+                            </td>
+                        </tr>}
                         {users && users.map((user: UserType, id) => (
                             <tr key={id}>
                                 <td style={{verticalAlign: "middle"}}>{id + 1}</td>
@@ -169,7 +173,7 @@ const User = () => {
                                 <td style={{verticalAlign: "middle"}}>{user.secondName}</td>
                                 <td style={{verticalAlign: "middle"}}>{user.login}</td>
                                 <td style={{verticalAlign: "middle"}}>{user.accessLevel}</td>
-                                <td style={{verticalAlign: "middle"}}>{user.clazz}</td>
+                                <td style={{verticalAlign: "middle"}}>{user.clazz ? user.clazz.name : "-"}</td>
                                 <td style={{textAlign: "right"}}>
                                     <div style={{display: "inline"}}>
                                         <button type="button" onClick={() => handleEditButton(user)}

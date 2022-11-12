@@ -3,6 +3,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import {useDispatch, useSelector} from "react-redux";
 import {loginOut} from "../redux/reducers/login/login.thunks";
+import {AccessLevelFilter} from "../types/types";
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -26,9 +27,9 @@ const Navbar = () => {
 
                 <div className="mx-3" style={{"textAlign": "right", "display": "inline-block"}}>
                     {/*{isLoginIn &&  <Link to={"/members"} className={"btn btn-success text-light"}>{t("Users")}</Link>}&nbsp;*/}
-                    {isLoginIn && <Link to={"/classes"} className={"btn btn-success text-light"}>{t("Classes")}</Link>}
-                    {isLoginIn && <Link to={"/users"} className={"btn btn-success text-light"}>{t("Users")}</Link>}
-                    {isLoginIn &&
+                    {isLoginIn && token.accessLevel===AccessLevelFilter.ADMIN && <Link to={"/classes"} className={"btn btn-success text-light"}>{t("Classes")}</Link>}
+                    {isLoginIn && token.accessLevel===AccessLevelFilter.ADMIN &&<Link to={"/users"} className={"btn btn-success text-light"}>{t("Users")}</Link>}
+                    {isLoginIn && token.accessLevel===AccessLevelFilter.ADMIN &&
                         <Link to={"/subjects"} className={"btn btn-success text-light"}>{t("Subjects")}</Link>}
 
                     <div className="mx-3" style={{"display": "inline-block"}}>

@@ -41,6 +41,7 @@ const User = () => {
     const [modalUserFormOpen, setModalUserFormOpen] = useState(false);
     const [entityForDelete, setEntityForDelete] = useState(null);
     const [needToSort, setNeedToSort] = useState(true);
+    const [accessFilterSelected, setAccessFilterSelected] = useState(AccessLevelFilter.ALL);
 
 
     useEffect(() => {
@@ -63,8 +64,12 @@ const User = () => {
                 setEntity(null);
                 dispatch(setToastShowing(false));
             }
-        }// eslint-disable-next-line react-hooks/exhaustive-deps
+        }
     }, [isUserListLoading, isUserCreating, isUserDeleting, isUserEditing])
+
+    useEffect(() => {
+        dispatch(loadUserListAsync(accessFilterSelected, needToSort))
+    }, [needToSort, accessFilterSelected]);
 
     const handleEditButton = (entity) => {
         changeAddingNew(false);
@@ -100,22 +105,22 @@ const User = () => {
                             <th>{t("Filters: ")}</th>
                             <th scope={"col"} style={{"verticalAlign": "middle"}}>
                                 <button type="button"
-                                        onClick={() => dispatch(loadUserListAsync(AccessLevelFilter.ALL, needToSort))}
+                                        onClick={() => setAccessFilterSelected(AccessLevelFilter.ALL)}
                                         className="btn btn-small btn-success mb-1">{t("All")}</button>
                             </th>
                             <th scope={"col"} style={{"verticalAlign": "middle"}}>
                                 <button type="button"
-                                        onClick={() => dispatch(loadUserListAsync(AccessLevelFilter.ADMIN, needToSort))}
+                                        onClick={() => setAccessFilterSelected(AccessLevelFilter.ADMIN)}
                                         className="btn btn-small btn-success mb-1">{t("Admins")}</button>
                             </th>
                             <th scope={"col"} style={{"verticalAlign": "middle"}}>
                                 <button type="button"
-                                        onClick={() => dispatch(loadUserListAsync(AccessLevelFilter.TEACHER, needToSort))}
+                                        onClick={() => setAccessFilterSelected(AccessLevelFilter.TEACHER)}
                                         className="btn btn-small btn-success mb-1">{t("Teachers")}</button>
                             </th>
                             <th scope={"col"} style={{"verticalAlign": "middle"}}>
                                 <button type="button"
-                                        onClick={() => dispatch(loadUserListAsync(AccessLevelFilter.PUPIL, needToSort))}
+                                        onClick={() => setAccessFilterSelected(AccessLevelFilter.PUPIL)}
                                         className="btn btn-small btn-success mb-1">{t("Pupils")}</button>
                             </th>
                             <th>{t("Sorting: ")}</th>

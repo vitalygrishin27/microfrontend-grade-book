@@ -93,25 +93,30 @@ const UserForm = ({modalUserFormOpen, setModalUserFormOpen, entity, setEntity, i
                             <div>
                                 <div className={"form-group mb-2"}>
                                     <input required type={"text"} placeholder={t("Last name")}
+                                           maxLength={20}
                                            className={"form-control"}
                                            value={lastName} onChange={e => setLastName(e.target.value)}/>
                                 </div>
                                 <div className={"form-group mb-2"}>
                                     <input required type={"text"} placeholder={t("First name")}
+                                           maxLength={20}
                                            className={"form-control"}
                                            value={firstName} onChange={e => setFirstName(e.target.value)}/>
                                 </div>
                                 <div className={"form-group mb-2"}>
                                     <input required type={"text"} placeholder={t("Second name")}
+                                           maxLength={20}
                                            className={"form-control"}
                                            value={secondName} onChange={e => setSecondName(e.target.value)}/>
                                 </div>
                                 <div className={"form-group mb-2"}>
                                     <input required type={"text"} placeholder={t("Login")} className={"form-control"}
+                                           maxLength={20}
                                            value={login} onChange={e => setLogin(e.target.value)}/>
                                 </div>
                                 <div className={"form-group mb-2"}>
                                     <input required type={"password"} placeholder={t("Password")}
+                                           maxLength={20}
                                            className={"form-control"}
                                            value={password} onChange={e => setPassword(e.target.value)}/>
                                 </div>

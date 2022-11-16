@@ -163,6 +163,7 @@ const Subject = () => {
                                 <td style={{verticalAlign: "middle"}}>
                                     <input style={{width: "100%"}} required
                                            autoFocus={isAddingNew}
+                                           maxLength={10}
                                            type="text"
                                            value={name}
                                            onChange={e => setName(e.target.value)}
@@ -196,6 +197,7 @@ const Subject = () => {
 
                                         <input style={{width: "100%"}} required
                                                autoFocus={!isNull(entityEditing)}
+                                               maxLength={10}
                                                type="text"
                                                value={nameEditing}
                                                onKeyPress={handleKeypressInEditing}

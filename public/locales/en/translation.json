@@ -56,5 +56,5 @@
   "GBE-ENTITY-002": "Entity not found",
   "GBE-ENTITY-003": "Field cannot be empty",
   "GBE-ENTITY-004": "A class teacher has already been assigned to this class.",
-  "GBE-ENTITY-005": "Class has pupils"
+  "GBE-ENTITY-005": "You cannot delete a class because it has pupils"
 }

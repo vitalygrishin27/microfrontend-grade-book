@@ -87,6 +87,14 @@ const User = () => {
         dispatch(loadUserListAsync(accessFilterSelected, needToSort, search))
     }
 
+    const handleKeypressOnSearch = e => {
+        //it triggers by pressing the enter key
+        if (e.code === "Enter" || e.code === "NumpadEnter") {
+            document.getElementById("searchButton").click()
+        }
+
+    };
+
     return (
         <div className={"container"}>
             {modalOpen &&
@@ -135,9 +143,11 @@ const User = () => {
                             <th><input type={"text"}
                                        maxLength={20}
                                        className={"form-control"}
+                                       onKeyPress={handleKeypressOnSearch}
                                        value={search} onChange={e => setSearch(e.target.value)}/></th>
                             <th scope={"col"} style={{"verticalAlign": "middle"}}>
                                 <button type="button"
+                                        id="searchButton"
                                         onClick={() => handleSearchButton()}
                                         className="btn btn-small btn-success mb-1">{t("Search")}</button>
                             </th>

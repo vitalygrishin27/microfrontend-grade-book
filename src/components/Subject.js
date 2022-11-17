@@ -80,6 +80,7 @@ const Subject = () => {
 
     };
 
+
     const handleKeypressInEditing = e => {
         //it triggers by pressing the enter key
         if (e.code === "Enter" || e.code === "NumpadEnter") {
@@ -87,6 +88,15 @@ const Subject = () => {
         }
 
     };
+
+    const handleKeypressOnSearch = e => {
+        //it triggers by pressing the enter key
+        if (e.code === "Enter" || e.code === "NumpadEnter") {
+            document.getElementById("searchButton").click()
+        }
+
+    };
+
 
     const createNew = () => {
         let data = new FormData();
@@ -142,9 +152,11 @@ const Subject = () => {
                             <th><input type={"text"}
                                        maxLength={20}
                                        className={"form-control"}
+                                       onKeyPress={handleKeypressOnSearch}
                                        value={search} onChange={e => setSearch(e.target.value)}/></th>
                             <th scope={"col"} style={{"verticalAlign": "middle"}}>
                                 <button type="button"
+                                        id="searchButton"
                                         onClick={() => handleSearchButton()}
                                         className="btn btn-small btn-success mb-1">{t("Search")}</button>
                             </th>

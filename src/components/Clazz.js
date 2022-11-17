@@ -136,7 +136,7 @@ const Subject = () => {
                     <table className={"table-hover"}>
                         <thead className={"text-dark text-left"}>
                         <tr>
-                            <th>{t("Sorting: ")}</th>
+                            <th>{t("Sorting")}</th>
                             <th>
                                 <Switch onChange={setNeedToSort} checked={needToSort}/>
                             </th>

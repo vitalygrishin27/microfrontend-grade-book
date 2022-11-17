@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
-import {useSelector, useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {
     createSubjectAsync,
@@ -43,6 +43,7 @@ const Subject = () => {
     const [entityForDelete, setEntityForDelete] = useState(null);
     const [entityEditing, setEntityEditing] = useState(null);
     const [needToSort, setNeedToSort] = useState(true);
+    const [search, setSearch] = useState("");
 
     useEffect(() => {
         dispatch(loginInAsyncByToken());
@@ -50,7 +51,7 @@ const Subject = () => {
     }, []);
 
     useEffect(() => {
-        dispatch(loadSubjectListAsync(needToSort));
+        dispatch(loadSubjectListAsync(needToSort, search));
     }, [needToSort]);
 
     useEffect(() => {
@@ -115,6 +116,9 @@ const Subject = () => {
         setModalOpen(true);
         setEntityForDelete(subject)
     }
+    const handleSearchButton = () => {
+        dispatch(loadSubjectListAsync(needToSort, search))
+    }
 
     return (
         <div className={"container"}>
@@ -135,6 +139,15 @@ const Subject = () => {
                             <th>
                                 <Switch onChange={setNeedToSort} checked={needToSort}/>
                             </th>
+                            <th><input type={"text"}
+                                       maxLength={20}
+                                       className={"form-control"}
+                                       value={search} onChange={e => setSearch(e.target.value)}/></th>
+                            <th scope={"col"} style={{"verticalAlign": "middle"}}>
+                                <button type="button"
+                                        onClick={() => handleSearchButton()}
+                                        className="btn btn-small btn-success mb-1">{t("Search")}</button>
+                            </th>
                         </tr>
                         </thead>
                     </table>
@@ -147,21 +160,28 @@ const Subject = () => {
                             </th>
                             <th width={"20%"}>
                                 {!isAddingNew && <div style={{textAlign: "right"}}>
-                                    <button type="button" onClick={() => {changeAddingNew(true); setEntityEditing(null)}}
+                                    <button type="button" onClick={() => {
+                                        changeAddingNew(true);
+                                        setEntityEditing(null)
+                                    }}
                                             className="awesomeButton btn btn-small btn-success mb-1">{plus}</button>
                                 </div>}
                             </th>
                         </tr>
                         </thead>
                         <tbody style={{textAlign: "left"}}>
-                        {isSubjectListLoading && <tr><td colSpan={3}><div style={{"textAlign": "center"}}><Spinner
-                            as="span"
-                            animation="border"
-                            size="lg"
-                            role="status"
-                            aria-hidden="true"
-                            variant="dark"/>
-                        </div></td></tr>}
+                        {isSubjectListLoading && <tr>
+                            <td colSpan={3}>
+                                <div style={{"textAlign": "center"}}><Spinner
+                                    as="span"
+                                    animation="border"
+                                    size="lg"
+                                    role="status"
+                                    aria-hidden="true"
+                                    variant="dark"/>
+                                </div>
+                            </td>
+                        </tr>}
                         {isAddingNew &&
                             <tr>
                                 <td/>

@@ -23,6 +23,9 @@
   "Admins": "Адміністратори",
   "Teachers": "Вчителі",
   "Pupils": "Учні",
+  "Filters": "Фільтр: ",
+  "Sorting": "Сортування: ",
+  "Search": "Пошук ",
 
   "First name": "Ім’я",
   "Second name": "По батькові",

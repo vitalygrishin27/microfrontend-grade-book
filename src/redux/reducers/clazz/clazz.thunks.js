@@ -3,9 +3,9 @@ import {getCookie} from "../../../helper/apiClient";
 import ClazzService from "../../../service/clazz.service";
 import commonActions from "../common/common.actions";
 
-export const loadClazzListAsync = (needToSort: Boolean) => (dispatch) => {
+export const loadClazzListAsync = (needToSort: Boolean, search: string) => (dispatch) => {
     dispatch(actions.clazzListLoadingStart())
-    ClazzService.loadClazzList(getCookie("grade_book_token"), needToSort)
+    ClazzService.loadClazzList(getCookie("grade_book_token"), needToSort, search)
         .then(response => {
             dispatch(actions.clazzListLoadingSuccess(response.data));
         })

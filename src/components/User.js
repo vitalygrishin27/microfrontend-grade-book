@@ -42,12 +42,13 @@ const User = () => {
     const [entityForDelete, setEntityForDelete] = useState(null);
     const [needToSort, setNeedToSort] = useState(true);
     const [accessFilterSelected, setAccessFilterSelected] = useState(AccessLevelFilter.ALL);
+    const [search, setSearch] = useState("");
 
 
     useEffect(() => {
         dispatch(loginInAsyncByToken());
         if (!users) {
-            dispatch(loadUserListAsync(needToSort))
+            dispatch(loadUserListAsync(accessFilterSelected, needToSort, search))
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -68,7 +69,7 @@ const User = () => {
     }, [isUserListLoading, isUserCreating, isUserDeleting, isUserEditing])
 
     useEffect(() => {
-        dispatch(loadUserListAsync(accessFilterSelected, needToSort))
+        dispatch(loadUserListAsync(accessFilterSelected, needToSort, search))
     }, [needToSort, accessFilterSelected]);
 
     const handleEditButton = (entity) => {
@@ -80,6 +81,10 @@ const User = () => {
     const handleDeleteButton = (user) => {
         setModalOpen(true);
         setEntityForDelete(user)
+    }
+
+    const handleSearchButton = () => {
+        dispatch(loadUserListAsync(accessFilterSelected, needToSort, search))
     }
 
     return (
@@ -102,7 +107,7 @@ const User = () => {
                     <table className={"table-hover"}>
                         <thead className={"text-dark text-left"}>
                         <tr>
-                            <th>{t("Filters: ")}</th>
+                            <th>{t("Filters")}</th>
                             <th scope={"col"} style={{"verticalAlign": "middle"}}>
                                 <button type="button"
                                         onClick={() => setAccessFilterSelected(AccessLevelFilter.ALL)}
@@ -123,9 +128,18 @@ const User = () => {
                                         onClick={() => setAccessFilterSelected(AccessLevelFilter.PUPIL)}
                                         className="btn btn-small btn-success mb-1">{t("Pupils")}</button>
                             </th>
-                            <th>{t("Sorting: ")}</th>
+                            <th>{t("Sorting")}</th>
                             <th>
                                 <Switch onChange={setNeedToSort} checked={needToSort}/>
+                            </th>
+                            <th><input type={"text"}
+                                       maxLength={20}
+                                       className={"form-control"}
+                                       value={search} onChange={e => setSearch(e.target.value)}/></th>
+                            <th scope={"col"} style={{"verticalAlign": "middle"}}>
+                                <button type="button"
+                                        onClick={() => handleSearchButton()}
+                                        className="btn btn-small btn-success mb-1">{t("Search")}</button>
                             </th>
                         </tr>
                         </thead>

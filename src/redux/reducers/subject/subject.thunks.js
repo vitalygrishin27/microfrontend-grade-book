@@ -3,9 +3,9 @@ import {getCookie} from "../../../helper/apiClient";
 import SubjectService from "../../../service/subject.service";
 import commonActions from "../common/common.actions";
 
-export const loadSubjectListAsync = (needToSort) => (dispatch) => {
+export const loadSubjectListAsync = (needToSort: Boolean, search: string) => (dispatch) => {
     dispatch(actions.subjectListLoadingStart())
-    SubjectService.loadSubjectList(getCookie("grade_book_token"), needToSort)
+    SubjectService.loadSubjectList(getCookie("grade_book_token"), needToSort, search)
         .then(response => {
             dispatch(actions.subjectListLoadingSuccess(response.data));
         })

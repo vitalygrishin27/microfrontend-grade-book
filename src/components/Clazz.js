@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
-import {useSelector, useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {
     createClazzAsync,
@@ -43,6 +43,7 @@ const Subject = () => {
     const [entityForDelete, setEntityForDelete] = useState(null);
     const [entityEditing, setEntityEditing] = useState(null);
     const [needToSort, setNeedToSort] = useState(true);
+    const [search, setSearch] = useState("");
 
     useEffect(() => {
         dispatch(loginInAsyncByToken());
@@ -68,7 +69,7 @@ const Subject = () => {
 
     useEffect(() => {
         console.log(needToSort);
-        dispatch(loadClazzListAsync(needToSort))
+        dispatch(loadClazzListAsync(needToSort, search))
     }, [needToSort])
 
     const handleKeypress = e => {
@@ -116,6 +117,10 @@ const Subject = () => {
         setEntityForDelete(clazz)
     }
 
+    const handleSearchButton = () => {
+        dispatch(loadClazzListAsync(needToSort, search))
+    }
+
     return (
         <div className={"container"}>
             {modalOpen &&
@@ -134,6 +139,15 @@ const Subject = () => {
                             <th>{t("Sorting: ")}</th>
                             <th>
                                 <Switch onChange={setNeedToSort} checked={needToSort}/>
+                            </th>
+                            <th><input type={"text"}
+                                       maxLength={20}
+                                       className={"form-control"}
+                                       value={search} onChange={e => setSearch(e.target.value)}/></th>
+                            <th scope={"col"} style={{"verticalAlign": "middle"}}>
+                                <button type="button"
+                                        onClick={() => handleSearchButton()}
+                                        className="btn btn-small btn-success mb-1">{t("Search")}</button>
                             </th>
                         </tr>
                         </thead>

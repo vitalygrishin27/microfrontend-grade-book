@@ -136,7 +136,7 @@ const UserForm = ({modalUserFormOpen, setModalUserFormOpen, entity, setEntity, i
                                 {accessLevel && accessLevel === AccessLevelFilter.TEACHER &&
                                     <div className={"form-group mb-2"}>
                                         <select id="combo2" className={"form-control"}
-                                                value={isNull(clazzId) ? "" : clazzId}
+                                                value={isNull(clazzId) ? null : clazzId}
                                                 onChange={e => setClazzId(e.target.value)}>
                                             <option value={""}> -- {t("select class if form-master")} --</option>
                                             {classes && classes.map((clazz, id) => (

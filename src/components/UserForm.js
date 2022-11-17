@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
-import {Button, Modal} from "react-bootstrap";
+import {Button, CloseButton, Modal} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import {createUserAsync, loadAccessLevelsAsync, updateUserAsync} from "../redux/reducers/user/user.thunks";
 import {AccessLevelFilter} from "../types/types";
@@ -74,6 +74,7 @@ const UserForm = ({modalUserFormOpen, setModalUserFormOpen, entity, setEntity, i
             <Modal show={modalUserFormOpen}>
                 <Modal.Header>
                     <Modal.Title>{t("User")}</Modal.Title>
+                    <CloseButton onClick={handleClose}/>
                 </Modal.Header>
                 <Modal.Body>
                     <form onSubmit={handleSubmit}>

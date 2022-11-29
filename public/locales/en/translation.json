@@ -43,7 +43,7 @@
 
   "select access level": "select access level",
   "select class": "select class",
-  "select class if form-master": "select class if form-master",
+  "select class if form-master": "select class (if form-master)",
   "ADMIN": "Administrator",
   "LOGIN": "User as Login",
   "BASIC": "User as Basic",

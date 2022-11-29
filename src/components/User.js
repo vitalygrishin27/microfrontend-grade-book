@@ -198,6 +198,7 @@ const User = ({accessFilterSelectedFromProps, classFromProps}) => {
                                 </div>
                             </td>
                         </tr>}
+                        {users && users.length<1 && <tr><td colSpan={8} style={{textAlign:"center"}}>{t("Nothing to show")}</td></tr>}
                         {users && users.map((user: UserType, id) => (
                             <tr key={id}>
                                 <td style={{verticalAlign: "middle"}}>{id + 1}</td>

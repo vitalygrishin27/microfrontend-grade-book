@@ -213,6 +213,7 @@ const Subject = () => {
                                             className="actionButton btn btn-small btn-danger mb-1">{t("Cancel")}</button>
                                 </td>
                             </tr>}
+                        {subjects && subjects.length<1 && <tr><td colSpan={3} style={{textAlign:"center"}}>{t("Nothing to show")}</td></tr>}
                         {subjects && subjects.map((subject, id) => (
                             <tr key={id}>
                                 <td style={{verticalAlign: "middle"}}>{id + 1}</td>

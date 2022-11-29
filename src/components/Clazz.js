@@ -237,6 +237,7 @@ const Subject = () => {
                                 </div>
                             </td>
                         </tr>}
+                        {classes && classes.length<1 && <tr><td colSpan={3} style={{textAlign:"center"}}>{t("Nothing to show")}</td></tr>}
                         {classes && classes.map((clazz, id) => (
                             <tr key={id}>
                                 <td style={{verticalAlign: "middle"}}>{id + 1}</td>

@@ -2,7 +2,6 @@ import React from "react";
 import {useTranslation} from "react-i18next";
 import {Button, Modal} from "react-bootstrap";
 import {useDispatch} from "react-redux";
-import commonActions from "../redux/reducers/common/common.actions";
 
 const ConfirmDelete = ({modalOpen, setModalOpen, entityForDelete, setEntityForDelete, functionToExecute,}) => {
     const dispatch = useDispatch();

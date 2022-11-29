@@ -15,8 +15,10 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faEdit, faPlus, faRemove} from '@fortawesome/free-solid-svg-icons';
 import ConfirmDelete from "./ConfirmDelete";
 import {isNull} from "lodash";
-import {Spinner} from "react-bootstrap";
+import {Button, Spinner} from "react-bootstrap";
 import Switch from "react-switch";
+import User from "./User";
+import {AccessLevelFilter} from "../types/types";
 
 const edit = <FontAwesomeIcon icon={faEdit}/>
 const remove = <FontAwesomeIcon icon={faRemove}/>
@@ -44,11 +46,20 @@ const Subject = () => {
     const [entityEditing, setEntityEditing] = useState(null);
     const [needToSort, setNeedToSort] = useState(true);
     const [search, setSearch] = useState("");
+    const [showPupils, setShowPupils] = useState(null);
 
     useEffect(() => {
         dispatch(loginInAsyncByToken());
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    const handleChangeShowPupils = (clazz) => {
+        if (showPupils === null) {
+            setShowPupils(clazz);
+        } else {
+            setShowPupils(null);
+        }
+    }
 
     useEffect(() => {
         if (isToastShowing) {
@@ -131,6 +142,19 @@ const Subject = () => {
 
     return (
         <div className={"container"}>
+            {showPupils && <div>
+                <div>
+                    <table className={"table-hover"}>
+                        <thead className={"text-dark text-left"}>
+                        <tr>
+                            <th>{t("Sorting")}</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+                <User accessFilterSelectedFromProps={AccessLevelFilter.PUPIL}
+                      classFromProps={showPupils}/></div>}
+
             {modalOpen &&
                 <ConfirmDelete modalOpen={modalOpen}
                                setModalOpen={setModalOpen}
@@ -229,7 +253,17 @@ const Subject = () => {
                                     </td>) :
                                     (
                                         <td style={{verticalAlign: "middle"}}>
-                                            {clazz.name}</td>)
+                                            {clazz.name}
+                                            <Button size="sm"
+                                                    disabled={showPupils != null && showPupils !== clazz}
+                                                    variant={showPupils === clazz ? "danger" : "secondary"}
+                                                    style={{"marginLeft": "20px"}}
+                                                    onClick={() => handleChangeShowPupils(clazz)}
+                                            >{t("Show pupils")}</Button>
+                                        </td>
+
+                                    )
+
                                 }
                                 <td style={{textAlign: "right"}}>
                                     {!isNull(entityEditing) && entityEditing.oid === clazz.oid ? (

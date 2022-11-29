@@ -22,7 +22,7 @@ const remove = <FontAwesomeIcon icon={faRemove}/>
 const plus = <FontAwesomeIcon icon={faPlus}/>
 
 
-const User = () => {
+const User = ({accessFilterSelectedFromProps, classFromProps}) => {
     const dispatch = useDispatch();
     const {t} = useTranslation();
     const navigate = useNavigate();
@@ -41,15 +41,12 @@ const User = () => {
     const [modalUserFormOpen, setModalUserFormOpen] = useState(false);
     const [entityForDelete, setEntityForDelete] = useState(null);
     const [needToSort, setNeedToSort] = useState(true);
-    const [accessFilterSelected, setAccessFilterSelected] = useState(AccessLevelFilter.ALL);
-    const [search, setSearch] = useState("");
+    const [accessFilterSelected, setAccessFilterSelected] = useState(accessFilterSelectedFromProps);
+    const [search, setSearch] = useState(classFromProps ? classFromProps.name : "");
 
 
     useEffect(() => {
         dispatch(loginInAsyncByToken());
-        if (!users) {
-            dispatch(loadUserListAsync(accessFilterSelected, needToSort, search))
-        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

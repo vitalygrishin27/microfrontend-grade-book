@@ -256,8 +256,8 @@ const Subject = () => {
                                         <td style={{verticalAlign: "middle"}}>
                                             {clazz.name}
                                             <Button size="sm"
-                                                    disabled={showPupils != null && showPupils !== clazz}
-                                                    variant={showPupils === clazz ? "danger" : "secondary"}
+                                                    disabled={showPupils != null && showPupils.oid !== clazz.oid}
+                                                    variant={showPupils != null && showPupils.oid === clazz.oid ? "danger" : "secondary"}
                                                     style={{"marginLeft": "20px"}}
                                                     onClick={() => handleChangeShowPupils(clazz)}
                                             >{t("Show pupils")}</Button>

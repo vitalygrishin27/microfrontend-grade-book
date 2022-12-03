@@ -1,7 +1,7 @@
 {
   "name": "grade-book",
   "version": "1.4.5",
-  "homepage": "http://vitalygrishin27.github.io/microfrontend-grade-book",
+  "homepage": "https://vitalygrishin27.github.io",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.2.0",

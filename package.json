@@ -1,6 +1,6 @@
 {
   "name": "grade-book",
-  "version": "1.4.5",
+  "version": "2.1.0",
   "homepage": "https://vitalygrishin27.github.io/microfrontend-grade-book",
   "private": true,
   "dependencies": {

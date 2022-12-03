@@ -1,8 +1,9 @@
 import axios from "axios";
 
 const apiClient = () => {
-    const MAIN_ENDPOINT = "https://microservice-grade-book.herokuapp.com/";
-   //const MAIN_ENDPOINT = "http://localhost:8080/";
+    //const MAIN_ENDPOINT = "https://microservice-grade-book.herokuapp.com/";
+  //  const MAIN_ENDPOINT = "http://localhost:8080/";
+    const MAIN_ENDPOINT = "https://afvgb.localtonet.com/";
 
     return axios.create({
         baseURL: MAIN_ENDPOINT

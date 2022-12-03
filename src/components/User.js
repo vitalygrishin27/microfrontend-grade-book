@@ -16,6 +16,7 @@ import {AccessLevelFilter, UserType} from "../types/types";
 import UserForm from "./UserForm";
 import {Spinner} from "react-bootstrap";
 import Switch from "react-switch";
+import {rootUrl} from "../App";
 
 const edit = <FontAwesomeIcon icon={faEdit}/>
 const remove = <FontAwesomeIcon icon={faRemove}/>
@@ -55,7 +56,7 @@ const User = ({accessFilterSelectedFromProps, classFromProps}) => {
             if (error) {
                 toast.error(t(error))
                 dispatch(setToastShowing(false));
-                if (error === "GBE-ACCESS-001") navigate("/");
+                if (error === "GBE-ACCESS-001") navigate(rootUrl+"/");
             } else if (!isUserListLoading) {
                 changeAddingNew(false);
                 setModalUserFormOpen(false);

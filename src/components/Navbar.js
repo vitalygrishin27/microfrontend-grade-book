@@ -28,10 +28,10 @@ const Navbar = () => {
 
                 <div className="mx-3" style={{"textAlign": "right", "display": "inline-block"}}>
                     {/*{isLoginIn &&  <Link to={"/members"} className={"btn btn-success text-light"}>{t("Users")}</Link>}&nbsp;*/}
-                    {isLoginIn && token.accessLevel===AccessLevelFilter.ADMIN && <Link to={"/classes"} className={"btn btn-success text-light"}>{t("Classes")}</Link>}
-                    {isLoginIn && token.accessLevel===AccessLevelFilter.ADMIN &&<Link to={"/users"} className={"btn btn-success text-light"}>{t("Users")}</Link>}
+                    {isLoginIn && token.accessLevel===AccessLevelFilter.ADMIN && <Link to={rootUrl+"/classes"} className={"btn btn-success text-light"}>{t("Classes")}</Link>}
+                    {isLoginIn && token.accessLevel===AccessLevelFilter.ADMIN &&<Link to={rootUrl+"/users"} className={"btn btn-success text-light"}>{t("Users")}</Link>}
                     {isLoginIn && token.accessLevel===AccessLevelFilter.ADMIN &&
-                        <Link to={"/subjects"} className={"btn btn-success text-light"}>{t("Subjects")}</Link>}
+                        <Link to={rootUrl+"/subjects"} className={"btn btn-success text-light"}>{t("Subjects")}</Link>}
 
                     <div className="mx-3" style={{"display": "inline-block"}}>
                         <select className="form-select" id={"language"} onChange={(e) => changeLanguage(e.target.value)}

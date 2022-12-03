@@ -7,6 +7,7 @@ import {loginInAsync, loginInAsyncByToken} from "../redux/reducers/login/login.t
 import {serviceVersionAsync, setToastShowing} from "../redux/reducers/common/common.thunks";
 import packageJson from '../../package.json';
 import {Spinner} from "react-bootstrap";
+import {rootUrl} from "../App";
 
 const Login = () => {
     const [login, setLogin] = useState("");
@@ -44,7 +45,7 @@ const Login = () => {
             } else if (!isLoading) {
                 toast.success(t("Login in is successful!"))
                 dispatch(setToastShowing(false));
-                navigate("/");
+                navigate(rootUrl+"/");
             }
         }// eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLoading])

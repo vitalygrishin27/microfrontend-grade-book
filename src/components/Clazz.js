@@ -19,6 +19,7 @@ import {Button, Spinner} from "react-bootstrap";
 import Switch from "react-switch";
 import User from "./User";
 import {AccessLevelFilter} from "../types/types";
+import {rootUrl} from "../App";
 
 const edit = <FontAwesomeIcon icon={faEdit}/>
 const remove = <FontAwesomeIcon icon={faRemove}/>
@@ -66,7 +67,7 @@ const Subject = () => {
             if (error) {
                 toast.error(t(error))
                 dispatch(setToastShowing(false));
-                if (error === "GBE-ACCESS-001") navigate("/");
+                if (error === "GBE-ACCESS-001") navigate(rootUrl+"/");
             } else if (!isClazzListLoading) {
                 setName("");
                 changeAddingNew(false);

@@ -7,7 +7,7 @@ import Navbar from "./components/Navbar";
 import Subject from "./components/Subject";
 import Clazz from "./components/Clazz";
 import User from "./components/User";
-export const rootUrl = "microfrontend-grade-book";
+export const rootUrl = "/microfrontend-grade-book";
 
 const App = () => {
 

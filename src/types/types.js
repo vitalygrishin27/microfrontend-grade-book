@@ -20,3 +20,8 @@ export class UserType {
     clazzName: string;
     clazz: Clazz;
 }
+export class Subject {
+    oid: number;
+    name: string;
+    schedulerInternalId: string;
+}

@@ -3,6 +3,14 @@ import 'react-calendar/dist/Calendar.css';
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import {uid} from "uid";
 import {useTranslation} from "react-i18next";
+import {loginInAsyncByToken} from "../redux/reducers/login/login.thunks";
+import {loadSubjectListAsync} from "../redux/reducers/subject/subject.thunks";
+import {useDispatch, useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
+import actions from "../redux/reducers/scheduler/scheduler.actions";
+import {toast} from "react-toastify";
+import {setToastShowing} from "../redux/reducers/common/common.thunks";
+import {rootUrl} from "../App";
 
 
 const getHexColorByString = (name) => {
@@ -17,57 +25,38 @@ const getHexColorByString = (name) => {
 }
 
 const Scheduler = () => {
+    const dispatch = useDispatch();
     const {t} = useTranslation();
-    const itemsFromBackend = [
-        {
-            id: 'free',
-            content: "Free"
-        },
-        {
-            id: uid(),
-            content: "Mathematics"
-        },
-        {
-            id: uid(),
-            content: "English"
-        }
-    ];
-    const columnsFromBackend =
-        {
-            ['first']: {
-                name: 'Subjects',
-                items: itemsFromBackend
-            },
-            [uid()]: {
-                name: 'Monday',
-                items: []
-            },
-            [uid()]: {
-                name: 'Tuesday',
-                items: []
-            },
-            [uid()]: {
-                name: 'Wednesday',
-                items: []
-            },
-            [uid()]: {
-                name: 'Thursday',
-                items: []
-            },
-            [uid()]: {
-                name: 'Friday',
-                items: []
-            },
-            [uid()]: {
-                name: 'Saturday',
-                items: []
-            }
-        }
-    ;
-    const [columns, setColumns] = useState(columnsFromBackend);
-    const [dateValue, changeDateValue] = useState(new Date());
+    const [needToSort, setNeedToSort] = useState(true);
+    const {
+        isSubjectListLoading,
+        subjects,
+    } = useSelector(state => state.subjects);
+    const {
+        columns,
+    } = useSelector(state => state.scheduler);
+    const {
+        error,
+        isLoginIn,
+    } = useSelector(state => state.login);
+    const [search, setSearch] = useState("");
+    const navigate = useNavigate();
+    const {isToastShowing} = useSelector(state => state.common);
 
-    const onDragEnd = (result, columns, setColumns) => {
+    useEffect(() => {
+        console.log("111111")
+        dispatch(loginInAsyncByToken());
+        if (!subjects) dispatch(loadSubjectListAsync(needToSort, search));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
+        if (subjects)
+            dispatch(actions.subjectListIsLoaded(subjects))
+    }, [subjects]);
+
+    const [dateValue, changeDateValue] = useState(new Date());
+    const onDragEnd = (result, columns) => {
         if (!result.destination) return;
         const {source, destination} = result;
         if (source.droppableId !== destination.droppableId) {
@@ -76,9 +65,9 @@ const Scheduler = () => {
             const sourceItems = [...sourceColumn.items];
             const destItems = [...destColumn.items];
             const removed = sourceItems[source.index];
-            getHexColorByString(removed.content);
+            // getHexColorByString(removed.content);
             if (source.droppableId === 'first') {
-                destItems.splice(destination.index, 0, {id: uid(), content: removed.content});
+                destItems.splice(destination.index, 0, {schedulerInternalId: uid(), name: removed.name});
             } else {
                 const [removed] = sourceItems.splice(source.index, 1);
                 if (destination.droppableId !== 'first') {
@@ -86,31 +75,53 @@ const Scheduler = () => {
                 }
             }
 
-            setColumns({
-                ...columns,
-                [source.droppableId]: {
-                    ...sourceColumn,
-                    items: sourceItems
-                },
-                [destination.droppableId]: {
-                    ...destColumn,
-                    items: destItems
-                }
-            });
+            dispatch(actions.schedulerWasChanged({
+                columns,
+                source,
+                sourceColumn,
+                sourceItems,
+                destination,
+                destColumn,
+                destItems
+            }))
+
+            /*     setColumns({
+                     ...columns,
+                     [source.droppableId]: {
+                         ...sourceColumn,
+                         items: sourceItems
+                     },
+                     [destination.droppableId]: {
+                         ...destColumn,
+                         items: destItems
+                     }
+                 });*/
         } else {
-            const column = columns[source.droppableId];
-            const copiedItems = [...column.items];
-            const [removed] = copiedItems.splice(source.index, 1);
-            copiedItems.splice(destination.index, 0, removed);
-            setColumns({
-                ...columns,
-                [source.droppableId]: {
-                    ...column,
-                    items: copiedItems
-                }
-            });
+            /*  const column = columns[source.droppableId];
+              const copiedItems = [...column.items];
+              const [removed] = copiedItems.splice(source.index, 1);
+              copiedItems.splice(destination.index, 0, removed);
+              setColumns({
+                  ...columns,
+                  [source.droppableId]: {
+                      ...column,
+                      items: copiedItems
+                  }
+              });*/
         }
     };
+
+    useEffect(() => {
+        if (isToastShowing) {
+            if (error) {
+                toast.error(t(error))
+                dispatch(setToastShowing(false));
+                if (error === "GBE-ACCESS-001") navigate(rootUrl+"/");
+            } else  {
+                dispatch(setToastShowing(false));
+            }
+        }// eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isLoginIn, isSubjectListLoading, error])
 
     useEffect(() => {
         console.log(dateValue)
@@ -120,7 +131,7 @@ const Scheduler = () => {
     return (
         <div style={{display: "inline-flex", justifyContent: "center", height: "100%"}}>
             <DragDropContext
-                onDragEnd={result => onDragEnd(result, columns, setColumns)}
+                onDragEnd={result => onDragEnd(result, columns)}
             >
                 {Object.entries(columns).map(([columnId, column], index) => {
                     return (
@@ -149,11 +160,11 @@ const Scheduler = () => {
                                                     minHeight: 500
                                                 }}
                                             >
-                                                {column.items.map((item, index) => {
+                                                {column.items && column.items.map((item, index) => {
                                                     return (
                                                         <Draggable
-                                                            key={item.id}
-                                                            draggableId={item.id}
+                                                            key={item.schedulerInternalId}
+                                                            draggableId={item.schedulerInternalId}
                                                             index={index}
                                                         >
                                                             {(provided, snapshot) => {
@@ -168,13 +179,13 @@ const Scheduler = () => {
                                                                             margin: "0 0 8px 0",
                                                                             minHeight: "50px",
                                                                             backgroundColor: snapshot.isDragging
-                                                                                ? (item.content === 'Free' ? "#088A08" : "#263B4A")
-                                                                                : (item.content === 'Free' ? "#04B431" : "#456C86"),
+                                                                                ? (item.name === 'Free' ? "#088A08" : "#263B4A")
+                                                                                : (item.name === 'Free' ? "#04B431" : "#456C86"),
                                                                             color: "white",
                                                                             ...provided.draggableProps.style
                                                                         }}
                                                                     >
-                                                                        {index+1 + ". "+ item.content}
+                                                                        {index + 1 + ". " + item.name}
                                                                     </div>
                                                                 );
                                                             }}

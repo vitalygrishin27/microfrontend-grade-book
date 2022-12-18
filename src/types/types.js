@@ -4,10 +4,12 @@ export const AccessLevelFilter = {
     TEACHER: 'TEACHER',
     PUPIL: 'PUPIL',
 }
+
 export class Clazz {
     oid: number;
     name: string;
 }
+
 export class UserType {
     oid: number;
     firstName: string;
@@ -20,8 +22,19 @@ export class UserType {
     clazzName: string;
     clazz: Clazz;
 }
+
 export class Subject {
     oid: number;
     name: string;
     schedulerInternalId: string;
+}
+
+export class DayScheduler {
+    name: string;
+    items: [Subject];
+}
+
+export class Scheduler {
+    clazz: Clazz
+    scheduler: [DayScheduler]
 }

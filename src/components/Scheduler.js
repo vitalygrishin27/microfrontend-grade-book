@@ -11,22 +11,31 @@ import {toast} from "react-toastify";
 import {setToastShowing} from "../redux/reducers/common/common.thunks";
 import {rootUrl} from "../App";
 import {Dropdown, DropdownButton} from "react-bootstrap";
-import {dataLoadingStarts} from "../redux/reducers/scheduler/scheduler.thunks";
+import {createSchedulerAsync, dataLoadingStarts} from "../redux/reducers/scheduler/scheduler.thunks";
+import {loadClazzListAsync} from "../redux/reducers/clazz/clazz.thunks";
 
 const Scheduler = () => {
     const dispatch = useDispatch();
     const {t} = useTranslation();
     const navigate = useNavigate();
-    const {isToastShowing} = useSelector(state => state.common);
+    const {isToastShowing, commonError} = useSelector(state => state.common);
     const [needToSort, setNeedToSort] = useState(true);
     const {
         classes,
+        error: classError
     } = useSelector(state => state.classes);
     const {
+        isLoading,
+    } = useSelector(state => state.login);
+    const {
         isDataLoading,
+        isSchedulerCreating,
         error,
         columns,
+        unsavedChangesPresent
     } = useSelector(state => state.scheduler);
+
+
     const [search, setSearch] = useState("");
 
 
@@ -37,21 +46,37 @@ const Scheduler = () => {
 
 
     useEffect(() => {
-        dispatch(dataLoadingStarts(needToSort, search));
+        dispatch(loadClazzListAsync(needToSort, search));
+        //  dispatch(dataLoadingStarts(needToSort, search));
     }, [needToSort]);
 
     useEffect(() => {
+        console.log("11111")
+        console.log(isToastShowing)
+        console.log(classError)
+        console.log(commonError)
+        console.log(error)
         if (isToastShowing) {
+            if (classError) {
+                toast.error(t(classError))
+                dispatch(setToastShowing(false));
+                if (classError === "GBE-ACCESS-001") navigate(rootUrl + "/");
+            }
+            if (commonError) {
+                toast.error(t(commonError))
+                dispatch(setToastShowing(false));
+                if (commonError === "GBE-ACCESS-001") navigate(rootUrl + "/");
+            }
+
+
             if (error) {
                 if (t(error) !== "GBE-ACCESS-001")
                     toast.error(t(error))
                 dispatch(setToastShowing(false));
                 if (error === "GBE-ACCESS-001") navigate(rootUrl + "/");
-            } else if (!isDataLoading) {
-                dispatch(setToastShowing(false));
             }
         }
-    }, [isDataLoading])
+    }, [isLoading, isDataLoading, isSchedulerCreating, error, commonError, classError])
 
     const [dateValue, changeDateValue] = useState(new Date());
     const onDragEnd = (result, columns) => {
@@ -64,16 +89,20 @@ const Scheduler = () => {
             const destItems = [...destColumn.items];
             const removed = sourceItems[source.index];
             // getHexColorByString(removed.content);
-            if (source.droppableId === 'subjects') {
-                destItems.splice(destination.index, 0, {schedulerInternalId: uid(), name: removed.name});
+            if (source.droppableId === 'Subjects') {
+                destItems.splice(destination.index, 0, {
+                    schedulerInternalId: uid(),
+                    name: removed.name,
+                    oid: removed.oid
+                });
             } else {
                 const [removed] = sourceItems.splice(source.index, 1);
-                if (destination.droppableId !== 'subjects') {
+                if (destination.droppableId !== 'Subjects') {
                     destItems.splice(destination.index, 0, removed);
                 }
             }
 
-            dispatch(actions.schedulerWasChanged({
+            dispatch(actions.schedulerWasChangedBetweenColumns({
                 columns,
                 source,
                 sourceColumn,
@@ -83,6 +112,20 @@ const Scheduler = () => {
                 destItems
             }))
         } else {
+            dispatch(actions.schedulerWasChangedInsideColumn({
+                columns, source, destination
+            }))
+            /*      const column = columns[source.droppableId];
+                  const copiedItems = [...column.items];
+                  const [removed] = copiedItems.splice(source.index, 1);
+                  copiedItems.splice(destination.index, 0, removed);
+                  setColumns({
+                      ...columns,
+                      [source.droppableId]: {
+                          ...column,
+                          items: copiedItems
+                      }
+                  });*/
         }
     };
 
@@ -90,11 +133,10 @@ const Scheduler = () => {
         console.log(dateValue)
     }, [dateValue]);
 
-    const [selected, setSelected] = useState(null);
+    const [selectedClass, setSelectedClassClass] = useState(null);
     const handleSelect = (key, event) => {
-        setSelected({key, name: event.target.value});
-        console.log("selected=")
-        console.log(key)
+        setSelectedClassClass({oid: key, name: event.target.innerText});
+        dispatch(dataLoadingStarts(key));
     };
 
     const getHexColorByString = (name) => {
@@ -107,6 +149,40 @@ const Scheduler = () => {
         console.log("#" + color);
         return "#" + color;
     }
+
+    const handleSaveButton = () => {
+
+
+        console.log(columns);
+        const s1 = []
+        console.log(s1);
+        Object.entries(columns).map(([columnId, column], index) => {
+                let items = [];
+                console.log(column)
+                Object.entries(column.items).map(([columnItemId, item], index) => {
+                    items.push(item.oid)
+                })
+                s1.push({name: column.name, items: items})
+            }
+        )
+        let scheduler = {
+            clazz: selectedClass,
+            daySchedulerBomList: s1
+        }
+
+
+        //    let scheduler = new FormData();
+        //    scheduler.append('clazz', selectedClass);
+        //     scheduler.append('daySchedulerBomList', s1);
+
+
+        console.log(scheduler);
+        console.log("!!!!!!!!!");
+        console.log(s1);
+        console.log("save");
+        dispatch(createSchedulerAsync(scheduler));
+    }
+
     return (
         <div>
             <div className={"container"}>
@@ -120,21 +196,24 @@ const Scheduler = () => {
                         variant="info"
                         className="floatRight"
                         onSelect={handleSelect}
-                        title={selected?.key || t("Choose a class")}
+                        title={selectedClass?.name || t("Choose a class")}
                     >
                         {classes && classes.map((item, index) => {
                             return (
-                                <Dropdown.Item key={index} eventKey={item.name}>
+                                <Dropdown.Item key={index} eventKey={item.oid}>
                                     {item.name}
                                 </Dropdown.Item>
                             );
                         })}
                     </DropdownButton>
-
+                    {unsavedChangesPresent && <button type="button"
+                                                      id="saveButton"
+                                                      onClick={() => handleSaveButton()}
+                                                      className="btn btn-small btn-danger mb-1 my-2">{t("Save")}</button>}
                 </div>
             </div>
             <div style={{display: "inline-flex", justifyContent: "center", height: "100%"}}>
-                {selected && <DragDropContext
+                {selectedClass && <DragDropContext
                     onDragEnd={result => onDragEnd(result, columns)}
                 >
                     {Object.entries(columns).map(([columnId, column], index) => {

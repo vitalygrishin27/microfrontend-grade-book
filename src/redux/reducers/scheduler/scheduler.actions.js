@@ -5,14 +5,32 @@ const dataLoadingStarts = () => ({
 })
 const dataLoadingSuccess = (data) => ({
     type: actionTypes.DATA_LOADING_SUCCESSFUL,
-    payload:data
+    payload: data
 })
 const dataLoadingError = (error) => ({
     type: actionTypes.DATA_LOADING_ERROR,
-    payload:error
+    payload: error
 })
-const schedulerWasChanged = (data) => ({
-    type: actionTypes.SCHEDULER_WAS_CHANGED,
+const schedulerCreationStart = () => ({
+    type: actionTypes.SCHEDULER_CREATION_START
+})
+
+const schedulerCreationSuccess = (scheduler) => ({
+    type: actionTypes.SCHEDULER_CREATION_SUCCESS,
+    payload: scheduler
+})
+
+const schedulerCreationError = (error) => ({
+    type: actionTypes.SCHEDULER_CREATION_ERROR,
+    payload: error
+
+})
+const schedulerWasChangedBetweenColumns = (data) => ({
+    type: actionTypes.SCHEDULER_WAS_CHANGED_BETWEEN_COLUMNS,
+    payload: data
+})
+const schedulerWasChangedInsideColumn = (data) => ({
+    type: actionTypes.SCHEDULER_WAS_CHANGED_INSIDE_COLUMN,
     payload: data
 })
 
@@ -20,7 +38,11 @@ const actions = {
     dataLoadingStarts,
     dataLoadingSuccess,
     dataLoadingError,
-    schedulerWasChanged
+    schedulerCreationStart,
+    schedulerCreationSuccess,
+    schedulerCreationError,
+    schedulerWasChangedBetweenColumns,
+    schedulerWasChangedInsideColumn
 }
 
 export default actions;

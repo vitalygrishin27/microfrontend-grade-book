@@ -8,6 +8,11 @@ const commonReducer = (state = initialState, {type, payload}) => {
                 ...state,
                 isToastShowing: payload,
             };
+        case actionTypes.SET_ERROR:
+            return {
+                ...state,
+                commonError: payload,
+            };
         case actionTypes.GET_VERSION_START:
             return {
                 ...state,

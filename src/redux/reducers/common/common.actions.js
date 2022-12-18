@@ -5,6 +5,11 @@ const setToastShowing = (flag) => ({
     payload: flag
 })
 
+const setError = (error) => ({
+    type: actionTypes.SET_ERROR,
+    payload: error
+})
+
 const getVersionStart = () => ({
     type: actionTypes.GET_VERSION_START
 })
@@ -22,6 +27,7 @@ const getVersionError = (error) => ({
 
 const actions = {
     setToastShowing,
+    setError,
     getVersionStart,
     getVersionSuccess,
     getVersionError

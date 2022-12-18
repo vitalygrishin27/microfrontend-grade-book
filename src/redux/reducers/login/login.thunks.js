@@ -13,6 +13,7 @@ export const loginInAsync = (user) => (dispatch) => {
             document.cookie = "grade_book_token=" + encodeURIComponent(response.data.token) + "; expires=" + response.data.validTo + "; path=" + rootUrl
         })
         .catch(error => {
+            dispatch(commonActions.setToastShowing(true))
             dispatch(actions.loginInError(error.response.data ? error.response.data.errorCode : error.message))
         })
 };
@@ -25,6 +26,8 @@ export const loginInAsyncByToken = () => (dispatch) => {
             document.cookie = "grade_book_token=" + encodeURIComponent(response.data.token) + "; expires=" + response.data.validTo + "; path=" + rootUrl
         })
         .catch(error => {
+            dispatch(commonActions.setToastShowing(true))
+            dispatch(commonActions.setError(error.response.data ? error.response.data.errorCode : error.message))
             dispatch(actions.loginOut())
             dispatch(actions.loginInError(error.response.data ? error.response.data.errorCode : error.message))
         })

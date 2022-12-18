@@ -1,7 +1,9 @@
 const initState = {
     columns: [],
     isDataLoading: false,
-    error: null
+    isSchedulerCreating: false,
+    error: null,
+    unsavedChangesPresent: false
 };
 
 export default initState

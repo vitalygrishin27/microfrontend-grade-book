@@ -1,6 +1,5 @@
 import actionTypes from "./scheduler.actionTypes"
 import initialState from "./scheduler.initialStates"
-import {uid} from "uid";
 
 const schedulerReducer = (state = initialState, {type, payload}) => {
     switch (type) {
@@ -20,7 +19,20 @@ const schedulerReducer = (state = initialState, {type, payload}) => {
                     }
                 }
             };
-        case actionTypes.SUBJECT_LIST_IS_LOADED:
+        case actionTypes.DATA_LOADING_STARTS:
+            return {
+                ...state,
+                isDataLoading: true,
+                error: null,
+                columns: []
+            };
+        case actionTypes.DATA_LOADING_ERROR:
+            return {
+                ...state,
+                isDataLoading: false,
+                error: payload
+            };
+        case actionTypes.DATA_LOADING_SUCCESSFUL:
             if (payload.find(item => item.schedulerInternalId === 'free') === undefined) {
                 payload.push({
                     schedulerInternalId: 'free',
@@ -29,32 +41,34 @@ const schedulerReducer = (state = initialState, {type, payload}) => {
             }
             return {
                 ...state,
+                isDataLoading: false,
+                error: null,
                 columns: {
-                    ['first']: {
+                    ['subjects']: {
                         name: 'Subjects',
                         items: payload
                     },
-                    [uid()]: {
+                    ['Monday']: {
                         name: 'Monday',
                         items: []
                     },
-                    [uid()]: {
+                    ['Tuesday']: {
                         name: 'Tuesday',
                         items: []
                     },
-                    [uid()]: {
+                    ['Wednesday']: {
                         name: 'Wednesday',
                         items: []
                     },
-                    [uid()]: {
+                    ['Thursday']: {
                         name: 'Thursday',
                         items: []
                     },
-                    [uid()]: {
+                    ['Friday']: {
                         name: 'Friday',
                         items: []
                     },
-                    [uid()]: {
+                    ['Saturday']: {
                         name: 'Saturday',
                         items: []
                     }

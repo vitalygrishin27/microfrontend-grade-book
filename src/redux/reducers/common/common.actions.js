@@ -5,6 +5,16 @@ const setToastShowing = (flag) => ({
     payload: flag
 })
 
+const setCommonError = (error) => ({
+    type: actionTypes.SET_COMMON_ERROR,
+    payload: error
+})
+
+const setCommonMessage = (message) => ({
+    type: actionTypes.SET_COMMON_MESSAGE,
+    payload: message
+})
+
 const getVersionStart = () => ({
     type: actionTypes.GET_VERSION_START
 })
@@ -22,6 +32,8 @@ const getVersionError = (error) => ({
 
 const actions = {
     setToastShowing,
+    setCommonError,
+    setCommonMessage,
     getVersionStart,
     getVersionSuccess,
     getVersionError

@@ -3,8 +3,6 @@ const actionsTypes = {
     LOGIN_IN_SUCCESS: 'LOGIN_IN_SUCCESS',
     LOGIN_IN_ERROR: 'LOGIN_IN_ERROR',
     LOGIN_OUT: 'LOGIN_OUT',
-
-    CHANGE_TOAST_SHOWING: 'CHANGE_TOAST_SHOWING'
 }
 
 export default actionsTypes;

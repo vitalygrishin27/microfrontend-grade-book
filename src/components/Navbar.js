@@ -28,6 +28,7 @@ const Navbar = () => {
 
                 <div className="mx-3" style={{"textAlign": "right", "display": "inline-block"}}>
                     {/*{isLoginIn &&  <Link to={"/members"} className={"btn btn-success text-light"}>{t("Users")}</Link>}&nbsp;*/}
+                    {isLoginIn && token.accessLevel===AccessLevelFilter.ADMIN && <Link to={rootUrl+"/scheduler"} className={"btn btn-success text-light"}>{t("Scheduler")}</Link>}
                     {isLoginIn && token.accessLevel===AccessLevelFilter.ADMIN && <Link to={rootUrl+"/classes"} className={"btn btn-success text-light"}>{t("Classes")}</Link>}
                     {isLoginIn && token.accessLevel===AccessLevelFilter.ADMIN &&<Link to={rootUrl+"/users"} className={"btn btn-success text-light"}>{t("Users")}</Link>}
                     {isLoginIn && token.accessLevel===AccessLevelFilter.ADMIN &&

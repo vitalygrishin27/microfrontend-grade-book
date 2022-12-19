@@ -28,14 +28,10 @@ const Subject = () => {
     const dispatch = useDispatch();
     const {t} = useTranslation();
     const navigate = useNavigate();
-    const {isToastShowing} = useSelector(state => state.common);
+    const {isToastShowing, commonError, commonMessage} = useSelector(state => state.common);
     const {
         isSubjectListLoading,
         subjects,
-        error,
-        isSubjectCreating,
-        isSubjectDeleting,
-        isSubjectEditing
     } = useSelector(state => state.subjects);
     const [isAddingNew, changeAddingNew] = useState(false);
     const [name, setName] = useState("");
@@ -53,25 +49,26 @@ const Subject = () => {
 
     useEffect(() => {
         dispatch(loadSubjectListAsync(needToSort, search));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [needToSort]);
 
     useEffect(() => {
         if (isToastShowing) {
-            if (error) {
-                toast.error(t(error))
+            if (commonError) {
+                if (!(t(commonError)).startsWith("GBE")) toast.error(t(commonError))
                 dispatch(setToastShowing(false));
-                if (error === "GBE-ACCESS-001") navigate(rootUrl+"/");
+                if (commonError === "GBE-ACCESS-001") navigate(rootUrl+"/");
             } else if (!isSubjectListLoading) {
                 setName("");
                 changeAddingNew(false);
                 setEntityEditing(null);
                 setNameEditing("");
-                // toast.success(t("Login in is successful!"))
+                if (commonMessage) toast.info(t(commonMessage))
                 dispatch(setToastShowing(false));
                 // navigate("/");
             }
         }// eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isSubjectListLoading, isSubjectCreating, isSubjectDeleting, isSubjectEditing])
+    }, [commonMessage, commonError])
 
     const handleKeypress = e => {
         //it triggers by pressing the enter key

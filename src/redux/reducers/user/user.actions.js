@@ -9,10 +9,8 @@ const userListLoadingSuccess = (userList) => ({
     payload: userList
 })
 
-const userListLoadingError = (error) => ({
+const userListLoadingError = () => ({
     type: actionTypes.USER_LIST_LOADING_ERROR,
-    payload: error
-
 })
 
 const userAccessLevelsLoadingStart = () => ({
@@ -24,10 +22,8 @@ const userAccessLevelsLoadingSuccess = (accessLevels) => ({
     payload: accessLevels
 })
 
-const userAccessLevelsLoadingError = (error) => ({
+const userAccessLevelsLoadingError = () => ({
     type: actionTypes.USER_ACCESS_LEVELS_LOADING_ERROR,
-    payload: error
-
 })
 
 const userCreationStart = () => ({
@@ -39,10 +35,8 @@ const userCreationSuccess = (newUser) => ({
     payload: newUser
 })
 
-const userCreationError = (error) => ({
+const userCreationError = () => ({
     type: actionTypes.USER_CREATION_ERROR,
-    payload: error
-
 })
 
 const userEditingStart = () => ({
@@ -54,10 +48,8 @@ const userEditingSuccess = (updatedUser) => ({
     payload: updatedUser
 })
 
-const userEditingError = (error) => ({
+const userEditingError = () => ({
     type: actionTypes.USER_EDITING_ERROR,
-    payload: error
-
 })
 
 const userDeletingStart = () => ({
@@ -69,10 +61,8 @@ const userDeletingSuccess = (user) => ({
     payload: user
 })
 
-const userDeletingError = (error) => ({
+const userDeletingError = () => ({
     type: actionTypes.USER_DELETING_ERROR,
-    payload: error
-
 })
 
 const actions = {

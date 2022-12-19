@@ -10,10 +10,12 @@ export const loginInAsync = (user) => (dispatch) => {
     LoginService.loginIn(user, getCookie("grade_book_token"))
         .then(response => {
             dispatch(actions.loginInSuccess(response.data));
+            dispatch(commonActions.setCommonMessage("Login in is successful!"));
             document.cookie = "grade_book_token=" + encodeURIComponent(response.data.token) + "; expires=" + response.data.validTo + "; path=" + rootUrl
         })
         .catch(error => {
-            dispatch(actions.loginInError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(commonActions.setCommonError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(actions.loginInError())
         })
 };
 
@@ -25,8 +27,10 @@ export const loginInAsyncByToken = () => (dispatch) => {
             document.cookie = "grade_book_token=" + encodeURIComponent(response.data.token) + "; expires=" + response.data.validTo + "; path=" + rootUrl
         })
         .catch(error => {
+            dispatch(commonActions.setToastShowing(true))
+            dispatch(commonActions.setCommonError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(actions.loginInError())
             dispatch(actions.loginOut())
-            dispatch(actions.loginInError(error.response.data ? error.response.data.errorCode : error.message))
         })
 };
 

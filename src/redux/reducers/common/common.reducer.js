@@ -7,6 +7,18 @@ const commonReducer = (state = initialState, {type, payload}) => {
             return {
                 ...state,
                 isToastShowing: payload,
+                commonError: payload ? state.commonError : null,
+                commonMessage: payload ? state.commonMessage : null
+            };
+        case actionTypes.SET_COMMON_ERROR:
+            return {
+                ...state,
+                commonError: payload,
+            };
+        case actionTypes.SET_COMMON_MESSAGE:
+            return {
+                ...state,
+                commonMessage: payload,
             };
         case actionTypes.GET_VERSION_START:
             return {

@@ -6,6 +6,7 @@ import {createUserAsync, loadAccessLevelsAsync, updateUserAsync} from "../redux/
 import {AccessLevelFilter} from "../types/types";
 import {loadClazzListAsync} from "../redux/reducers/clazz/clazz.thunks";
 import {isNull} from "lodash";
+import {loadSubjectListAsync} from "../redux/reducers/subject/subject.thunks";
 
 const UserForm = ({modalUserFormOpen, setModalUserFormOpen, entity, setEntity, isNew}) => {
     const dispatch = useDispatch();
@@ -17,6 +18,9 @@ const UserForm = ({modalUserFormOpen, setModalUserFormOpen, entity, setEntity, i
         accessLevels
     } = useSelector(state => state.users);
     const {
+        subjects
+    } = useSelector(state => state.subjects);
+    const {
         classes
     } = useSelector(state => state.classes);
     const handleSubmit = (e) => {
@@ -24,6 +28,7 @@ const UserForm = ({modalUserFormOpen, setModalUserFormOpen, entity, setEntity, i
         const clazz = {
             oid: clazzId
         }
+        console.log(selectedSubjects.entries())
         const data = {
             oid: isNull(entity) ? null : entity.oid,
             lastName: lastName,
@@ -32,19 +37,16 @@ const UserForm = ({modalUserFormOpen, setModalUserFormOpen, entity, setEntity, i
             login: login,
             password: password,
             accessLevel: accessLevel,
-            clazz: clazz
+            clazz: clazz,
+            selectedSubjects: selectedSubjects
         }
-
-        console.log(data);
-        console.log(isNew);
-        /*  for (const pair of data.entries()) {
-              console.log(pair[0] + ', ' + pair[1]);
-          }*/
+        console.log(data)
+        /*   for (const pair of data.entries()) {
+                console.log(pair[0] + ', ' + pair[1]);
+            }*/
         if (isNew) {
-            console.log("CREATING");
             dispatch(createUserAsync(data));
         } else {
-            console.log("UPDATING");
             dispatch(updateUserAsync(data));
         }
     }
@@ -52,11 +54,12 @@ const UserForm = ({modalUserFormOpen, setModalUserFormOpen, entity, setEntity, i
     useEffect(() => {
         if (!accessLevels) {
             dispatch(loadAccessLevelsAsync())
-        }
-        if (!accessLevels) {
             dispatch(loadClazzListAsync(true, ""))
-            console.log(accessLevel)
         }
+        if (!subjects) {
+            dispatch(loadSubjectListAsync(true, ""))
+        }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -68,6 +71,17 @@ const UserForm = ({modalUserFormOpen, setModalUserFormOpen, entity, setEntity, i
     const [password, setPassword] = useState(entity ? entity.password : "");
     const [accessLevel, setAccessLevel] = useState(entity ? entity.accessLevel : "");
     const [clazzId, setClazzId] = useState(entity && entity.clazz ? entity.clazz.oid : "");
+    const [selectedSubjects, setSelectedSubjects] = useState(entity ? entity.selectedSubjects : []);
+
+    const handleChangeSelectedSubjects = (subjectOid, selected) => {
+        let updatedList = selectedSubjects.slice()
+        if (selected) {
+            updatedList.push(subjectOid)
+        } else {
+            updatedList.splice(selectedSubjects.indexOf(subjectOid), 1)
+        }
+        setSelectedSubjects(updatedList)
+    }
 
     return (
         <div>
@@ -147,6 +161,21 @@ const UserForm = ({modalUserFormOpen, setModalUserFormOpen, entity, setEntity, i
 
                                             ))}
                                         </select>
+                                        {subjects &&
+                                            <fieldset>
+                                                <legend> {t("Subjects")}</legend>
+                                                {subjects.map((subject, id) => (
+                                                    <label key={id}
+                                                           style={{marginRight: 30, whiteSpace: "nowrap"}}><input
+                                                        type={"checkbox"} value={subject.oid}
+                                                        className={"mx-1 my-2"}
+                                                        checked={selectedSubjects.includes(subject.oid)}
+                                                        onChange={(input) => handleChangeSelectedSubjects(subject.oid, input.target.checked)}/>{subject.name}
+                                                    </label>
+
+                                                ))}
+                                            </fieldset>}
+
                                     </div>}
                                 <div className={"form-group"} style={{"textAlign": "right"}}>
                                     <input type={"submit"} value={isNew ? t("Create") : t("Save")}

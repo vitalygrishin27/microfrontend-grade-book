@@ -6,6 +6,12 @@ export const setToastShowing = (flag) => (dispatch) => {
     dispatch(actions.setToastShowing(flag))
 };
 
+export const showError = (message) => (dispatch) => {
+    dispatch(actions.setToastShowing(true))
+    dispatch(actions.setCommonError(message))
+
+};
+
 export const serviceVersionAsync = () => (dispatch) => {
     dispatch(actions.getVersionStart())
     CommonService.getServiceVersion(getCookie("grade_book_token"))

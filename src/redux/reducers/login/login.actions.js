@@ -9,15 +9,10 @@ const loginInSuccess = (token) => ({
     payload: token
 })
 
-const loginInError = (error) => ({
+const loginInError = () => ({
     type: actionTypes.LOGIN_IN_ERROR,
-    payload: error
+})
 
-})
-const setToastShowing = (flag) => ({
-    type: actionTypes.CHANGE_TOAST_SHOWING,
-    payload: flag
-})
 const loginOut = () => ({
     type: actionTypes.LOGIN_OUT
 })
@@ -26,7 +21,6 @@ const actions = {
     loginInStart,
     loginInSuccess,
     loginInError,
-    setToastShowing,
     loginOut,
 }
 

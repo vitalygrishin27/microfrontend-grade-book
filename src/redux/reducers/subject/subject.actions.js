@@ -9,10 +9,8 @@ const subjectListLoadingSuccess = (subjectList) => ({
     payload: subjectList
 })
 
-const subjectListLoadingError = (error) => ({
+const subjectListLoadingError = () => ({
     type: actionTypes.SUBJECT_LIST_LOADING_ERROR,
-    payload: error
-
 })
 
 const subjectCreationStart = () => ({
@@ -24,10 +22,8 @@ const subjectCreationSuccess = (newSubject) => ({
     payload: newSubject
 })
 
-const subjectCreationError = (error) => ({
+const subjectCreationError = () => ({
     type: actionTypes.SUBJECT_CREATION_ERROR,
-    payload: error
-
 })
 
 const subjectEditingStart = () => ({
@@ -39,10 +35,8 @@ const subjectEditingSuccess = (updatedSubject) => ({
     payload: updatedSubject
 })
 
-const subjectEditingError = (error) => ({
+const subjectEditingError = () => ({
     type: actionTypes.SUBJECT_EDITING_ERROR,
-    payload: error
-
 })
 
 const subjectDeletingStart = () => ({
@@ -54,10 +48,8 @@ const subjectDeletingSuccess = (subject) => ({
     payload: subject
 })
 
-const subjectDeletingError = (error) => ({
+const subjectDeletingError = () => ({
     type: actionTypes.SUBJECT_DELETING_ERROR,
-    payload: error
-
 })
 
 const actions = {

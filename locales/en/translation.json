@@ -13,6 +13,14 @@
   "Users": "Users",
   "Subjects": "Subjects",
   "Classes": "Classes",
+  "Scheduler": "Scheduler",
+  "MONDAY": "Monday",
+  "TUESDAY": "Tuesday",
+  "WEDNESDAY": "Wednesday",
+  "THURSDAY": "Thursday",
+  "FRIDAY": "Friday",
+  "SATURDAY": "Saturday",
+  "Choose a class": "Choose a class",
 
   "Title": "Title",
   "Save": "Save",
@@ -50,6 +58,18 @@
   "TEACHER": "Teacher",
   "PUPIL": "Pupil",
 
+  "Class was created": "Class was created",
+  "Class was updated": "Class was updated",
+  "Class was deleted": "Class was deleted",
+  "Subject was created": "Subject was created",
+  "Subject was updated": "Subject was updated",
+  "Subject was deleted": "Subject was deleted",
+  "User was created": "User was created",
+  "User was updated": "User was updated",
+  "User was deleted": "User was deleted",
+  "Scheduler was saved": "Scheduler was saved",
+  "Choose a teacher": "Choose a teacher",
+
   "Network Error": "Network Error",
   "GBE-ACCESS-001": "Your access level not allow to request this data",
   "GBE-USER-001": "Username not found",
@@ -58,5 +78,6 @@
   "GBE-ENTITY-002": "Entity not found",
   "GBE-ENTITY-003": "Field cannot be empty",
   "GBE-ENTITY-004": "A class teacher has already been assigned to this class.",
-  "GBE-ENTITY-005": "You cannot delete a class because it has pupils"
+  "GBE-ENTITY-005": "You cannot delete a class because it has pupils",
+  "GBE-ENTITY-007": "Deletion is not possible (some dependencies presents for this entity)"
 }

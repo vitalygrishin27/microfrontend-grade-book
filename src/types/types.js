@@ -21,13 +21,15 @@ export class UserType {
     clazzId: number;
     clazzName: string;
     clazz: Clazz;
-    selectedSubjects:Array
+    selectedSubjects: Array
 }
 
 export class Subject {
     oid: number;
     name: string;
     schedulerInternalId: string;
+    teachers: Array;
+    selectedTeacher: Array;
 }
 
 export class DayScheduler {

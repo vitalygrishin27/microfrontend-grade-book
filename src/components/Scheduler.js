@@ -8,9 +8,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import actions from "../redux/reducers/scheduler/scheduler.actions";
 import {toast} from "react-toastify";
-import {setToastShowing} from "../redux/reducers/common/common.thunks";
+import {setToastShowing, showError} from "../redux/reducers/common/common.thunks";
 import {rootUrl} from "../App";
-import {Dropdown, DropdownButton} from "react-bootstrap";
+import {Badge, Dropdown, DropdownButton} from "react-bootstrap";
 import {createSchedulerAsync, dataLoadingStarts} from "../redux/reducers/scheduler/scheduler.thunks";
 import {loadClazzListAsync} from "../redux/reducers/clazz/clazz.thunks";
 
@@ -69,11 +69,19 @@ const Scheduler = () => {
             const destItems = [...destColumn.items];
             const removed = sourceItems[source.index];
             // getHexColorByString(removed.content);
+            if (source.droppableId === 'Subjects' && removed.name !== "Free" && removed.selectedTeacher === null) {
+                dispatch(showError(t("Choose a teacher")))
+                return;
+            }
+            const determinedTeacher = [];
+            determinedTeacher.push(removed.selectedTeacher)
             if (source.droppableId === 'Subjects') {
                 destItems.splice(destination.index, 0, {
                     schedulerInternalId: uid(),
                     name: removed.name,
-                    oid: removed.oid
+                    oid: removed.oid,
+                    teachers: removed.name !== "Free" ? determinedTeacher : removed.teachers,
+                    selectedTeacher: removed.selectedTeacher
                 });
             } else {
                 const [removed] = sourceItems.splice(source.index, 1);
@@ -114,9 +122,14 @@ const Scheduler = () => {
         // eslint-disable-next-line
         Object.entries(columns).map(([columnId, column], index) => {
                 let items = [];
+
                 // eslint-disable-next-line
                 Object.entries(column.items).map(([columnItemId, item], index) => {
-                    items.push(item.oid)
+                    console.log(item)
+                    items.push({
+                        subjectOid: item.oid,
+                        selectedTeacherOid: item.teachers && item.teachers.length > 0 ? item.teachers[0].oid : null
+                    })
                 })
                 s1.push({name: column.name, items: items})
             }
@@ -128,6 +141,8 @@ const Scheduler = () => {
         //    let scheduler = new FormData();
         //    scheduler.append('clazz', selectedClass);
         //     scheduler.append('daySchedulerBomList', s1);
+
+        console.log(scheduler)
         dispatch(createSchedulerAsync(scheduler));
     }
 
@@ -216,7 +231,27 @@ const Scheduler = () => {
                                                                                 ...provided.draggableProps.style
                                                                             }}
                                                                         >
-                                                                            {index + 1 + ". " + item.name}
+                                                                            <div>{index + 1 + ". " + item.name}</div>
+                                                                            <div>
+                                                                                {item.teachers && item.teachers.map((teacher, index) => {
+                                                                                    return (
+                                                                                        <div key={index}
+                                                                                             style={{textAlign: "right"}}>
+                                                                                            <label
+                                                                                                style={{
+                                                                                                    marginLeft: 30,
+                                                                                                    whiteSpace: "nowrap"
+                                                                                                }}><input
+                                                                                                type={"radio"}
+                                                                                                hidden={item.teachers.length === 1}
+
+                                                                                                onChange={() => item.selectedTeacher = teacher}
+                                                                                                name={item.schedulerInternalId}
+                                                                                                value={teacher}
+                                                                                                className={"mx-1 my-2"}/><Badge
+                                                                                                bg="secondary">{teacher.lastName + " " + teacher.firstName.charAt(0) + "."}</Badge>
+                                                                                            </label></div>)
+                                                                                })}</div>
                                                                         </div>
                                                                     );
                                                                 }}

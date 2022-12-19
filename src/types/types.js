@@ -21,6 +21,7 @@ export class UserType {
     clazzId: number;
     clazzName: string;
     clazz: Clazz;
+    selectedSubjects:Array
 }
 
 export class Subject {

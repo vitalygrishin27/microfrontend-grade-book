@@ -69,9 +69,12 @@ const Scheduler = () => {
             const destItems = [...destColumn.items];
             const removed = sourceItems[source.index];
             // getHexColorByString(removed.content);
-            if (source.droppableId === 'Subjects' && removed.name !== "Free" && removed.selectedTeacher === null) {
+            if (source.droppableId === 'Subjects' && removed.name !== "Free" && removed.selectedTeacher === null && removed.teachers && removed.teachers.length > 1) {
                 dispatch(showError(t("Choose a teacher")))
                 return;
+            }
+            if (removed.teachers && removed.teachers.length === 1) {
+                removed.selectedTeacher = removed.teachers[0]
             }
             const determinedTeacher = [];
             determinedTeacher.push(removed.selectedTeacher)
@@ -244,7 +247,6 @@ const Scheduler = () => {
                                                                                                 }}><input
                                                                                                 type={"radio"}
                                                                                                 hidden={item.teachers.length === 1}
-
                                                                                                 onChange={() => item.selectedTeacher = teacher}
                                                                                                 name={item.schedulerInternalId}
                                                                                                 value={teacher}

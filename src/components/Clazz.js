@@ -30,11 +30,10 @@ const Subject = () => {
     const dispatch = useDispatch();
     const {t} = useTranslation();
     const navigate = useNavigate();
-    const {isToastShowing} = useSelector(state => state.common);
+    const {isToastShowing, commonError, commonMessage} = useSelector(state => state.common);
     const {
         isClazzListLoading,
         classes,
-        error,
         isClazzCreating,
         isClazzDeleting,
         isClazzEditing
@@ -64,23 +63,23 @@ const Subject = () => {
 
     useEffect(() => {
         if (isToastShowing) {
-            if (error) {
-                toast.error(t(error))
+            if (commonError) {
+                if (!(t(commonError)).startsWith("GBE")) toast.error(t(commonError))
                 dispatch(setToastShowing(false));
-                if (error === "GBE-ACCESS-001") navigate(rootUrl+"/");
+                if (commonError === "GBE-ACCESS-001") navigate(rootUrl + "/");
             } else if (!isClazzListLoading) {
                 setName("");
                 changeAddingNew(false);
                 setEntityEditing(null);
                 setNameEditing("");
+                if (commonMessage) toast.info(t(commonMessage))
                 dispatch(setToastShowing(false));
             }
         }
-    }, [isClazzListLoading, isClazzCreating, isClazzDeleting, isClazzEditing])
+    }, [commonError, commonMessage])
 
 
     useEffect(() => {
-        console.log(needToSort);
         dispatch(loadClazzListAsync(needToSort, search))
     }, [needToSort])
 
@@ -238,7 +237,9 @@ const Subject = () => {
                                 </div>
                             </td>
                         </tr>}
-                        {classes && classes.length<1 && <tr><td colSpan={3} style={{textAlign:"center"}}>{t("Nothing to show")}</td></tr>}
+                        {classes && classes.length < 1 && <tr>
+                            <td colSpan={3} style={{textAlign: "center"}}>{t("Nothing to show")}</td>
+                        </tr>}
                         {classes && classes.map((clazz, id) => (
                             <tr key={id}>
                                 <td style={{verticalAlign: "middle"}}>{id + 1}</td>

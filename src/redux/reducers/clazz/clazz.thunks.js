@@ -11,19 +11,22 @@ export const loadClazzListAsync = (needToSort: Boolean, search: string) => (disp
         })
         .catch(error => {
             dispatch(commonActions.setToastShowing(true))
-            dispatch(actions.clazzListLoadingError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(commonActions.setCommonError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(actions.clazzListLoadingError())
         })
 };
 export const createClazzAsync = (clazz) => (dispatch) => {
     dispatch(actions.clazzCreationStart())
     ClazzService.createClazz(clazz, getCookie("grade_book_token"))
         .then(response => {
-            dispatch(commonActions.setToastShowing(true))
+            dispatch(commonActions.setToastShowing(true));
+            dispatch(commonActions.setCommonMessage("Class was created"));
             dispatch(actions.clazzCreationSuccess(response.data));
         })
         .catch(error => {
             dispatch(commonActions.setToastShowing(true))
-            dispatch(actions.clazzCreationError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(commonActions.setCommonError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(actions.clazzCreationError())
         })
 };
 export const updateClazzAsync = (clazz) => (dispatch) => {
@@ -31,11 +34,13 @@ export const updateClazzAsync = (clazz) => (dispatch) => {
     ClazzService.updateClazz(clazz, getCookie("grade_book_token"))
         .then(response => {
             dispatch(commonActions.setToastShowing(true))
+            dispatch(commonActions.setCommonMessage("Class was updated"));
             dispatch(actions.clazzEditingSuccess(response.data));
         })
         .catch(error => {
             dispatch(commonActions.setToastShowing(true))
-            dispatch(actions.clazzEditingError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(commonActions.setCommonError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(actions.clazzEditingError())
         })
 };
 export const deleteClazzAsync = (clazz) => (dispatch) => {
@@ -43,10 +48,12 @@ export const deleteClazzAsync = (clazz) => (dispatch) => {
     ClazzService.deleteClazz(clazz.oid, getCookie("grade_book_token"))
         .then(response => {
             dispatch(commonActions.setToastShowing(true))
+            dispatch(commonActions.setCommonMessage("Class was deleted"));
             dispatch(actions.clazzDeletingSuccess(clazz));
         })
         .catch(error => {
             dispatch(commonActions.setToastShowing(true))
-            dispatch(actions.clazzDeletingError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(commonActions.setCommonError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(actions.clazzDeletingError())
         })
 };

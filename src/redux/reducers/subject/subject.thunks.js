@@ -11,7 +11,8 @@ export const loadSubjectListAsync = (needToSort: Boolean, search: string) => (di
         })
         .catch(error => {
             dispatch(commonActions.setToastShowing(true))
-            dispatch(actions.subjectListLoadingError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(commonActions.setCommonError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(actions.subjectListLoadingError())
         })
 };
 export const createSubjectAsync = (subject) => (dispatch) => {
@@ -19,11 +20,13 @@ export const createSubjectAsync = (subject) => (dispatch) => {
     SubjectService.createSubject(subject, getCookie("grade_book_token"))
         .then(response => {
             dispatch(commonActions.setToastShowing(true))
+            dispatch(commonActions.setCommonMessage("Subject was created"));
             dispatch(actions.subjectCreationSuccess(response.data));
         })
         .catch(error => {
             dispatch(commonActions.setToastShowing(true))
-            dispatch(actions.subjectCreationError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(commonActions.setCommonError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(actions.subjectCreationError())
         })
 };
 export const updateSubjectAsync = (subject) => (dispatch) => {
@@ -31,11 +34,13 @@ export const updateSubjectAsync = (subject) => (dispatch) => {
     SubjectService.updateSubject(subject, getCookie("grade_book_token"))
         .then(response => {
             dispatch(commonActions.setToastShowing(true))
+            dispatch(commonActions.setCommonMessage("Subject was updated"));
             dispatch(actions.subjectEditingSuccess(response.data));
         })
         .catch(error => {
             dispatch(commonActions.setToastShowing(true))
-            dispatch(actions.subjectEditingError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(commonActions.setCommonError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(actions.subjectEditingError())
         })
 };
 export const deleteSubjectAsync = (subject) => (dispatch) => {
@@ -43,10 +48,12 @@ export const deleteSubjectAsync = (subject) => (dispatch) => {
     SubjectService.deleteSubject(subject.oid, getCookie("grade_book_token"))
         .then(response => {
             dispatch(commonActions.setToastShowing(true))
+            dispatch(commonActions.setCommonMessage("Subject was deleted"));
             dispatch(actions.subjectDeletingSuccess(subject));
         })
         .catch(error => {
             dispatch(commonActions.setToastShowing(true))
-            dispatch(actions.subjectDeletingError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(commonActions.setCommonError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(actions.subjectDeletingError())
         })
 };

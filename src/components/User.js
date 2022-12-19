@@ -27,11 +27,10 @@ const User = ({accessFilterSelectedFromProps, classFromProps}) => {
     const dispatch = useDispatch();
     const {t} = useTranslation();
     const navigate = useNavigate();
-    const {isToastShowing} = useSelector(state => state.common);
+    const {isToastShowing, commonError, commonMessage} = useSelector(state => state.common);
     const {
         isUserListLoading,
         users,
-        error,
         isUserCreating,
         isUserDeleting,
         isUserEditing
@@ -53,18 +52,19 @@ const User = ({accessFilterSelectedFromProps, classFromProps}) => {
 
     useEffect(() => {
         if (isToastShowing) {
-            if (error) {
-                toast.error(t(error))
+            if (commonError) {
+                if (!(t(commonError)).startsWith("GBE")) toast.error(t(commonError))
                 dispatch(setToastShowing(false));
-                if (error === "GBE-ACCESS-001") navigate(rootUrl+"/");
+                if (commonError === "GBE-ACCESS-001") navigate(rootUrl+"/");
             } else if (!isUserListLoading) {
                 changeAddingNew(false);
                 setModalUserFormOpen(false);
                 setEntity(null);
+                if (commonMessage) toast.info(t(commonMessage))
                 dispatch(setToastShowing(false));
             }
         }
-    }, [isUserListLoading, isUserCreating, isUserDeleting, isUserEditing])
+    }, [commonError, commonMessage])
 
     useEffect(() => {
         dispatch(loadUserListAsync(accessFilterSelected, needToSort, search))

@@ -18,26 +18,16 @@ const Scheduler = () => {
     const dispatch = useDispatch();
     const {t} = useTranslation();
     const navigate = useNavigate();
-    const {isToastShowing, commonError} = useSelector(state => state.common);
-    const [needToSort, setNeedToSort] = useState(true);
+    const {isToastShowing, commonError, commonMessage} = useSelector(state => state.common);
     const {
         classes,
-        error: classError
     } = useSelector(state => state.classes);
-    const {
-        isLoading,
-    } = useSelector(state => state.login);
     const {
         isDataLoading,
         isSchedulerCreating,
-        error,
         columns,
         unsavedChangesPresent
     } = useSelector(state => state.scheduler);
-
-
-    const [search, setSearch] = useState("");
-
 
     useEffect(() => {
         dispatch(loginInAsyncByToken());
@@ -46,37 +36,21 @@ const Scheduler = () => {
 
 
     useEffect(() => {
-        dispatch(loadClazzListAsync(needToSort, search));
-        //  dispatch(dataLoadingStarts(needToSort, search));
-    }, [needToSort]);
+        dispatch(loadClazzListAsync(true, ""));
+    }, [isDataLoading]);
 
     useEffect(() => {
-        console.log("11111")
-        console.log(isToastShowing)
-        console.log(classError)
-        console.log(commonError)
-        console.log(error)
         if (isToastShowing) {
-            if (classError) {
-                toast.error(t(classError))
-                dispatch(setToastShowing(false));
-                if (classError === "GBE-ACCESS-001") navigate(rootUrl + "/");
-            }
             if (commonError) {
-                toast.error(t(commonError))
+                if (!(t(commonError)).startsWith("GBE")) toast.error(t(commonError))
                 dispatch(setToastShowing(false));
                 if (commonError === "GBE-ACCESS-001") navigate(rootUrl + "/");
-            }
-
-
-            if (error) {
-                if (t(error) !== "GBE-ACCESS-001")
-                    toast.error(t(error))
+            } else if (commonMessage) {
+                toast.info(t(commonMessage))
                 dispatch(setToastShowing(false));
-                if (error === "GBE-ACCESS-001") navigate(rootUrl + "/");
             }
         }
-    }, [isLoading, isDataLoading, isSchedulerCreating, error, commonError, classError])
+    }, [commonError, commonMessage])
 
     const [dateValue, changeDateValue] = useState(new Date());
     const onDragEnd = (result, columns) => {
@@ -115,17 +89,6 @@ const Scheduler = () => {
             dispatch(actions.schedulerWasChangedInsideColumn({
                 columns, source, destination
             }))
-            /*      const column = columns[source.droppableId];
-                  const copiedItems = [...column.items];
-                  const [removed] = copiedItems.splice(source.index, 1);
-                  copiedItems.splice(destination.index, 0, removed);
-                  setColumns({
-                      ...columns,
-                      [source.droppableId]: {
-                          ...column,
-                          items: copiedItems
-                      }
-                  });*/
         }
     };
 

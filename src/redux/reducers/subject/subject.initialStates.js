@@ -4,7 +4,6 @@ const initState = {
     isSubjectDeleting: false,
     isSubjectEditing: false,
     subjects: null,
-    error: null
 };
 
 export default initState

@@ -44,20 +44,14 @@ const schedulerReducer = (state = initialState, {type, payload}) => {
                 ...state,
                 unsavedChangesPresent: false,
                 isDataLoading: true,
-                error: null,
                 columns: []
             };
         case actionTypes.DATA_LOADING_ERROR:
             return {
                 ...state,
                 isDataLoading: false,
-                error: payload
             };
         case actionTypes.DATA_LOADING_SUCCESSFUL:
-           console.log("Data loading success!")
-            console.log(payload.clazz);
-           console.log(payload.daySchedulerBomList)
-           console.log(payload.daySchedulerBomList[0])
             if (payload.daySchedulerBomList[0].items.find(item => item.schedulerInternalId === 'Free') === undefined) {
                 payload.daySchedulerBomList[0].items.push({
                     schedulerInternalId: 'Free',
@@ -104,21 +98,18 @@ const schedulerReducer = (state = initialState, {type, payload}) => {
             return {
                 ...state,
                 isSchedulerCreating: true,
-                error: null,
             };
         case actionTypes.SCHEDULER_CREATION_SUCCESS:
             return {
                 ...state,
                 unsavedChangesPresent: false,
                 isSchedulerCreating: false,
-                error: null,
                 scheduler: payload,
             };
         case actionTypes.SCHEDULER_CREATION_ERROR:
             return {
                 ...state,
                 isSchedulerCreating: false,
-                error: payload
             };
         default:
             return state;

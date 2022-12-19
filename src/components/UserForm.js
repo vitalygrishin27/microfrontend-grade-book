@@ -35,16 +35,12 @@ const UserForm = ({modalUserFormOpen, setModalUserFormOpen, entity, setEntity, i
             clazz: clazz
         }
 
-        console.log(data);
-        console.log(isNew);
         /*  for (const pair of data.entries()) {
               console.log(pair[0] + ', ' + pair[1]);
           }*/
         if (isNew) {
-            console.log("CREATING");
             dispatch(createUserAsync(data));
         } else {
-            console.log("UPDATING");
             dispatch(updateUserAsync(data));
         }
     }

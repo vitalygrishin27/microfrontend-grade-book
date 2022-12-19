@@ -4,7 +4,6 @@ const initState = {
     isClazzDeleting: false,
     isClazzEditing: false,
     classes: null,
-    error: null
 };
 
 export default initState

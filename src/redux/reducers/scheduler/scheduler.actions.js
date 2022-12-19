@@ -7,9 +7,8 @@ const dataLoadingSuccess = (data) => ({
     type: actionTypes.DATA_LOADING_SUCCESSFUL,
     payload: data
 })
-const dataLoadingError = (error) => ({
+const dataLoadingError = () => ({
     type: actionTypes.DATA_LOADING_ERROR,
-    payload: error
 })
 const schedulerCreationStart = () => ({
     type: actionTypes.SCHEDULER_CREATION_START
@@ -20,10 +19,8 @@ const schedulerCreationSuccess = (scheduler) => ({
     payload: scheduler
 })
 
-const schedulerCreationError = (error) => ({
+const schedulerCreationError = () => ({
     type: actionTypes.SCHEDULER_CREATION_ERROR,
-    payload: error
-
 })
 const schedulerWasChangedBetweenColumns = (data) => ({
     type: actionTypes.SCHEDULER_WAS_CHANGED_BETWEEN_COLUMNS,

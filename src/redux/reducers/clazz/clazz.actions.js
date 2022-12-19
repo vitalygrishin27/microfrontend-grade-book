@@ -9,10 +9,8 @@ const clazzListLoadingSuccess = (clazzList) => ({
     payload: clazzList
 })
 
-const clazzListLoadingError = (error) => ({
+const clazzListLoadingError = () => ({
     type: actionTypes.CLAZZ_LIST_LOADING_ERROR,
-    payload: error
-
 })
 
 const clazzCreationStart = () => ({
@@ -24,10 +22,8 @@ const clazzCreationSuccess = (newClazz) => ({
     payload: newClazz
 })
 
-const clazzCreationError = (error) => ({
+const clazzCreationError = () => ({
     type: actionTypes.CLAZZ_CREATION_ERROR,
-    payload: error
-
 })
 
 const clazzEditingStart = () => ({
@@ -39,10 +35,8 @@ const clazzEditingSuccess = (updatedClazz) => ({
     payload: updatedClazz
 })
 
-const clazzEditingError = (error) => ({
+const clazzEditingError = () => ({
     type: actionTypes.CLAZZ_EDITING_ERROR,
-    payload: error
-
 })
 
 const clazzDeletingStart = () => ({
@@ -54,10 +48,8 @@ const clazzDeletingSuccess = (clazz) => ({
     payload: clazz
 })
 
-const clazzDeletingError = (error) => ({
+const clazzDeletingError = () => ({
     type: actionTypes.CLAZZ_DELETING_ERROR,
-    payload: error
-
 })
 
 const actions = {

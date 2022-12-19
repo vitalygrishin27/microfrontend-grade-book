@@ -7,7 +7,6 @@ const initState = {
     isUserEditing: false,
     users: null,
     accessLevels: null,
-    error: null,
 };
 
 export default initState

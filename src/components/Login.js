@@ -12,8 +12,8 @@ import {rootUrl} from "../App";
 const Login = () => {
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
-    const {isLoginIn, isLoading, error, token} = useSelector(state => state.login)
-    const {isToastShowing, serviceVersion} = useSelector(state => state.common)
+    const {isLoginIn, isLoading, token} = useSelector(state => state.login)
+    const {isToastShowing, serviceVersion, commonError, commonMessage} = useSelector(state => state.common)
     const dispatch = useDispatch();
     const {t} = useTranslation();
     const navigate = useNavigate();
@@ -39,16 +39,16 @@ const Login = () => {
 
     useEffect(() => {
         if (isToastShowing) {
-            if (error) {
-                toast.error(t(error))
+            if (commonError) {
+                if (!(t(commonError)).startsWith("GBE")) toast.error(t(commonError))
                 dispatch(setToastShowing(false));
-            } else if (!isLoading) {
-                toast.success(t("Login in is successful!"))
+            } else if (commonMessage) {
+                toast.success(t(commonMessage))
                 dispatch(setToastShowing(false));
-                navigate(rootUrl+"/");
+                navigate(rootUrl + "/");
             }
         }// eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isLoading])
+    }, [commonError, commonMessage])
 
     return (
         <div className="Auth-form-container App">
@@ -87,8 +87,8 @@ const Login = () => {
                                     size="sm"
                                     role="status"
                                     aria-hidden="true"
-                                /> }
-                                {isLoading?t("Loading"):t("Submit")}
+                                />}
+                                {isLoading ? t("Loading") : t("Submit")}
                             </button>
                         </div>
                         <div>

@@ -27,11 +27,11 @@ export const loadUserListAsync = (accessLevelFilter: AccessLevelFilter, needToSo
     functionToExecute(getCookie("grade_book_token"), needToSort, search)
         .then(response => {
             dispatch(actions.userListLoadingSuccess(response.data));
-            console.log(response.data)
         })
         .catch(error => {
             dispatch(commonActions.setToastShowing(true))
-            dispatch(actions.userListLoadingError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(commonActions.setCommonError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(actions.userListLoadingError())
         })
 };
 
@@ -43,7 +43,8 @@ export const loadAccessLevelsAsync = () => (dispatch) => {
         })
         .catch(error => {
             dispatch(commonActions.setToastShowing(true))
-            dispatch(actions.userAccessLevelsLoadingError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(commonActions.setCommonError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(actions.userAccessLevelsLoadingError())
         })
 };
 
@@ -52,11 +53,13 @@ export const createUserAsync = (user) => (dispatch) => {
     UserService.createUser(user, getCookie("grade_book_token"))
         .then(response => {
             dispatch(commonActions.setToastShowing(true))
+            dispatch(commonActions.setCommonMessage("User was created"));
             dispatch(actions.userCreationSuccess(response.data));
         })
         .catch(error => {
             dispatch(commonActions.setToastShowing(true))
-            dispatch(actions.userCreationError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(commonActions.setCommonError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(actions.userCreationError())
         })
 };
 export const updateUserAsync = (user) => (dispatch) => {
@@ -64,11 +67,13 @@ export const updateUserAsync = (user) => (dispatch) => {
     UserService.updateUser(user, getCookie("grade_book_token"))
         .then(response => {
             dispatch(commonActions.setToastShowing(true))
+            dispatch(commonActions.setCommonMessage("User was updated"));
             dispatch(actions.userEditingSuccess(response.data));
         })
         .catch(error => {
             dispatch(commonActions.setToastShowing(true))
-            dispatch(actions.userEditingError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(commonActions.setCommonError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(actions.userEditingError())
         })
 };
 export const deleteUserAsync = (user) => (dispatch) => {
@@ -76,10 +81,12 @@ export const deleteUserAsync = (user) => (dispatch) => {
     UserService.deleteUser(user.oid, getCookie("grade_book_token"))
         .then(response => {
             dispatch(commonActions.setToastShowing(true))
+            dispatch(commonActions.setCommonMessage("User was deleted"));
             dispatch(actions.userDeletingSuccess(user));
         })
         .catch(error => {
             dispatch(commonActions.setToastShowing(true))
-            dispatch(actions.userDeletingError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(commonActions.setCommonError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(actions.userDeletingError())
         })
 };

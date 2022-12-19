@@ -24,7 +24,6 @@ const Scheduler = () => {
     } = useSelector(state => state.classes);
     const {
         isDataLoading,
-        isSchedulerCreating,
         columns,
         unsavedChangesPresent
     } = useSelector(state => state.scheduler);
@@ -37,6 +36,7 @@ const Scheduler = () => {
 
     useEffect(() => {
         dispatch(loadClazzListAsync(true, ""));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isDataLoading]);
 
     useEffect(() => {
@@ -50,9 +50,15 @@ const Scheduler = () => {
                 dispatch(setToastShowing(false));
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [commonError, commonMessage])
 
-    const [dateValue, changeDateValue] = useState(new Date());
+    const [selectedClass, setSelectedClassClass] = useState(null);
+    const handleSelect = (key, event) => {
+        setSelectedClassClass({oid: key, name: event.target.innerText});
+        dispatch(dataLoadingStarts(key));
+    };
+
     const onDragEnd = (result, columns) => {
         if (!result.destination) return;
         const {source, destination} = result;
@@ -92,36 +98,23 @@ const Scheduler = () => {
         }
     };
 
-    useEffect(() => {
-        console.log(dateValue)
-    }, [dateValue]);
 
-    const [selectedClass, setSelectedClassClass] = useState(null);
-    const handleSelect = (key, event) => {
-        setSelectedClassClass({oid: key, name: event.target.innerText});
-        dispatch(dataLoadingStarts(key));
-    };
+    /*  const getHexColorByString = (name) => {
 
-    const getHexColorByString = (name) => {
-
-        let color = 0
-        for (let i = 0; i < name.length; i++) {
-            console.log(name.charCodeAt(i));
-            color = color + name.charCodeAt(i);
-        }
-        console.log("#" + color);
-        return "#" + color;
-    }
-
+          let color = 0
+          for (let i = 0; i < name.length; i++) {
+              console.log(name.charCodeAt(i));
+              color = color + name.charCodeAt(i);
+          }
+          console.log("#" + color);
+          return "#" + color;
+      }*/
     const handleSaveButton = () => {
-
-
-        console.log(columns);
         const s1 = []
-        console.log(s1);
+        // eslint-disable-next-line
         Object.entries(columns).map(([columnId, column], index) => {
                 let items = [];
-                console.log(column)
+                // eslint-disable-next-line
                 Object.entries(column.items).map(([columnItemId, item], index) => {
                     items.push(item.oid)
                 })
@@ -132,17 +125,9 @@ const Scheduler = () => {
             clazz: selectedClass,
             daySchedulerBomList: s1
         }
-
-
         //    let scheduler = new FormData();
         //    scheduler.append('clazz', selectedClass);
         //     scheduler.append('daySchedulerBomList', s1);
-
-
-        console.log(scheduler);
-        console.log("!!!!!!!!!");
-        console.log(s1);
-        console.log("save");
         dispatch(createSchedulerAsync(scheduler));
     }
 

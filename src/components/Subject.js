@@ -32,9 +32,6 @@ const Subject = () => {
     const {
         isSubjectListLoading,
         subjects,
-        isSubjectCreating,
-        isSubjectDeleting,
-        isSubjectEditing
     } = useSelector(state => state.subjects);
     const [isAddingNew, changeAddingNew] = useState(false);
     const [name, setName] = useState("");
@@ -52,6 +49,7 @@ const Subject = () => {
 
     useEffect(() => {
         dispatch(loadSubjectListAsync(needToSort, search));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [needToSort]);
 
     useEffect(() => {

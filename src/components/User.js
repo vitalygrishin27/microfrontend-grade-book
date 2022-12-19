@@ -30,10 +30,7 @@ const User = ({accessFilterSelectedFromProps, classFromProps}) => {
     const {isToastShowing, commonError, commonMessage} = useSelector(state => state.common);
     const {
         isUserListLoading,
-        users,
-        isUserCreating,
-        isUserDeleting,
-        isUserEditing
+        users
     } = useSelector(state => state.users);
     const [isAddingNew, changeAddingNew] = useState(false);
     const [entity, setEntity] = useState(null);
@@ -63,11 +60,12 @@ const User = ({accessFilterSelectedFromProps, classFromProps}) => {
                 if (commonMessage) toast.info(t(commonMessage))
                 dispatch(setToastShowing(false));
             }
-        }
+        }        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [commonError, commonMessage])
 
     useEffect(() => {
         dispatch(loadUserListAsync(accessFilterSelected, needToSort, search))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [needToSort, accessFilterSelected]);
 
     const handleEditButton = (entity) => {

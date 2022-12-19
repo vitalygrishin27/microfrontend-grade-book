@@ -34,9 +34,6 @@ const Subject = () => {
     const {
         isClazzListLoading,
         classes,
-        isClazzCreating,
-        isClazzDeleting,
-        isClazzEditing
     } = useSelector(state => state.classes);
     const [isAddingNew, changeAddingNew] = useState(false);
     const [name, setName] = useState("");
@@ -76,11 +73,13 @@ const Subject = () => {
                 dispatch(setToastShowing(false));
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [commonError, commonMessage])
 
 
     useEffect(() => {
         dispatch(loadClazzListAsync(needToSort, search))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [needToSort])
 
     const handleKeypress = e => {

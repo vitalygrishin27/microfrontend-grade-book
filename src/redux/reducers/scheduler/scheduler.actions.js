@@ -14,9 +14,8 @@ const schedulerCreationStart = () => ({
     type: actionTypes.SCHEDULER_CREATION_START
 })
 
-const schedulerCreationSuccess = (scheduler) => ({
+const schedulerCreationSuccess = () => ({
     type: actionTypes.SCHEDULER_CREATION_SUCCESS,
-    payload: scheduler
 })
 
 const schedulerCreationError = () => ({

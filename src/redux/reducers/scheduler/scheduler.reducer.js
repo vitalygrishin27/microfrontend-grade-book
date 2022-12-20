@@ -136,7 +136,6 @@ const schedulerReducer = (state = initialState, {type, payload}) => {
                 ...state,
                 unsavedChangesPresent: false,
                 isSchedulerCreating: false,
-                scheduler: payload,
             };
         case actionTypes.SCHEDULER_CREATION_ERROR:
             return {

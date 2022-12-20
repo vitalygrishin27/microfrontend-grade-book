@@ -26,6 +26,7 @@ export const loadUserListAsync = (accessLevelFilter: AccessLevelFilter, needToSo
 
     functionToExecute(getCookie("grade_book_token"), needToSort, search)
         .then(response => {
+            console.log(response.data)
             dispatch(actions.userListLoadingSuccess(response.data));
         })
         .catch(error => {

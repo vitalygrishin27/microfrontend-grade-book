@@ -69,6 +69,8 @@
   "User was deleted": "Користувача видалено",
   "Scheduler was saved": "Розклад збережено",
   "Choose a teacher": "Оберіть вчителя",
+  "Cannot add subject without teacher": "Неможливо додати без вчителя",
+  "Free": "Вільний час",
 
   "Network Error": "Помилка мережі",
   "GBE-ACCESS-001": "Ваш доступ обмежено",

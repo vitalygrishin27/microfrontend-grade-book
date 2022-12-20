@@ -11,19 +11,25 @@ import {toast} from "react-toastify";
 import {setToastShowing, showError} from "../redux/reducers/common/common.thunks";
 import {rootUrl} from "../App";
 import {Badge, Dropdown, DropdownButton} from "react-bootstrap";
-import {createSchedulerAsync, dataLoadingStarts} from "../redux/reducers/scheduler/scheduler.thunks";
+import {clearBoard, createSchedulerAsync, dataLoadingStarts} from "../redux/reducers/scheduler/scheduler.thunks";
 import {loadClazzListAsync} from "../redux/reducers/clazz/clazz.thunks";
+import ConfirmDelete from "./ConfirmDelete";
 
 const Scheduler = () => {
     const dispatch = useDispatch();
     const {t} = useTranslation();
     const navigate = useNavigate();
     const {isToastShowing, commonError, commonMessage} = useSelector(state => state.common);
+    const [selectedClass, setSelectedClassClass] = useState(null);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [entityForDelete, setEntityForDelete] = useState(null);
+
     const {
         classes,
     } = useSelector(state => state.classes);
     const {
         isDataLoading,
+        isSchedulerCreating,
         columns,
         unsavedChangesPresent
     } = useSelector(state => state.scheduler);
@@ -53,7 +59,6 @@ const Scheduler = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [commonError, commonMessage])
 
-    const [selectedClass, setSelectedClassClass] = useState(null);
     const handleSelect = (key, event) => {
         setSelectedClassClass({oid: key, name: event.target.innerText});
         dispatch(dataLoadingStarts(key));
@@ -71,6 +76,10 @@ const Scheduler = () => {
             // getHexColorByString(removed.content);
             if (source.droppableId === 'Subjects' && removed.name !== "Free" && removed.selectedTeacher === null && removed.teachers && removed.teachers.length > 1) {
                 dispatch(showError(t("Choose a teacher")))
+                return;
+            }
+            if (removed.teachers && removed.teachers.length === 0 && removed.name !== "Free" && destination.droppableId !== 'Subjects') {
+                dispatch(showError(t("Cannot add subject without teacher")))
                 return;
             }
             if (removed.teachers && removed.teachers.length === 1) {
@@ -120,6 +129,13 @@ const Scheduler = () => {
           console.log("#" + color);
           return "#" + color;
       }*/
+
+    const handleClearScheduler = () => {
+        console.log("clearing");
+        setModalOpen(true);
+        console.log(columns)
+        setEntityForDelete(columns);
+    }
     const handleSaveButton = () => {
         const s1 = []
         // eslint-disable-next-line
@@ -152,30 +168,42 @@ const Scheduler = () => {
     return (
         <div>
             <div className={"container"}>
+                {modalOpen &&
+                    <ConfirmDelete modalOpen={modalOpen}
+                                   setModalOpen={setModalOpen}
+                                   entityForDelete={entityForDelete}
+                                   setEntityForDelete={setEntityForDelete}
+                                   functionToExecute={clearBoard}/>}
                 <div className={"row"}>
                     <div className={"col-md-10 mx-auto mt-3"}>
                         <h1 className={"pageTitle col-md-10 mx-auto mb-3"}
                         >{t("Scheduler")}</h1>
                     </div>
-                    <DropdownButton
-                        id="dropdown-basic-button"
-                        variant="info"
-                        className="floatRight"
-                        onSelect={handleSelect}
-                        title={selectedClass?.name || t("Choose a class")}
-                    >
-                        {classes && classes.map((item, index) => {
-                            return (
-                                <Dropdown.Item key={index} eventKey={item.oid}>
-                                    {item.name}
-                                </Dropdown.Item>
-                            );
-                        })}
-                    </DropdownButton>
-                    {unsavedChangesPresent && <button type="button"
-                                                      id="saveButton"
-                                                      onClick={() => handleSaveButton()}
-                                                      className="btn btn-small btn-danger mb-1 my-2">{t("Save")}</button>}
+                    <div>
+                        <DropdownButton style={{display: "inline-block"}}
+                                        id="dropdown-basic-button"
+                                        variant="info"
+                                        className="floatRight"
+                                        onSelect={handleSelect}
+                                        title={selectedClass?.name || t("Choose a class")}>
+                            {classes && classes.map((item, index) => {
+                                return (
+                                    <Dropdown.Item key={index} eventKey={item.oid}>
+                                        {item.name}
+                                    </Dropdown.Item>
+                                );
+                            })}
+                        </DropdownButton>
+                        {selectedClass && <button type="button"
+                                                  id="searchButton"
+                                                  onClick={() => handleClearScheduler()}
+                                                  className="btn btn-small btn-danger mb-1">{t("Clear board")}</button>}
+                    </div>
+                    {selectedClass && unsavedChangesPresent && <button type="button"
+                                                                       disabled={isSchedulerCreating}
+                                                                       id="saveButton"
+                                                                       onClick={() => handleSaveButton()}
+                                                                       className="btn btn-small btn-danger mb-1 my-2">{t("Save")}</button>}
                 </div>
             </div>
             <div style={{display: "inline-flex", justifyContent: "center", height: "100%"}}>
@@ -234,7 +262,7 @@ const Scheduler = () => {
                                                                                 ...provided.draggableProps.style
                                                                             }}
                                                                         >
-                                                                            <div>{index + 1 + ". " + item.name}</div>
+                                                                            <div>{index + 1 + ". " + (item.name === "Free" ? t(item.name) : item.name)}</div>
                                                                             <div>
                                                                                 {item.teachers && item.teachers.map((teacher, index) => {
                                                                                     return (

@@ -17,6 +17,8 @@ import UserForm from "./UserForm";
 import {Spinner} from "react-bootstrap";
 import Switch from "react-switch";
 import {rootUrl} from "../App";
+import {loadSubjectListAsync} from "../redux/reducers/subject/subject.thunks";
+import Subject from "./Subject";
 
 const edit = <FontAwesomeIcon icon={faEdit}/>
 const remove = <FontAwesomeIcon icon={faRemove}/>
@@ -32,6 +34,9 @@ const User = ({accessFilterSelectedFromProps, classFromProps}) => {
         isUserListLoading,
         users
     } = useSelector(state => state.users);
+    const {
+        subjects,
+    } = useSelector(state => state.subjects);
     const [isAddingNew, changeAddingNew] = useState(false);
     const [entity, setEntity] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
@@ -52,7 +57,7 @@ const User = ({accessFilterSelectedFromProps, classFromProps}) => {
             if (commonError) {
                 if (!(t(commonError)).startsWith("GBE")) toast.error(t(commonError))
                 dispatch(setToastShowing(false));
-                if (commonError === "GBE-ACCESS-001") navigate(rootUrl+"/");
+                if (commonError === "GBE-ACCESS-001") navigate(rootUrl + "/");
             } else if (!isUserListLoading) {
                 changeAddingNew(false);
                 setModalUserFormOpen(false);
@@ -65,6 +70,7 @@ const User = ({accessFilterSelectedFromProps, classFromProps}) => {
 
     useEffect(() => {
         dispatch(loadUserListAsync(accessFilterSelected, needToSort, search))
+        if (!subjects) dispatch(loadSubjectListAsync(true, ""))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [needToSort, accessFilterSelected]);
 
@@ -88,7 +94,6 @@ const User = ({accessFilterSelectedFromProps, classFromProps}) => {
         if (e.code === "Enter" || e.code === "NumpadEnter") {
             document.getElementById("searchButton").click()
         }
-
     };
 
     return (
@@ -172,6 +177,9 @@ const User = ({accessFilterSelectedFromProps, classFromProps}) => {
                             <th scope={"col"} style={{"verticalAlign": "middle"}}>
                                 <div>{t("Class")}</div>
                             </th>
+                            <th scope={"col"} style={{"verticalAlign": "middle"}}>
+                                <div>{t("Subjects")}</div>
+                            </th>
                             <th width={"20%"}>
                                 <div style={{textAlign: "right"}}>
                                     <button type="button" onClick={() => {
@@ -186,7 +194,7 @@ const User = ({accessFilterSelectedFromProps, classFromProps}) => {
                         </thead>
                         <tbody style={{textAlign: "left"}}>
                         {isUserListLoading && <tr>
-                            <td colSpan={8}>
+                            <td colSpan={9}>
                                 <div style={{"textAlign": "center"}}><Spinner
                                     as="span"
                                     animation="border"
@@ -197,7 +205,9 @@ const User = ({accessFilterSelectedFromProps, classFromProps}) => {
                                 </div>
                             </td>
                         </tr>}
-                        {users && users.length<1 && <tr><td colSpan={8} style={{textAlign:"center"}}>{t("Nothing to show")}</td></tr>}
+                        {users && users.length < 1 && <tr>
+                            <td colSpan={9} style={{textAlign: "center"}}>{t("Nothing to show")}</td>
+                        </tr>}
                         {users && users.map((user: UserType, id) => (
                             <tr key={id}>
                                 <td style={{verticalAlign: "middle"}}>{id + 1}</td>
@@ -207,6 +217,12 @@ const User = ({accessFilterSelectedFromProps, classFromProps}) => {
                                 <td style={{verticalAlign: "middle"}}>{user.login}</td>
                                 <td style={{verticalAlign: "middle"}}>{user.accessLevel}</td>
                                 <td style={{verticalAlign: "middle"}}>{user.clazz ? user.clazz.name : "-"}</td>
+                                <td style={{verticalAlign: "middle"}}>{subjects && user.selectedSubjects &&
+                                (subjects.filter((subject) => user.selectedSubjects.includes(subject.oid)).length > 0) ?
+                                    subjects.filter((subject) => user.selectedSubjects.includes(subject.oid)).map((subject: Subject, id) => (
+                                        <div key={id}>{subject.name}</div>
+                                    )) : ""}
+                                </td>
                                 <td style={{textAlign: "right"}}>
                                     <div style={{display: "inline"}}>
                                         <button type="button" onClick={() => handleEditButton(user)}

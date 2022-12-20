@@ -29,3 +29,7 @@ export const createSchedulerAsync = (scheduler) => (dispatch) => {
             dispatch(actions.schedulerCreationError())
         })
 };
+
+export const clearBoard = (columns) => (dispatch) => {
+    dispatch(actions.clearBoard(columns))
+}

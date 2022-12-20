@@ -30,6 +30,10 @@ const schedulerWasChangedInsideColumn = (data) => ({
     type: actionTypes.SCHEDULER_WAS_CHANGED_INSIDE_COLUMN,
     payload: data
 })
+const clearBoard = (columns) => ({
+    type: actionTypes.CLEAR_BOARD,
+    payload: columns
+})
 
 const actions = {
     dataLoadingStarts,
@@ -39,7 +43,8 @@ const actions = {
     schedulerCreationSuccess,
     schedulerCreationError,
     schedulerWasChangedBetweenColumns,
-    schedulerWasChangedInsideColumn
+    schedulerWasChangedInsideColumn,
+    clearBoard
 }
 
 export default actions;

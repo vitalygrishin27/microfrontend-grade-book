@@ -51,6 +51,38 @@ const schedulerReducer = (state = initialState, {type, payload}) => {
                 ...state,
                 isDataLoading: false,
             };
+        case actionTypes.CLEAR_BOARD:
+            return {
+                ...state,
+                unsavedChangesPresent: true,
+                columns: {
+                    ...payload,
+                    ["MONDAY"]: {
+                        name:"MONDAY",
+                        items: []
+                    },
+                    ["TUESDAY"]: {
+                        name:"TUESDAY",
+                        items: []
+                    },
+                    ["WEDNESDAY"]: {
+                        name:"WEDNESDAY",
+                        items: []
+                    },
+                    ["THURSDAY"]: {
+                        name:"THURSDAY",
+                        items: []
+                    },
+                    ["FRIDAY"]: {
+                        name:"FRIDAY",
+                        items: []
+                    },
+                    ["SATURDAY"]: {
+                        name:"SATURDAY",
+                        items: []
+                    },
+                }
+            };
         case actionTypes.DATA_LOADING_SUCCESSFUL:
             if (payload.daySchedulerBomList[0].items.find(item => item.schedulerInternalId === 'Free') === undefined) {
                 payload.daySchedulerBomList[0].items.push({

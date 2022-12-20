@@ -1,28 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {useTranslation} from "react-i18next";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import {
-    createSubjectAsync,
-    deleteSubjectAsync,
-    loadSubjectListAsync,
-    updateSubjectAsync
-} from "../redux/reducers/subject/subject.thunks";
 import {loginInAsyncByToken} from "../redux/reducers/login/login.thunks";
 import {toast} from "react-toastify";
 import {setToastShowing} from "../redux/reducers/common/common.thunks";
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faEdit, faPlus, faRemove} from '@fortawesome/free-solid-svg-icons';
-import ConfirmDelete from "./ConfirmDelete";
-import {isNull} from "lodash";
 import {Spinner} from "react-bootstrap";
-import Switch from "react-switch";
 import {rootUrl} from "../App";
-
-const edit = <FontAwesomeIcon icon={faEdit}/>
-const remove = <FontAwesomeIcon icon={faRemove}/>
-const plus = <FontAwesomeIcon icon={faPlus}/>
-
+import Table from 'react-bootstrap/Table';
+import {loadSchedulerForTeacher} from "../redux/reducers/scheduler/scheduler.thunks";
 
 const Subject = () => {
     const dispatch = useDispatch();
@@ -30,227 +16,81 @@ const Subject = () => {
     const navigate = useNavigate();
     const {isToastShowing, commonError, commonMessage} = useSelector(state => state.common);
     const {
-        isSubjectListLoading,
-        subjects,
-    } = useSelector(state => state.subjects);
-    const [isAddingNew, changeAddingNew] = useState(false);
-    const [name, setName] = useState("");
-    const [nameEditing, setNameEditing] = useState("");
-    const [modalOpen, setModalOpen] = useState(false);
-    const [entityForDelete, setEntityForDelete] = useState(null);
-    const [entityEditing, setEntityEditing] = useState(null);
-    const [needToSort, setNeedToSort] = useState(true);
-    const [search, setSearch] = useState("");
+        isDataLoading,
+        schedulerForTeacher,
+    } = useSelector(state => state.scheduler);
 
     useEffect(() => {
         dispatch(loginInAsyncByToken());
+        dispatch(loadSchedulerForTeacher())
+        console.log(schedulerForTeacher)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    useEffect(() => {
-        dispatch(loadSubjectListAsync(needToSort, search));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [needToSort]);
 
     useEffect(() => {
         if (isToastShowing) {
             if (commonError) {
                 if (!(t(commonError)).startsWith("GBE")) toast.error(t(commonError))
                 dispatch(setToastShowing(false));
-                if (commonError === "GBE-ACCESS-001") navigate(rootUrl+"/");
-            } else if (!isSubjectListLoading) {
-                setName("");
-                changeAddingNew(false);
-                setEntityEditing(null);
-                setNameEditing("");
-                if (commonMessage) toast.info(t(commonMessage))
+                if (commonError === "GBE-ACCESS-001") navigate(rootUrl + "/");
+            } else if (commonMessage) {
+                toast.info(t(commonMessage))
                 dispatch(setToastShowing(false));
-                // navigate("/");
             }
         }// eslint-disable-next-line react-hooks/exhaustive-deps
     }, [commonMessage, commonError])
 
-    const handleKeypress = e => {
-        //it triggers by pressing the enter key
-        if (e.code === "Enter" || e.code === "NumpadEnter") {
-            createNew();
-        }
-
-    };
-
-
-    const handleKeypressInEditing = e => {
-        //it triggers by pressing the enter key
-        if (e.code === "Enter" || e.code === "NumpadEnter") {
-            document.getElementById("editButton").click()
-        }
-
-    };
-
-    const handleKeypressOnSearch = e => {
-        //it triggers by pressing the enter key
-        if (e.code === "Enter" || e.code === "NumpadEnter") {
-            document.getElementById("searchButton").click()
-        }
-
-    };
-
-
-    const createNew = () => {
-        let data = new FormData();
-        data.append('name', name);
-        dispatch(createSubjectAsync(data));
-    }
-
-    const handleEditButton = (subject) => {
-        setEntityEditing(subject);
-        changeAddingNew(false);
-        setNameEditing(subject.name);
-    }
-
-    const handleCancelButton = () => {
-        setEntityEditing(null);
-        setNameEditing("");
-    }
-
-    const handleSaveChangesButton = (oid, name) => {
-        let data = new FormData();
-        data.append('OID', oid);
-        data.append('name', name);
-        dispatch(updateSubjectAsync(data));
-    }
-
-    const handleDeleteButton = (subject) => {
-        setModalOpen(true);
-        setEntityForDelete(subject)
-    }
-    const handleSearchButton = () => {
-        dispatch(loadSubjectListAsync(needToSort, search))
-    }
-
     return (
         <div className={"container"}>
-            {modalOpen &&
-                <ConfirmDelete modalOpen={modalOpen}
-                               setModalOpen={setModalOpen}
-                               entityForDelete={entityForDelete}
-                               setEntityForDelete={setEntityForDelete}
-                               functionToExecute={deleteSubjectAsync}/>}
             <div className={"row"}>
                 <div className={"col-md-10 mx-auto mt-3"}>
                     <h1 className={"pageTitle col-md-10 mx-auto mb-3"}
-                    >{t("Subjects")}</h1>
-                    <table className={"table-hover"}>
-                        <thead className={"text-dark text-left"}>
+                    >{t("Scheduler")}</h1>
+                    {isDataLoading &&
+                        <div style={{"textAlign": "center"}}><Spinner
+                            as="span"
+                            animation="border"
+                            size="lg"
+                            role="status"
+                            aria-hidden="true"
+                            variant="dark"/>
+                        </div>
+                    }
+                    {schedulerForTeacher && schedulerForTeacher.length < 1 && <tr>
+                        <td colSpan={3} style={{textAlign: "center"}}>{t("Nothing to show")}</td>
+                    </tr>}
+                    <Table striped bordered hover>
+                        <thead>
                         <tr>
-                            <th>{t("Sorting")}</th>
-                            <th>
-                                <Switch onChange={setNeedToSort} checked={needToSort}/>
-                            </th>
-                            <th><input type={"text"}
-                                       maxLength={20}
-                                       className={"form-control"}
-                                       onKeyPress={handleKeypressOnSearch}
-                                       value={search} onChange={e => setSearch(e.target.value)}/></th>
-                            <th scope={"col"} style={{"verticalAlign": "middle"}}>
-                                <button type="button"
-                                        id="searchButton"
-                                        onClick={() => handleSearchButton()}
-                                        className="btn btn-small btn-success mb-1">{t("Search")}</button>
-                            </th>
+                            <th></th>
+                            <th>{t("MONDAY")}</th>
+                            <th>{t("TUESDAY")}</th>
+                            <th>{t("WEDNESDAY")}</th>
+                            <th>{t("THURSDAY")}</th>
+                            <th>{t("FRIDAY")}</th>
+                            <th>{t("SATURDAY")}</th>
                         </tr>
                         </thead>
-                    </table>
-                    <table className={"table table-hover"}>
-                        <thead className={"text-white bg-info text-left"}>
+                        <tbody>
                         <tr>
-                            <th scope={"col"} style={{"verticalAlign": "middle"}}>№</th>
-                            <th scope={"col"} style={{"verticalAlign": "middle"}}>
-                                <div>{t("Title")}</div>
-                            </th>
-                            <th width={"20%"}>
-                                {!isAddingNew && <div style={{textAlign: "right"}}>
-                                    <button type="button" onClick={() => {
-                                        changeAddingNew(true);
-                                        setEntityEditing(null)
-                                    }}
-                                            className="awesomeButton btn btn-small btn-success mb-1">{plus}</button>
-                                </div>}
-                            </th>
+                            <td>1</td>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
                         </tr>
-                        </thead>
-                        <tbody style={{textAlign: "left"}}>
-                        {isSubjectListLoading && <tr>
-                            <td colSpan={3}>
-                                <div style={{"textAlign": "center"}}><Spinner
-                                    as="span"
-                                    animation="border"
-                                    size="lg"
-                                    role="status"
-                                    aria-hidden="true"
-                                    variant="dark"/>
-                                </div>
-                            </td>
-                        </tr>}
-                        {isAddingNew &&
-                            <tr>
-                                <td/>
-                                <td style={{verticalAlign: "middle"}}>
-                                    <input style={{width: "100%"}} required
-                                           maxLength={30}
-                                           autoFocus={isAddingNew}
-                                           type="text"
-                                           value={name}
-                                           onKeyPress={handleKeypress}
-                                           onChange={e => setName(e.target.value)}/>
-                                </td>
-                                <td>
-                                    <button type="button" onClick={() => createNew()}
-                                            className="actionButton btn btn-small btn-success mb-1">{t("Create")}</button>
-                                    <button type="button" onClick={() => changeAddingNew(false)}
-                                            className="actionButton btn btn-small btn-danger mb-1">{t("Cancel")}</button>
-                                </td>
-                            </tr>}
-                        {subjects && subjects.length<1 && <tr><td colSpan={3} style={{textAlign:"center"}}>{t("Nothing to show")}</td></tr>}
-                        {subjects && subjects.map((subject, id) => (
-                            <tr key={id}>
-                                <td style={{verticalAlign: "middle"}}>{id + 1}</td>
-                                {!isNull(entityEditing) && entityEditing.oid === subject.oid ?
-                                    (<td style={{verticalAlign: "middle"}}>
-
-                                        <input style={{width: "100%"}} required
-                                               autoFocus={!isNull(entityEditing)}
-                                               maxLength={30}
-                                               type="text"
-                                               value={nameEditing}
-                                               onKeyPress={handleKeypressInEditing}
-                                               onChange={e => setNameEditing(e.target.value)}/>
-                                    </td>) :
-                                    (
-                                        <td style={{verticalAlign: "middle"}}>
-                                            {subject.name}</td>)
-                                }
-                                <td style={{textAlign: "right"}}>
-                                    {!isNull(entityEditing) && entityEditing.oid === subject.oid ? (
-                                        <div style={{display: "inline"}}>
-                                            <button type="button" id="editButton"
-                                                    onClick={() => handleSaveChangesButton(subject.oid, nameEditing)}
-                                                    className="btn btn-small btn-success mb-1">{t("Save")}</button>
-                                            <button type="button" onClick={() => handleCancelButton(subject)}
-                                                    className="btn btn-small btn-danger mb-1">{t("Cancel")}</button>
-                                        </div>) : (
-                                        <div style={{display: "inline"}}>
-                                            <button type="button" onClick={() => handleEditButton(subject)}
-                                                    className="awesomeButton btn btn-small btn-warning mb-1">{edit}</button>
-                                            <button type="button" onClick={() => handleDeleteButton(subject)}
-                                                    className="awesomeButton btn btn-small btn-danger mb-1">{remove}</button>
-                                        </div>)
-                                    }
-                                </td>
-                            </tr>
-                        ))}
+                        <tr>
+                            <td>2</td>
+                            <td>Jacob</td>
+                            <td>Thornton</td>
+                            <td>@fat</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td colSpan={2}>Larry the Bird</td>
+                            <td>@twitter</td>
+                        </tr>
                         </tbody>
-                    </table>
+                    </Table>
                 </div>
             </div>
         </div>

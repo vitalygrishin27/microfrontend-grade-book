@@ -8,6 +8,7 @@ import Subject from "./components/Subject";
 import Scheduler from "./components/Scheduler";
 import Clazz from "./components/Clazz";
 import User from "./components/User";
+import SchedulerForTeacher from "./components/SchedulerForTeacher";
 export const rootUrl = "/microfrontend-grade-book";
 
 const App = () => {
@@ -22,6 +23,7 @@ const App = () => {
                 <Route path={rootUrl+"/classes"} element={<Clazz/>}/>
                 <Route path={rootUrl+"/subjects"} element={<Subject/>}/>
                 <Route path={rootUrl+"/users"} element={<User/>}/>
+                <Route path={rootUrl+"/teacher/scheduler"} element={<SchedulerForTeacher/>}/>
             </Routes>
         </div>
     );

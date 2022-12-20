@@ -32,4 +32,17 @@ export const createSchedulerAsync = (scheduler) => (dispatch) => {
 
 export const clearBoard = (columns) => (dispatch) => {
     dispatch(actions.clearBoard(columns))
-}
+};
+
+export const loadSchedulerForTeacher = () => (dispatch) => {
+    dispatch(actions.loadingSchedulerForTeacherStarts())
+    SchedulerService.loadSchedulerForTeacher(getCookie("grade_book_token"))
+        .then(response => {
+            dispatch(actions.loadingSchedulerForTeacherSuccess(response.data));
+        })
+        .catch(error => {
+            dispatch(commonActions.setToastShowing(true))
+            dispatch(commonActions.setCommonError(error.response.data ? error.response.data.errorCode : error.message))
+            dispatch(actions.loadingSchedulerForTeacherError())
+        })
+};

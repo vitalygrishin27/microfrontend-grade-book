@@ -34,6 +34,17 @@ const clearBoard = (columns) => ({
     payload: columns
 })
 
+const loadingSchedulerForTeacherStarts = () => ({
+    type: actionTypes.LOADING_SCHEDULER_FOR_TEACHER_STARTS,
+})
+const loadingSchedulerForTeacherSuccess = (data) => ({
+    type: actionTypes.LOADING_SCHEDULER_FOR_TEACHER_SUCCESS,
+    payload: data
+})
+const loadingSchedulerForTeacherError = () => ({
+    type: actionTypes.LOADING_SCHEDULER_FOR_TEACHER_ERROR,
+})
+
 const actions = {
     dataLoadingStarts,
     dataLoadingSuccess,
@@ -43,7 +54,10 @@ const actions = {
     schedulerCreationError,
     schedulerWasChangedBetweenColumns,
     schedulerWasChangedInsideColumn,
-    clearBoard
+    clearBoard,
+    loadingSchedulerForTeacherStarts,
+    loadingSchedulerForTeacherSuccess,
+    loadingSchedulerForTeacherError
 }
 
 export default actions;

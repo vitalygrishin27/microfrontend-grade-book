@@ -137,6 +137,23 @@ const schedulerReducer = (state = initialState, {type, payload}) => {
                 unsavedChangesPresent: false,
                 isSchedulerCreating: false,
             };
+        case actionTypes.LOADING_SCHEDULER_FOR_TEACHER_ERROR:
+            return {
+                ...state,
+                isDataLoading: false,
+            };
+
+        case actionTypes.LOADING_SCHEDULER_FOR_TEACHER_STARTS:
+            return {
+                ...state,
+                isDataLoading: true,
+            };
+        case actionTypes.LOADING_SCHEDULER_FOR_TEACHER_SUCCESS:
+            return {
+                ...state,
+                isDataLoading: false,
+                schedulerForTeacher: payload,
+            };
         case actionTypes.SCHEDULER_CREATION_ERROR:
             return {
                 ...state,

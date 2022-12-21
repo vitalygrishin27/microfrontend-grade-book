@@ -71,6 +71,7 @@
   "Choose a teacher": "Choose a teacher",
   "Cannot add subject without teacher": "Cannot add subject without teacher",
   "Free": "Free time",
+  "Show subjects": "Show subjects",
 
   "Network Error": "Network Error",
   "GBE-ACCESS-001": "Your access level not allow to request this data",
@@ -81,5 +82,6 @@
   "GBE-ENTITY-003": "Field cannot be empty",
   "GBE-ENTITY-004": "A class teacher has already been assigned to this class.",
   "GBE-ENTITY-005": "You cannot delete a class because it has pupils",
-  "GBE-ENTITY-007": "Deletion is not possible (some dependencies presents for this entity)"
+  "GBE-ENTITY-007": "Deletion is not possible (some dependencies presents for this entity)",
+  "GBE-ENTITY-008": "Exclude subjects not allowed because scheduler contains it"
 }

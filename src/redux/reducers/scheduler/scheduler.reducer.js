@@ -21,7 +21,7 @@ const schedulerReducer = (state = initialState, {type, payload}) => {
                 }
             };
         case actionTypes.SCHEDULER_WAS_CHANGED_INSIDE_COLUMN:
-            const {columns:columnsI, source:sourceI, destination:destinationI} = payload
+            const {columns: columnsI, source: sourceI, destination: destinationI} = payload
             const column = columnsI[sourceI.droppableId];
             const copiedItems = [...column.items];
             const [removed] = copiedItems.splice(sourceI.index, 1);
@@ -58,27 +58,27 @@ const schedulerReducer = (state = initialState, {type, payload}) => {
                 columns: {
                     ...payload,
                     ["MONDAY"]: {
-                        name:"MONDAY",
+                        name: "MONDAY",
                         items: []
                     },
                     ["TUESDAY"]: {
-                        name:"TUESDAY",
+                        name: "TUESDAY",
                         items: []
                     },
                     ["WEDNESDAY"]: {
-                        name:"WEDNESDAY",
+                        name: "WEDNESDAY",
                         items: []
                     },
                     ["THURSDAY"]: {
-                        name:"THURSDAY",
+                        name: "THURSDAY",
                         items: []
                     },
                     ["FRIDAY"]: {
-                        name:"FRIDAY",
+                        name: "FRIDAY",
                         items: []
                     },
                     ["SATURDAY"]: {
-                        name:"SATURDAY",
+                        name: "SATURDAY",
                         items: []
                     },
                 }
@@ -149,10 +149,25 @@ const schedulerReducer = (state = initialState, {type, payload}) => {
                 isDataLoading: true,
             };
         case actionTypes.LOADING_SCHEDULER_FOR_TEACHER_SUCCESS:
+            let maxCount = 0;
+            const table = []
+            const dataFromService = Object.entries(payload);
+
+            dataFromService.forEach(item => {
+                maxCount = item[1].length > maxCount ? item[1].length : maxCount;
+            })
+            for (let i = 0; i < maxCount; i++) {
+                const row = new Array(6)
+                for (let j = 0; j < 6; j++) {
+                    row[j] = (dataFromService[j][1].length > i ? dataFromService[j][1][i] : null)
+                }
+                table.push(row)
+
+            }
             return {
                 ...state,
                 isDataLoading: false,
-                schedulerForTeacher: payload,
+                schedulerForTeacher: table,
             };
         case actionTypes.SCHEDULER_CREATION_ERROR:
             return {

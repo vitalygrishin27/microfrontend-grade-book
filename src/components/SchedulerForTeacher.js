@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
@@ -9,12 +9,14 @@ import {Spinner} from "react-bootstrap";
 import {rootUrl} from "../App";
 import Table from 'react-bootstrap/Table';
 import {loadSchedulerForTeacher} from "../redux/reducers/scheduler/scheduler.thunks";
+import Switch from "react-switch";
 
 const Subject = () => {
     const dispatch = useDispatch();
     const {t} = useTranslation();
     const navigate = useNavigate();
     const {isToastShowing, commonError, commonMessage} = useSelector(state => state.common);
+    const [showSubjects, setShowSubjects] = useState(false);
     const {
         isDataLoading,
         schedulerForTeacher,
@@ -23,7 +25,6 @@ const Subject = () => {
     useEffect(() => {
         dispatch(loginInAsyncByToken());
         dispatch(loadSchedulerForTeacher())
-        console.log(schedulerForTeacher)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -46,6 +47,11 @@ const Subject = () => {
                 <div className={"col-md-10 mx-auto mt-3"}>
                     <h1 className={"pageTitle col-md-10 mx-auto mb-3"}
                     >{t("Scheduler")}</h1>
+
+                    <label className={"my-2 mx-2"}>{t("Show subjects")}<Switch className={"mx-2"}
+                                                                               onChange={setShowSubjects}
+                                                                               checked={showSubjects}/></label>
+
                     {isDataLoading &&
                         <div style={{"textAlign": "center"}}><Spinner
                             as="span"
@@ -62,7 +68,7 @@ const Subject = () => {
                     <Table striped bordered hover>
                         <thead>
                         <tr>
-                            <th></th>
+                            <th>""</th>
                             <th>{t("MONDAY")}</th>
                             <th>{t("TUESDAY")}</th>
                             <th>{t("WEDNESDAY")}</th>
@@ -72,23 +78,17 @@ const Subject = () => {
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td colSpan={2}>Larry the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
+                        {schedulerForTeacher && schedulerForTeacher.map((row, id) => (
+                            <tr key={id}>
+                                <td>{id + 1}</td>
+                                <td>{row[0] !== null && row[0].subjectBom.name !== "Free" ? row[0].clazzBom.name + (showSubjects ? " (" + row[0].subjectBom.name + ")" : "") : ""}</td>
+                                <td>{row[1] !== null && row[1].subjectBom.name !== "Free" ? row[1].clazzBom.name + (showSubjects ? " (" + row[1].subjectBom.name + ")" : ""): ""}</td>
+                                <td>{row[2] !== null && row[2].subjectBom.name !== "Free" ? row[2].clazzBom.name + (showSubjects ? " (" + row[2].subjectBom.name + ")" : ""): ""}</td>
+                                <td>{row[3] !== null && row[3].subjectBom.name !== "Free" ? row[3].clazzBom.name + (showSubjects ? " (" + row[3].subjectBom.name + ")" : ""): ""}</td>
+                                <td>{row[4] !== null && row[4].subjectBom.name !== "Free" ? row[4].clazzBom.name + (showSubjects ? " (" + row[4].subjectBom.name + ")" : ""): ""}</td>
+                                <td>{row[5] !== null && row[5].subjectBom.name !== "Free" ? row[5].clazzBom.name + (showSubjects ? " (" + row[5].subjectBom.name + ")" : ""): ""}</td>
+                            </tr>
+                        ))}
                         </tbody>
                     </Table>
                 </div>

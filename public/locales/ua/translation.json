@@ -69,7 +69,7 @@
   "User was deleted": "Користувача видалено",
   "Scheduler was saved": "Розклад збережено",
   "Choose a teacher": "Оберіть вчителя",
-  "Cannot add subject without teacher": "Неможливо додати без вчителя",
+  "Cannot add subject without teacher": "Неможливо додати предмет, за яким не закріплено вчителя",
   "Free": "Вільна година",
   "Show subjects": "Показати предмети",
   "Clear board": "Очистити дошку",

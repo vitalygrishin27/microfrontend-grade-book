@@ -69,7 +69,7 @@
   "User was deleted": "Пользователь удален",
   "Scheduler was saved": "Расписание сохранено",
   "Choose a teacher": "Выберите учителя",
-  "Cannot add subject without teacher": "Невозможно добавить без учителя",
+  "Cannot add subject without teacher": "Невозможно добавить предмет, за которым не закреплен учитель",
   "Free": "Свободный час",
   "Show subjects": "Отображать предметы",
   "Clear board": "Очистить доску",

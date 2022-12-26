@@ -69,7 +69,7 @@
   "User was deleted": "User was deleted",
   "Scheduler was saved": "Scheduler was saved",
   "Choose a teacher": "Choose a teacher",
-  "Cannot add subject without teacher": "Cannot add subject without teacher",
+  "Cannot add subject without teacher": "Impossible to add a subject that isn't assigned to a teacher",
   "Free": "Free hour",
   "Show subjects": "Show subjects",
   "Clear board": "Clear board",

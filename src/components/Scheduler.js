@@ -14,6 +14,7 @@ import {Badge, Dropdown, DropdownButton, OverlayTrigger, Popover} from "react-bo
 import {clearBoard, createSchedulerAsync, dataLoadingStarts} from "../redux/reducers/scheduler/scheduler.thunks";
 import {loadClazzListAsync} from "../redux/reducers/clazz/clazz.thunks";
 import ConfirmDelete from "./ConfirmDelete";
+import Switch from "react-switch";
 
 const Scheduler = () => {
     const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const Scheduler = () => {
     const navigate = useNavigate();
     const {isToastShowing, commonError, commonMessage} = useSelector(state => state.common);
     const [selectedClass, setSelectedClassClass] = useState(null);
+    const [needToUpdateImmediately, setNeedToUpdateImmediately] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [entityForDelete, setEntityForDelete] = useState(null);
 
@@ -131,9 +133,7 @@ const Scheduler = () => {
       }*/
 
     const handleClearScheduler = () => {
-        console.log("clearing");
         setModalOpen(true);
-        console.log(columns)
         setEntityForDelete(columns);
     }
     const handleSaveButton = () => {
@@ -179,25 +179,37 @@ const Scheduler = () => {
                         <h1 className={"pageTitle col-md-10 mx-auto mb-3"}
                         >{t("Scheduler")}</h1>
                     </div>
+                    <table className={"table-hover"}>
+                        <thead className={"text-dark text-left"}>
+                        <tr>
+                            <th>
+                                <DropdownButton style={{display: "inline-block"}}
+                                                id="dropdown-basic-button"
+                                                variant="info"
+                                                className="floatRight"
+                                                onSelect={handleSelect}
+                                                title={selectedClass?.name || t("Choose a class")}>
+                                    {classes && classes.map((item, index) => {
+                                        return (
+                                            <Dropdown.Item key={index} eventKey={item.oid}>
+                                                {item.name}
+                                            </Dropdown.Item>
+                                        );
+                                    })}
+                                </DropdownButton>
+                                {/*  {selectedClass && <button type="button"
+                                                          id="searchButton"
+                                                          onClick={() => handleClearScheduler()}
+                                                          className="btn btn-small btn-danger mb-1">{t("Clear board")}</button>*/}
+                                {/*t("Update scheduler after any changes")}<Switch onChange={setNeedToUpdateImmediately} checked={needToUpdateImmediately}/>*/}
+                            </th>
+
+                        </tr>
+                        </thead>
+                    </table>
+
                     <div>
-                        <DropdownButton style={{display: "inline-block"}}
-                                        id="dropdown-basic-button"
-                                        variant="info"
-                                        className="floatRight"
-                                        onSelect={handleSelect}
-                                        title={selectedClass?.name || t("Choose a class")}>
-                            {classes && classes.map((item, index) => {
-                                return (
-                                    <Dropdown.Item key={index} eventKey={item.oid}>
-                                        {item.name}
-                                    </Dropdown.Item>
-                                );
-                            })}
-                        </DropdownButton>
-                        {selectedClass && <button type="button"
-                                                  id="searchButton"
-                                                  onClick={() => handleClearScheduler()}
-                                                  className="btn btn-small btn-danger mb-1">{t("Clear board")}</button>}
+
                     </div>
                     {selectedClass && unsavedChangesPresent && <button type="button"
                                                                        disabled={isSchedulerCreating}

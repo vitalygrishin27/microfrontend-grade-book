@@ -73,6 +73,8 @@
   "Free": "Free hour",
   "Show subjects": "Show subjects",
   "Clear board": "Clear board",
+  "Time conflicts": "Schedule conflicts",
+  "There is another scheduled subject at the same time:": "There is another scheduled subject at the same time:",
 
   "Network Error": "Network Error",
   "GBE-ACCESS-001": "Your access level not allow to request this data",

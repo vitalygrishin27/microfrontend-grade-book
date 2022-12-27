@@ -22,6 +22,7 @@ export const createSchedulerAsync = (scheduler) => (dispatch) => {
             dispatch(commonActions.setToastShowing(true))
             dispatch(commonActions.setCommonMessage("Scheduler was saved"))
             dispatch(actions.schedulerCreationSuccess());
+            dispatch(actions.dataLoadingSuccess(response.data));
         })
         .catch(error => {
             dispatch(commonActions.setToastShowing(true))

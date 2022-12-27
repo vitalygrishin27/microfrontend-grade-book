@@ -10,7 +10,7 @@ import actions from "../redux/reducers/scheduler/scheduler.actions";
 import {toast} from "react-toastify";
 import {setToastShowing, showError} from "../redux/reducers/common/common.thunks";
 import {rootUrl} from "../App";
-import {Badge, Dropdown, DropdownButton} from "react-bootstrap";
+import {Badge, Dropdown, DropdownButton, OverlayTrigger, Popover} from "react-bootstrap";
 import {clearBoard, createSchedulerAsync, dataLoadingStarts} from "../redux/reducers/scheduler/scheduler.thunks";
 import {loadClazzListAsync} from "../redux/reducers/clazz/clazz.thunks";
 import ConfirmDelete from "./ConfirmDelete";
@@ -246,43 +246,69 @@ const Scheduler = () => {
                                                             >
                                                                 {(provided, snapshot) => {
                                                                     return (
-                                                                        <div
-                                                                            ref={provided.innerRef}
-                                                                            {...provided.draggableProps}
-                                                                            {...provided.dragHandleProps}
-                                                                            style={{
-                                                                                userSelect: "none",
-                                                                                padding: 16,
-                                                                                margin: "0 0 8px 0",
-                                                                                minHeight: "50px",
-                                                                                backgroundColor: snapshot.isDragging
-                                                                                    ? (item.name === 'Free' ? "#088A08" : "#263B4A")
-                                                                                    : (item.name === 'Free' ? "#04B431" : "#456C86"),
-                                                                                color: "white",
-                                                                                ...provided.draggableProps.style
-                                                                            }}
-                                                                        >
-                                                                            <div>{index + 1 + ". " + (item.name === "Free" ? t(item.name) : item.name)}</div>
-                                                                            <div>
-                                                                                {item.teachers && item.teachers.map((teacher, index) => {
-                                                                                    return (
-                                                                                        <div key={index}
-                                                                                             style={{textAlign: "right"}}>
-                                                                                            <label
-                                                                                                style={{
-                                                                                                    marginLeft: 30,
-                                                                                                    whiteSpace: "nowrap"
-                                                                                                }}><input
-                                                                                                type={"radio"}
-                                                                                                hidden={item.teachers.length === 1}
-                                                                                                onChange={() => item.selectedTeacher = teacher}
-                                                                                                name={item.schedulerInternalId}
-                                                                                                value={teacher}
-                                                                                                className={"mx-1 my-2"}/><Badge
-                                                                                                bg="secondary">{teacher.lastName + " " + teacher.firstName.charAt(0) + "."}</Badge>
-                                                                                            </label></div>)
-                                                                                })}</div>
-                                                                        </div>
+                                                                        <OverlayTrigger trigger="click"
+                                                                                        placement="right"
+                                                                                        overlay={<Popover
+                                                                                            id="popover-basic">
+                                                                                            <Popover.Header
+                                                                                                as="h3">{t("Time conflicts")}</Popover.Header>
+                                                                                            <Popover.Body>
+                                                                                                <div>{t("There is another scheduled subject at the same time:")}</div>
+                                                                                                {item.conflicts && item.conflicts.map((subject, index) => {
+                                                                                                    return (
+                                                                                                        <div key={index}>
+                                                                                                        <br/>
+                                                                                                        <strong>{subject.clazzWithConflict.name} -&nbsp;</strong>
+                                                                                                        {subject.name}
+
+                                                                                                    </div>)
+                                                                                                })
+                                                                                                }
+                                                                                            </Popover.Body>
+                                                                                        </Popover>}>
+                                                                            <div
+                                                                                ref={provided.innerRef}
+                                                                                {...provided.draggableProps}
+                                                                                {...provided.dragHandleProps}
+                                                                                style={{
+                                                                                    userSelect: "none",
+                                                                                    padding: 16,
+                                                                                    margin: "0 0 8px 0",
+                                                                                    minHeight: "50px",
+                                                                                    border: (item.conflicts && item.conflicts.length > 0) ? 'thick double red' : "",
+                                                                                    backgroundColor: snapshot.isDragging
+                                                                                        ? (item.name === 'Free' ? "#088A08" : "#263B4A")
+                                                                                        : (item.name === 'Free' ? "#04B431" : "#456C86"),
+                                                                                    color: "white",
+                                                                                    ...provided.draggableProps.style
+                                                                                }}
+                                                                            >
+
+                                                                                <div>{index + 1 + ". " + (item.name === "Free" ? t(item.name) : item.name)}</div>
+
+
+                                                                                <div>
+                                                                                    {item.teachers && item.teachers.map((teacher, index) => {
+                                                                                        return (
+                                                                                            <div key={index}
+                                                                                                 style={{textAlign: "right"}}>
+                                                                                                <label
+                                                                                                    style={{
+                                                                                                        marginLeft: 30,
+                                                                                                        whiteSpace: "nowrap"
+                                                                                                    }}><input
+                                                                                                    type={"radio"}
+                                                                                                    hidden={item.teachers.length === 1}
+                                                                                                    onChange={() => item.selectedTeacher = teacher}
+                                                                                                    name={item.schedulerInternalId}
+                                                                                                    value={teacher}
+                                                                                                    className={"mx-1 my-2"}/><Badge
+                                                                                                    bg="secondary">{teacher.lastName + " " + teacher.firstName.charAt(0) + "."}</Badge>
+                                                                                                </label></div>)
+                                                                                    })}</div>
+                                                                            </div>
+                                                                        </OverlayTrigger>
+
                                                                     );
                                                                 }}
                                                             </Draggable>

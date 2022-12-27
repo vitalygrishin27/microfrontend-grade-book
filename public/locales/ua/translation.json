@@ -73,6 +73,8 @@
   "Free": "Вільна година",
   "Show subjects": "Показати предмети",
   "Clear board": "Очистити дошку",
+  "Time conflicts": "Конфлікт у розкладі",
+  "There is another scheduled subject at the same time:": "На цей час запланований інший предмет:",
 
   "Network Error": "Помилка мережі",
   "GBE-ACCESS-001": "Ваш доступ обмежено",

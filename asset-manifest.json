@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/microfrontend-grade-book/static/css/main.e3945c28.css",
-    "main.js": "/microfrontend-grade-book/static/js/main.6f478dbf.js",
+    "main.js": "/microfrontend-grade-book/static/js/main.4173cb9b.js",
     "static/media/Arion_Bold_Italic.ttf": "/microfrontend-grade-book/static/media/Arion_Bold_Italic.3505ccbe26298010a49e.ttf",
     "static/media/back1.JPG": "/microfrontend-grade-book/static/media/back1.1ce37dba74619f076873.JPG",
     "index.html": "/microfrontend-grade-book/index.html",
     "static/media/getFetch.cjs": "/microfrontend-grade-book/static/media/getFetch.c780682470504fffbd04.cjs",
     "main.e3945c28.css.map": "/microfrontend-grade-book/static/css/main.e3945c28.css.map",
-    "main.6f478dbf.js.map": "/microfrontend-grade-book/static/js/main.6f478dbf.js.map"
+    "main.4173cb9b.js.map": "/microfrontend-grade-book/static/js/main.4173cb9b.js.map"
   },
   "entrypoints": [
     "static/css/main.e3945c28.css",
-    "static/js/main.6f478dbf.js"
+    "static/js/main.4173cb9b.js"
   ]
 }

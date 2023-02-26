@@ -14,7 +14,6 @@ import {Badge, Dropdown, DropdownButton, OverlayTrigger, Popover} from "react-bo
 import {clearBoard, createSchedulerAsync, dataLoadingStarts} from "../redux/reducers/scheduler/scheduler.thunks";
 import {loadClazzListAsync} from "../redux/reducers/clazz/clazz.thunks";
 import ConfirmDelete from "./ConfirmDelete";
-import Switch from "react-switch";
 
 const Scheduler = () => {
     const dispatch = useDispatch();

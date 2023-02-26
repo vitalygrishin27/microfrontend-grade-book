@@ -5,6 +5,7 @@ import subjectReducer from "./subject/subject.reducer";
 import commonReducer from "./common/common.reducer";
 import clazzReducer from "./clazz/clazz.reducer";
 import schedulerReducer from "./scheduler/scheduler.reducer";
+import fullSchedulerReducer from "./fullScheduler/fullScheduler.reducer";
 
 const rootReducer = () =>
     combineReducers({
@@ -13,7 +14,8 @@ const rootReducer = () =>
         users: userReducer,
         subjects: subjectReducer,
         classes: clazzReducer,
-        scheduler: schedulerReducer
+        scheduler: schedulerReducer,
+        fullScheduler: fullSchedulerReducer,
     });
 
 export default rootReducer;

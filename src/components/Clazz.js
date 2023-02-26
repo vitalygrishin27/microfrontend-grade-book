@@ -26,7 +26,7 @@ const remove = <FontAwesomeIcon icon={faRemove}/>
 const plus = <FontAwesomeIcon icon={faPlus}/>
 
 
-const Subject = () => {
+const Clazz = () => {
     const dispatch = useDispatch();
     const {t} = useTranslation();
     const navigate = useNavigate();
@@ -294,4 +294,4 @@ const Subject = () => {
 
     )
 }
-export default Subject
+export default Clazz

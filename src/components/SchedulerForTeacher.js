@@ -11,7 +11,7 @@ import Table from 'react-bootstrap/Table';
 import {loadSchedulerForTeacher} from "../redux/reducers/scheduler/scheduler.thunks";
 import Switch from "react-switch";
 
-const Subject = () => {
+const SchedulerForTeacher = () => {
     const dispatch = useDispatch();
     const {t} = useTranslation();
     const navigate = useNavigate();
@@ -97,4 +97,4 @@ const Subject = () => {
 
     )
 }
-export default Subject
+export default SchedulerForTeacher

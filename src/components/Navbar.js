@@ -23,11 +23,14 @@ const Navbar = () => {
 
     return (
         <div className={"col-md-12 bg-bg-light py-2"}>
-            <nav className="navbar navbar-light bg-opacity-100">
+            <nav className="navbar navbar-light bg-opacity-100" style={{marginRight: "150px"}}>
                 <Link to={rootUrl + "/"} className="navbar-brand mx-5">{t("Main")}</Link>
 
                 <div className="mx-3" style={{"textAlign": "right", "display": "inline-block"}}>
                     {/*{isLoginIn &&  <Link to={"/members"} className={"btn btn-success text-light"}>{t("Users")}</Link>}&nbsp;*/}
+                    {isLoginIn && token.accessLevel === AccessLevelFilter.ADMIN &&
+                        <Link to={rootUrl + "/scheduler/full"}
+                              className={"btn btn-success text-light"}>{t("Full scheduler")}</Link>}
                     {isLoginIn && token.accessLevel === AccessLevelFilter.ADMIN &&
                         <Link to={rootUrl + "/scheduler"}
                               className={"btn btn-success text-light"}>{t("Scheduler")}</Link>}

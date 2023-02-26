@@ -14,6 +14,9 @@
   "Subjects": "Предметы",
   "Classes": "Классы",
   "Scheduler": "Расписание",
+  "Teacher": "Учитель",
+  "Lesson": "Урок",
+  "Full scheduler": "Общее расписание",
   "MONDAY": "Понедельник",
   "TUESDAY": "Вторник",
   "WEDNESDAY": "Среда",
@@ -21,6 +24,7 @@
   "FRIDAY": "Пятница",
   "SATURDAY": "Суббота",
   "Choose a class": "Выберите класс",
+  "Class/Room": "Класс/Кабинет",
 
   "Title": "Название",
   "Save": "Сохранить",

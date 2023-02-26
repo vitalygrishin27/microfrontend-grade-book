@@ -41,3 +41,6 @@ export class Scheduler {
     clazz: Clazz
     scheduler: [DayScheduler]
 }
+
+export const DAYS = ["MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY"]
+export const fullSchedulerMaxLessonsPerDay = new Array(7).fill(0)
